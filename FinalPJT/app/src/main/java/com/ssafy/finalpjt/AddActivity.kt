@@ -74,7 +74,7 @@ class AddActivity : AppCompatActivity() {
     var mSubItemViewList = ArrayList<SubItemView>()
     var LL: LinearLayout? = null
     var edtText: EditText? = null
-    //FGLKSDJFLKGJLS;DJGL;K
+    //test
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add)
