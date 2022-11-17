@@ -9,70 +9,88 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
-import com.gun0912.tedonactivityresult.model.ActivityResult
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.ssafy.finalpjt.databinding.ActivityDetailBinding
+import com.ssafy.finalpjt.databinding.AddlistLayoutBinding
+import com.ssafy.finalpjt.databinding.FragmentMainBinding
 import com.ssafy.finalpjt.db.GoalDataTask
+import com.ssafy.finalpjt.db.factory.GoalDAOFactory
 import com.ssafy.finalpjt.db.model.Goal
-import io.reactivex.functions.Consumer
 import java.lang.Exception
 import java.util.ArrayList
+private lateinit var binding: FragmentMainBinding
 
 class FragmentMain : Fragment() {
-    var recyclerView: RecyclerView? = null
-    var recyclerAdapter: RecyclerAdapter? = null
-    var btnAdd: ImageButton? = null
-    var btn: Button? = null
+//    var recyclerView: RecyclerView? = null
+    lateinit  var recyclerAdapter: RecyclerAdapter
+//    var btnAdd: ImageButton? = null
+//    var btn: Button? = null
     var dbHelper: DBHelper? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_main, container, false)
-        dbHelper = DBHelper(view.context, "QuestApp.db", null, 1)
-        recyclerView = view.findViewById<RecyclerView>(R.id.recyclerview)
-        val linearLayoutManager = LinearLayoutManager(view.context)
-        recyclerView.setLayoutManager(linearLayoutManager)
+        binding = FragmentMainBinding.inflate(inflater, container, false)
+
+        dbHelper = DBHelper(view?.context, "QuestApp.db", null, 1)
+
+        val linearLayoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerview.setLayoutManager(linearLayoutManager)
         recyclerAdapter = object : RecyclerAdapter() {
             override fun setSelected(goal: Goal?) {
-                val intent = Intent(view.context, DetailActivity::class.java)
+                val intent = Intent(requireContext(), DetailActivity::class.java)
                 intent.putExtra("EXTRA_GOAL", goal)
-                TedRxOnActivityResult.with(context)
-                    .startActivityForResult(Intent(intent))
-                    .subscribe(Consumer { activityResult: ActivityResult ->
+
+                val launcher: ActivityResultLauncher<Intent> = registerForActivityResult(
+                    ActivityResultContracts.StartActivityForResult()
+                ) { result: ActivityResult ->
+                    if (result.resultCode == Activity.RESULT_OK) {
                         //성공적으로 데이터 수정이 이루어졌다면?
-                        if (activityResult.resultCode == Activity.RESULT_OK) {
-                            onGoalDataLoad()
-                        }
-                    }, Consumer { obj: Throwable -> obj.printStackTrace() })
+                        onGoalDataLoad()
+                    }
+                }
+                launcher.launch(intent)
             }
 
             override fun setDeleted(goal: Goal?, index: Int) {
                 //롱클릭 눌렀을시 삭제
                 try {
-                    GoalDAOFactory.removeGoal(view.context, goal)
-                    recyclerAdapter!!.removeItem(index)
+                    if (goal != null) {
+                        GoalDAOFactory.removeGoal(requireContext(), goal)
+                    }
+                    recyclerAdapter.removeItem(index)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
             }
+
+
         }
-        recyclerView.setAdapter(recyclerAdapter)
-        btnAdd = view.findViewById(R.id.btnAdd)
-        btnAdd.setOnClickListener(View.OnClickListener {
-            Log.d("onclick", "onClick: ")
-            TedRxOnActivityResult.with(context)
-                .startActivityForResult(Intent(activity, AddActivity::class.java))
-                .subscribe(Consumer { activityResult: ActivityResult ->
-                    if (activityResult.resultCode == Activity.RESULT_OK) {
-                        //Intent data = activityResult.getData();
-                        onGoalDataLoad()
-                    }
-                }, Consumer { obj: Throwable -> obj.printStackTrace() })
+        binding.recyclerview.adapter = recyclerAdapter
+
+        binding.btnAdd.setOnClickListener(View.OnClickListener {
+            var intent =Intent(activity, AddActivity::class.java)
+            val launcher: ActivityResultLauncher<Intent> = registerForActivityResult(
+                ActivityResultContracts.StartActivityForResult()
+            ) { result: ActivityResult ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    //수정 화면에서 수정완료 버튼을 누를시. 해당 화면은 finish 처리한다.
+                    onGoalDataLoad()
+                }
+            }
+            launcher.launch(intent)
         })
         onGoalDataLoad()
-        return view
+        return binding.root
     }
 
     private fun onGoalDataLoad() {
@@ -83,7 +101,7 @@ class FragmentMain : Fragment() {
                 override val data: List<Goal>?
                     get() = try {
                         //getGoalList 함수를 통해 최종목표 리스트들을 호출한다.
-                        GoalDAOFactory.getGoalList(activity)
+                        activity?.let { GoalDAOFactory.getGoalList(it) }
                     } catch (e: Exception) {
                         e.printStackTrace()
                         null
@@ -96,8 +114,8 @@ class FragmentMain : Fragment() {
         task.execute()
     }
 
-    abstract inner class RecyclerAdapter : RecyclerView.Adapter<ItemViewHolder?>() {
-        private var listdata: MutableList<Goal>? = null
+    inner class RecyclerAdapter : RecyclerView.Adapter<RecyclerAdapter.ItemViewHolder>() {
+        private var listdata= mutableListOf<Goal> ()
 
         //10번 인덱스까지 색상을 변경할 배경을 만들도록한다.
         private val caredViewBackGround = intArrayOf(
@@ -118,7 +136,6 @@ class FragmentMain : Fragment() {
             listdata!!.addAll(items!!)
             notifyDataSetChanged()
         }
-
         fun removeItem(position: Int) {
             if (listdata != null && position < listdata!!.size) {
                 listdata!!.removeAt(position)
@@ -187,7 +204,7 @@ class FragmentMain : Fragment() {
             })
         }
 
-        internal inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val maintext: TextView
             val progress_num: TextView
             val progressBar: ProgressBar
@@ -199,6 +216,10 @@ class FragmentMain : Fragment() {
                 progressBar = itemView.findViewById(R.id.progress_main)
                 cardView = itemView.findViewById<CardView>(R.id.cv)
             }
+        }
+
+        override fun getItemCount(): Int {
+            return listdata?.let { listdata.size }
         }
     }
 }
