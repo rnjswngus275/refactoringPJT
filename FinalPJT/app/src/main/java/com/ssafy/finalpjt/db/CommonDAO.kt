@@ -17,7 +17,7 @@ class CommonDAO(  //공통
         )
         try {
             for (i in createTables.indices) {
-                for (j in 0 until createTables[i].length) {
+                for (j in 0 until createTables[i].size) {
                     mDatabase!!.execSQL(createTables[i]!![j])
                 }
             }

@@ -46,12 +46,14 @@ object GoalSubDAOFactory {
         var pass = false
         var dbHelper: DbHelper? = null
         try {
-            dbHelper = DbHelper.Companion.getInstance(context)
+            dbHelper = DbHelper.getInstance(context)
             val goalSubDAO = GoalSubDAO(context, dbHelper!!.writableDatabase)
-            pass = goalSubDAO.removeGoalSub(
-                goalSub.getIndexNumber().toString(),
-                goalSub.getAddedByUser()
-            )
+            if (goalSub != null) {
+                pass = goalSubDAO.removeGoalSub(
+                    goalSub.indexNumber.toString(),
+                    goalSub.addedByUser
+                )
+            }
         } catch (e: Exception) {
         } finally {
             dbHelper?.close()
