@@ -40,7 +40,7 @@ class AddListFragment : Fragment() {
     ): View? {
         binding = AddlistLayoutBinding.inflate(inflater, container, false)
 
-        val dbHelper: DBHelper = DBHelper(view.context, "QuestApp.db", null, 1)
+        val dbHelper: DBHelper = DBHelper(view?.context, "QuestApp.db", null, 1)
         questdata = dbHelper.MainQuest().split("\n").toTypedArray()
 
         Log.e("quest", questdata.toString())

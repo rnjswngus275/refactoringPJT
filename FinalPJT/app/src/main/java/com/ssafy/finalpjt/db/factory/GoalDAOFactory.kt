@@ -60,14 +60,14 @@ object GoalDAOFactory {
     }
 
     @Throws(Exception::class)
-    fun getGoalList(context: Context): List<Goal?>? {
+    fun getGoalList(context: Context): List<Goal>? {
         //db에 있는 최종 목표 리스트를 호출하는 함수이다.
-        var list: List<Goal?>? = null
+        var list: List<Goal>? = null
         var dbHelper: DbHelper? = null
         try {
             dbHelper = DbHelper.Companion.getInstance(context)
             val goalDAO = GoalDAO(context, dbHelper!!.writableDatabase)
-            list = goalDAO.goalList
+            list = goalDAO.goalList as List<Goal>?
         } catch (e: Exception) {
 
         } finally {
