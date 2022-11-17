@@ -5,7 +5,7 @@
     android:orientation="horizontal">
     <!--리스트뷰는 margin을 줘도 자동으로 양끝으로 잡아서 레이아웃을 밖에 하나 더 뒀다.-->
     <LinearLayout
-        android:id="@+id/listLayout"
+        android:id="@+id/todo_list_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"

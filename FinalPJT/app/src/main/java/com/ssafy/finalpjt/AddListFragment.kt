@@ -1,6 +1,5 @@
 package com.ssafy.finalpjt
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,17 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import com.ssafy.finalpjt.databinding.AddlistLayoutBinding
 
 class AddListFragment : Fragment() {
     private lateinit var binding: AddlistLayoutBinding
     private lateinit var mAdapter: ArrayAdapter<Any?>
     private var questdata = arrayOf<String>()
-    var addBtn: Button? = null
-    var equest: Spinner? = null
-    var ejob: EditText? = null
-    var edate: DatePicker? = null
     var prevPage: Int = 0
     var t: LinearLayout? = null
     var b: LinearLayout? = null
@@ -37,10 +31,10 @@ class AddListFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = AddlistLayoutBinding.inflate(inflater, container, false)
 
-        val dbHelper: DBHelper = DBHelper(view?.context, "QuestApp.db", null, 1)
+        val dbHelper: DBHelper = DBHelper(requireContext(), "QuestApp.db", null, 1)
         questdata = dbHelper.MainQuest().split("\n").toTypedArray()
 
         Log.e("quest", questdata.toString())
@@ -53,7 +47,7 @@ class AddListFragment : Fragment() {
             val job = binding.job.text.toString()
             dbHelper.insert(job, date, quest)
             requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, MyFragment.Companion.getInstace(prevPage))
+                .replace(R.id.fragment_container, FragmentTodoList.newInstance(prevPage))
                 .addToBackStack(null)
                 .commit()
         }

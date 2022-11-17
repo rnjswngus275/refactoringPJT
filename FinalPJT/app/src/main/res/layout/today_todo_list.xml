@@ -11,7 +11,7 @@
         android:orientation="vertical">
 
         <ListView
-            android:id="@+id/listView"
+            android:id="@+id/today_todo_listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
