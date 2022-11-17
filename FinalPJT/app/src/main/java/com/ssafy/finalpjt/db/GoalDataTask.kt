@@ -8,18 +8,14 @@ import com.ssafy.finalpjt.db.model.Goal
 class GoalDataTask : BaseAsyncTask<Void?, Void?, List<Goal>?>() {
     private var mTaskListener: TaskListener? = null
     private var mFetcher: DataFetcher? = null
-    protected override fun doInBackground(vararg params: Void): List<Goal>? {
-        return mFetcher!!.data
-    }
 
     override fun onPostExecute(data: List<Goal>?) {
         if (mTaskListener != null) {
             mTaskListener!!.onComplete(data)
         }
     }
-
-    override fun onPreExecute() {
-        super.onPreExecute()
+    override fun doInBackground(vararg params: Void?): List<Goal>? {
+        return mFetcher!!.data
     }
 
     interface TaskListener {
