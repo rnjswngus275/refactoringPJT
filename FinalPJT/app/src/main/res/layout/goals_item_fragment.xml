@@ -53,30 +53,7 @@
             android:id="@+id/sub_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"></LinearLayout>
+            android:orientation="vertical" />
 
-        <TextView
-            android:id="@+id/sleep"
-            android:layout_width="@dimen/content_width"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin"
-            android:layout_marginTop="@dimen/margin"
-            android:layout_marginEnd="@dimen/margin" />
-
-        <TextView
-            android:id="@+id/sleep2"
-            android:layout_width="@dimen/content_width"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin"
-            android:layout_marginTop="@dimen/margin"
-            android:layout_marginEnd="@dimen/margin" />
-
-        <TextView
-            android:id="@+id/sleep3"
-            android:layout_width="@dimen/content_width"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin"
-            android:layout_marginTop="@dimen/margin"
-            android:layout_marginEnd="@dimen/margin" />
     </LinearLayout>
 </ScrollView>

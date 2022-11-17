@@ -8,92 +8,30 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import com.ssafy.finalpjt.db.model.Goal
-import com.ssafy.finalpjt.db.DBConst.GoalTable
-import com.ssafy.finalpjt.L
-import com.ssafy.finalpjt.db.model.GoalSub
-import com.ssafy.finalpjt.db.DBConst.SubGoalTable
-import kotlin.Throws
-import com.ssafy.finalpjt.db.DbHelper
-import com.ssafy.finalpjt.db.dao.GoalDAO
-import com.ssafy.finalpjt.db.dao.GoalSubDAO
-import kotlin.jvm.Synchronized
-import com.ssafy.finalpjt.db.CommonDAO
-import com.ssafy.finalpjt.db.DBConst
-import com.ssafy.finalpjt.db.BaseAsyncTask
-import com.ssafy.finalpjt.db.GoalDataTask
-import kotlin.jvm.Volatile
-import com.ssafy.finalpjt.db.BaseAsyncTask.SerialExecutor
-import com.ssafy.finalpjt.db.GoalSubDataTask
-import com.ssafy.finalpjt.DBHelper
-import com.ssafy.finalpjt.MainActivity
-import com.ssafy.finalpjt.SampleData
-import com.ssafy.finalpjt.MyFragment.MyAdapter
-import com.ssafy.finalpjt.MyFragment
-import androidx.appcompat.app.AppCompatActivity
-import com.ssafy.finalpjt.SubItemView
-import com.ssafy.finalpjt.db.factory.GoalDAOFactory
-import com.ssafy.finalpjt.db.factory.GoalSubDAOFactory
-import androidx.recyclerview.widget.RecyclerView
-import com.ssafy.finalpjt.FragmentMain.RecyclerAdapter
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.ssafy.finalpjt.DetailActivity
-import com.tedpark.tedonactivityresult.rx2.TedRxOnActivityResult
-import com.ssafy.finalpjt.AddActivity
-import com.ssafy.finalpjt.FragmentMain.RecyclerAdapter.ItemViewHolder
-import androidx.cardview.widget.CardView
-import com.ssafy.finalpjt.FragmentShop.SingerAdapter
-import com.ssafy.finalpjt.SingerShopItem
-import com.ssafy.finalpjt.SingerViewer
-import com.ssafy.finalpjt.FragmentTodo
-import com.ssafy.finalpjt.AddListFragment
-import androidx.core.content.ContextCompat
-import com.google.android.material.navigation.NavigationView
-import com.ssafy.finalpjt.MainActivity.AlarmHATT
-import com.ssafy.finalpjt.FragmentMain
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
-import com.ssafy.finalpjt.FragmentGoals
-import com.ssafy.finalpjt.FragmentShop
-import com.ssafy.finalpjt.FragmentSetting
-import com.ssafy.finalpjt.BroadcastD
-import com.google.android.material.tabs.TabLayout
-import androidx.viewpager.widget.ViewPager
-import com.ssafy.finalpjt.Goals_PagerAdapter
-import com.google.android.material.tabs.TabLayout.ViewPagerOnTabSelectedListener
-import com.google.android.material.tabs.TabLayout.TabLayoutOnPageChangeListener
-import com.ssafy.finalpjt.DetailActivityUpdate
-import com.ssafy.finalpjt.Goals_Sub
-import androidx.fragment.app.FragmentPagerAdapter
-import com.ssafy.finalpjt.Goals_Fragment1
+import com.ssafy.finalpjt.databinding.FragmentShopBinding
 import java.util.ArrayList
 
 class FragmentShop() : Fragment() {
-    var gridView: GridView? = null
-    var editText: EditText? = null
-    var editText2: EditText? = null
-    var button: Button? = null
+    private lateinit var binding: FragmentShopBinding
+
     var singerAdapter: SingerAdapter? = null
-    var items = ArrayList<SingerShopItem>()
-    var dbHelper: DBHelper? = null
+    var items = ArrayList<StoreDTO>()
+    var dbHelper: DBHelper? = DBHelper(context, "QuestApp.db", null, 1)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_shop, container, false)
-        dbHelper = DBHelper(view.context, "QuestApp.db", null, 1)
+        binding=FragmentShopBinding.inflate(inflater,container,false)
+
         if (dbHelper!!.isEmptyShopItem == 0) {
             createShopList()
         }
-        gridView = view.findViewById<View>(R.id.gridView) as GridView
-        editText = view.findViewById<View>(R.id.editText) as EditText
-        editText2 = view.findViewById<View>(R.id.editText2) as EditText
-        button = view.findViewById<View>(R.id.button) as Button
+
         singerAdapter = SingerAdapter()
-        gridView!!.adapter = singerAdapter
-        gridView!!.onItemClickListener = object : AdapterView.OnItemClickListener {
+        binding.gridView.adapter = singerAdapter
+        binding.gridView.onItemClickListener = object : AdapterView.OnItemClickListener {
             override fun onItemClick(adapterView: AdapterView<*>?, view: View, i: Int, l: Long) {
                 val builder: AlertDialog.Builder = AlertDialog.Builder(
                     (activity)!!
@@ -131,7 +69,7 @@ class FragmentShop() : Fragment() {
                 builder.show()
             }
         }
-        gridView!!.onItemLongClickListener = object : AdapterView.OnItemLongClickListener {
+        binding.gridView.onItemLongClickListener = object : AdapterView.OnItemLongClickListener {
             override fun onItemLongClick(
                 adapterView: AdapterView<*>?,
                 view: View,
@@ -169,21 +107,21 @@ class FragmentShop() : Fragment() {
                 return true
             }
         }
-        button!!.setOnClickListener(View.OnClickListener {
-            val name = editText!!.text.toString().trim { it <= ' ' }
-            val cost = editText2!!.text.toString().trim { it <= ' ' }.toInt()
+        binding.button.setOnClickListener(View.OnClickListener {
+            val name = binding.editText.text.toString().trim { it <= ' ' }
+            val cost = binding.editText2.text.toString().trim { it <= ' ' }.toInt()
             items.add(
-                SingerShopItem(
+                StoreDTO(
                     name,
                     cost,
-                    resources.getIdentifier("index" + items.size, "drawable", context!!.packageName)
+                    resources.getIdentifier("index" + items.size, "drawable", requireContext().packageName)
                 )
             )
             singerAdapter!!.notifyDataSetChanged()
             dbHelper!!.setShopItem(name, cost)
             //singerAdapter.addItem(new SingerShopItem(name, cost, R.drawable.gift));
         })
-        return view
+        return binding.root
     }
 
     fun createShopList() {
@@ -197,7 +135,7 @@ class FragmentShop() : Fragment() {
             Log.e("sangeun", (data[0][i])!!)
             Log.e("sangeun", (data[1][i])!!)
             items.add(
-                SingerShopItem(
+                StoreDTO(
                     data[0][i],
                     data[1][i]!!.toInt(),
                     resources.getIdentifier("index$i", "drawable", context!!.packageName)
@@ -211,11 +149,11 @@ class FragmentShop() : Fragment() {
             return items.size
         }
 
-        fun addItem(singerItem: SingerShopItem) {
+        fun addItem(singerItem: StoreDTO) {
             items.add(singerItem)
         }
 
-        override fun getItem(i: Int): SingerShopItem {
+        override fun getItem(i: Int): StoreDTO {
             return items[i]
         }
 
@@ -224,9 +162,9 @@ class FragmentShop() : Fragment() {
         }
 
         override fun getView(i: Int, view: View, viewGroup: ViewGroup): View {
-            val singerViewer = SingerViewer(activity!!.applicationContext)
-            singerViewer.setItem(items[i])
-            return singerViewer
+            val storeItem = StoreItem(activity!!.applicationContext)
+            storeItem.setItem(items[i])
+            return storeItem
         }
     }
 }
