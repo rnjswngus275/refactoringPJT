@@ -25,9 +25,9 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import android.support.annotation.Keep;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.Keep;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 import com.akexorcist.roundcornerprogressbar.common.AnimatedRoundCornerProgressBar;
 

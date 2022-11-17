@@ -9,14 +9,14 @@
 
         <!--custom font-family 적용-->
         <item name="android:textViewStyle">@style/customTextViewFontStyle</item>
-        <item name="android:buttonStyle">@style/customButtonFontStyle</item>
-        <item name="android:editTextStyle">@style/customEditTextFontStyle</item>
-        <item name="android:radioButtonStyle">@style/customRadioButtonFontStyle</item>
-        <item name="android:checkboxStyle">@style/customCheckboxFontStyle</item>
+        <item name="buttonStyle">@style/customButtonFontStyle</item>
+        <item name="editTextStyle">@style/customEditTextFontStyle</item>
+        <item name="radioButtonStyle">@style/customRadioButtonFontStyle</item>
+        <item name="checkboxStyle">@style/customCheckboxFontStyle</item>
     </style>
 
     <style name="ItemFont" parent="android:Widget.TextView">
-        <item name="android:fontFamily">@font/dxgulim</item>
+        <item name="fontFamily">@font/dxgulim</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -84,18 +84,18 @@
     </style>
 
     <style name="SampleCard">
-        <item name="android:background">@drawable/shape_sample_card_background</item>
-        <item name="android:paddingStart">@dimen/padding</item>
-        <item name="android:paddingEnd">@dimen/padding</item>
+        <item name="background">@drawable/shape_sample_card_background</item>
+        <item name="paddingStart">@dimen/padding</item>
+        <item name="paddingEnd">@dimen/padding</item>
         <item name="android:paddingTop">@dimen/padding_large</item>
         <item name="android:paddingBottom">@dimen/padding_large</item>
         <item name="android:layout_margin">@dimen/margin</item>
     </style>
 
     <style name="SampleCard2">
-        <item name="android:background">@drawable/shape_sample_card_background_2</item>
-        <item name="android:paddingStart">@dimen/padding</item>
-        <item name="android:paddingEnd">@dimen/padding</item>
+        <item name="background">@drawable/shape_sample_card_background_2</item>
+        <item name="paddingStart">@dimen/padding</item>
+        <item name="paddingEnd">@dimen/padding</item>
         <item name="android:paddingTop">@dimen/padding_large</item>
         <item name="android:paddingBottom">@dimen/padding_large</item>
         <item name="android:layout_margin">@dimen/margin_large</item>

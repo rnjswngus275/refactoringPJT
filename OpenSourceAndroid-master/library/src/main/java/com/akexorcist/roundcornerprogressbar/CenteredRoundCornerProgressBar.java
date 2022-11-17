@@ -6,9 +6,9 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
-import android.support.annotation.Keep;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.Keep;
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 /**
  * Thank you to @redsanso for add this feature. See @see <a href="https://github.com/akexorcist/Android-RoundCornerProgressBar/issues/42">Centered Progress Bar</a>
