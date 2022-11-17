@@ -1,5 +1,6 @@
 package com.ssafy.finalpjt
 
+import android.app.Activity.RESULT_OK
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -73,6 +74,7 @@ class AddActivity : AppCompatActivity() {
     var mSubItemViewList = ArrayList<SubItemView>()
     var LL: LinearLayout? = null
     var edtText: EditText? = null
+    //FGLKSDJFLKGJLS;DJGL;K
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add)
