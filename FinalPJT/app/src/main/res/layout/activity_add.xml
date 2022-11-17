@@ -57,10 +57,10 @@
 
 
             <LinearLayout
-                android:id="@+id/LL"
+                android:id="@+id/addLinearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"></LinearLayout>
+                android:orientation="vertical"/>
 
             <ImageButton
                 android:id="@+id/addSubBtn"
