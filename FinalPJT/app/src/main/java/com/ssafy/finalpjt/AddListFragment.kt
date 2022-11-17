@@ -1,5 +1,6 @@
 package com.ssafy.finalpjt
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,8 +9,12 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.ssafy.finalpjt.databinding.AddlistLayoutBinding
 
-class AddListFragment constructor() : Fragment() {
+class AddListFragment : Fragment() {
+    private lateinit var binding: AddlistLayoutBinding
+    private lateinit var mAdapter: ArrayAdapter<Any?>
+    private var questdata = arrayOf<String>()
     var addBtn: Button? = null
     var equest: Spinner? = null
     var ejob: EditText? = null
@@ -23,42 +28,42 @@ class AddListFragment constructor() : Fragment() {
         this.b = b
     }
 
-    public override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val data: Bundle? = getArguments()
+        val data: Bundle? = arguments
     }
 
-    public override fun onCreateView(
+    override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view: View = inflater.inflate(R.layout.addlist_layout, null)
-        addBtn = view.findViewById<View>(R.id.addBtn) as Button?
-        equest = view.findViewById<View>(R.id.spinner1) as Spinner?
-        edate = view.findViewById<View>(R.id.date) as DatePicker?
-        ejob = view.findViewById<View>(R.id.job) as EditText?
-        val dbHelper: DBHelper = DBHelper(view.getContext(), "QuestApp.db", null, 1)
-        val questdata: Array<String?> = dbHelper.MainQuest().split("\n").toTypedArray()
+        binding = AddlistLayoutBinding.inflate(inflater, container, false)
+
+        val dbHelper: DBHelper = DBHelper(view.context, "QuestApp.db", null, 1)
+        questdata = dbHelper.MainQuest().split("\n").toTypedArray()
+
         Log.e("quest", questdata.toString())
-        val adapter: ArrayAdapter<*> =
-            ArrayAdapter<Any?>(view.getContext(), R.layout.spin, questdata)
-        adapter.setDropDownViewResource(R.layout.spin_dropdown)
-        equest!!.setAdapter(adapter)
-        addBtn!!.setOnClickListener(object : View.OnClickListener {
-            public override fun onClick(v: View) {
-                val quest: String = equest!!.getSelectedItem().toString()
-                val date: Int = ((edate!!.getMonth() + 1) * 100) + edate!!.getDayOfMonth()
-                val job: String = ejob!!.getText().toString()
-                dbHelper.insert(job, date, quest)
-                val fragmentManager: FragmentManager? = getFragmentManager()
-                fragmentManager!!.beginTransaction()
-                    .replace(R.id.fragment_container, MyFragment.Companion.getInstace(prevPage))
-                    .addToBackStack(null).commit() //이전 프레그먼트로 돌아가야함
-                b!!.setVisibility(View.VISIBLE)
-                t!!.setVisibility(View.VISIBLE)
-            }
-        })
-        return view
+
+        initAdaper()
+
+        binding.addBtn.setOnClickListener {
+            val quest = binding.spinner1.selectedItem.toString()
+            val date = ((binding.datePicker.month + 1) * 100) + binding.datePicker.dayOfMonth
+            val job = binding.job.text.toString()
+            dbHelper.insert(job, date, quest)
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, MyFragment.Companion.getInstace(prevPage))
+                .addToBackStack(null)
+                .commit()
+        }
+
+        return binding.root
+    }
+
+    private fun initAdaper() {
+        mAdapter = ArrayAdapter(requireContext(), R.layout.spin, questdata)
+        mAdapter.setDropDownViewResource(R.layout.spin_dropdown)
+        binding.spinner1.adapter = mAdapter
     }
 }
