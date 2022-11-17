@@ -65,9 +65,6 @@ class FragmentMain : Fragment() {
             TedRxOnActivityResult.with(context)
                 .startActivityForResult(Intent(activity, AddActivity::class.java))
                 .subscribe(Consumer { activityResult: ActivityResult ->
-                    L.i(
-                        "[TedRxOnActivityResult] $activityResult"
-                    )
                     if (activityResult.resultCode == Activity.RESULT_OK) {
                         //Intent data = activityResult.getData();
                         onGoalDataLoad()
@@ -92,7 +89,6 @@ class FragmentMain : Fragment() {
                         null
                     }
             }).setCallback { data ->
-                L.i("::::[onGoalDataLoad] CallBack $data")
                 if (data != null) {
                     recyclerAdapter!!.updateItems(data)
                 }

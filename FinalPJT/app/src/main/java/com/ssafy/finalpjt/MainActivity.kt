@@ -15,66 +15,12 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
-import com.ssafy.finalpjt.db.model.Goal
-import com.ssafy.finalpjt.db.DBConst.GoalTable
-import com.ssafy.finalpjt.L
-import com.ssafy.finalpjt.db.model.GoalSub
-import com.ssafy.finalpjt.db.DBConst.SubGoalTable
-import kotlin.Throws
-import com.ssafy.finalpjt.db.DbHelper
-import com.ssafy.finalpjt.db.dao.GoalDAO
-import com.ssafy.finalpjt.db.dao.GoalSubDAO
-import kotlin.jvm.Synchronized
-import com.ssafy.finalpjt.db.CommonDAO
-import com.ssafy.finalpjt.db.DBConst
-import com.ssafy.finalpjt.db.BaseAsyncTask
-import com.ssafy.finalpjt.db.GoalDataTask
-import kotlin.jvm.Volatile
-import com.ssafy.finalpjt.db.BaseAsyncTask.SerialExecutor
-import com.ssafy.finalpjt.db.GoalSubDataTask
-import com.ssafy.finalpjt.DBHelper
-import com.ssafy.finalpjt.MainActivity
-import com.ssafy.finalpjt.SampleData
-import com.ssafy.finalpjt.MyFragment.MyAdapter
-import com.ssafy.finalpjt.MyFragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import com.ssafy.finalpjt.SubItemView
-import com.ssafy.finalpjt.db.factory.GoalDAOFactory
-import com.ssafy.finalpjt.db.factory.GoalSubDAOFactory
-import androidx.recyclerview.widget.RecyclerView
-import com.ssafy.finalpjt.FragmentMain.RecyclerAdapter
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.ssafy.finalpjt.DetailActivity
-import com.tedpark.tedonactivityresult.rx2.TedRxOnActivityResult
-import com.ssafy.finalpjt.AddActivity
-import com.ssafy.finalpjt.FragmentMain.RecyclerAdapter.ItemViewHolder
-import androidx.cardview.widget.CardView
-import com.ssafy.finalpjt.FragmentShop.SingerAdapter
-import com.ssafy.finalpjt.SingerShopItem
-import com.ssafy.finalpjt.SingerViewer
-import com.ssafy.finalpjt.FragmentTodo
-import com.ssafy.finalpjt.AddListFragment
-import androidx.core.content.ContextCompat
 import com.google.android.material.navigation.NavigationView
-import com.ssafy.finalpjt.MainActivity.AlarmHATT
-import com.ssafy.finalpjt.FragmentMain
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.core.view.GravityCompat
-import com.ssafy.finalpjt.FragmentGoals
-import com.ssafy.finalpjt.FragmentShop
-import com.ssafy.finalpjt.FragmentSetting
-import com.ssafy.finalpjt.BroadcastD
-import com.google.android.material.tabs.TabLayout
-import androidx.viewpager.widget.ViewPager
-import com.ssafy.finalpjt.Goals_PagerAdapter
-import com.google.android.material.tabs.TabLayout.ViewPagerOnTabSelectedListener
-import com.google.android.material.tabs.TabLayout.TabLayoutOnPageChangeListener
-import com.ssafy.finalpjt.DetailActivityUpdate
-import com.ssafy.finalpjt.Goals_Sub
-import androidx.fragment.app.FragmentPagerAdapter
 import androidx.fragment.app.FragmentTransaction
-import com.ssafy.finalpjt.Goals_Fragment1
 import java.lang.Exception
 import java.util.*
 
@@ -89,16 +35,16 @@ class MainActivity constructor() : AppCompatActivity(),
                 getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             val notificationChannel: NotificationChannel =
                 NotificationChannel("당근_채찍", "퀘스트앱", NotificationManager.IMPORTANCE_DEFAULT)
-            notificationChannel.setDescription("channel description")
+            notificationChannel.description = "channel description"
             //불빛,색상,진동패턴 등 해당 채널의 알림동작 설정
             notificationChannel.enableLights(true)
-            notificationChannel.setLightColor(Color.GREEN)
+            notificationChannel.lightColor = Color.GREEN
             notificationChannel.enableVibration(true)
-            notificationChannel.setVibrationPattern(longArrayOf(100, 200, 100, 200))
-            notificationChannel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE)
+            notificationChannel.vibrationPattern = longArrayOf(100, 200, 100, 200)
+            notificationChannel.lockscreenVisibility = Notification.VISIBILITY_PRIVATE
             notificationManager.createNotificationChannel(notificationChannel)
         }
-        AlarmHATT(getApplicationContext()).Alarm()
+        AlarmHATT(applicationContext).Alarm()
         val toolbar: Toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
 
@@ -112,7 +58,7 @@ class MainActivity constructor() : AppCompatActivity(),
             }
         });
          */
-        val transaction: FragmentTransaction = getSupportFragmentManager().beginTransaction()
+        val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         val fragmentmain: FragmentMain = FragmentMain()
         transaction.replace(R.id.main_fragment, fragmentmain)
         transaction.commit()
@@ -126,7 +72,7 @@ class MainActivity constructor() : AppCompatActivity(),
 
             public override fun onDrawerOpened(drawerView: View) {
                 super.onDrawerOpened(drawerView)
-                val dbHelper: DBHelper = DBHelper(getApplicationContext(), "QuestApp.db", null, 1)
+                val dbHelper: DBHelper = DBHelper(applicationContext, "QuestApp.db", null, 1)
                 try {
                     dbHelper.selectUsername()
                 } catch (e: Exception) {
@@ -160,7 +106,7 @@ class MainActivity constructor() : AppCompatActivity(),
                         if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) && (i == KeyEvent.KEYCODE_ENTER)) {
                             val imm: InputMethodManager =
                                 getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-                            imm.hideSoftInputFromWindow(nickname.getWindowToken(), 0)
+                            imm.hideSoftInputFromWindow(nickname.windowToken, 0)
                             return true
                         }
                         return false
@@ -174,7 +120,7 @@ class MainActivity constructor() : AppCompatActivity(),
                     val dd: Int = dbHelper.selectUserpoint()
                     val de: String = dd.toString()
                     nickname.setText(ds)
-                    point.setText(de + " point")
+                    point.text = de + " point"
                 }
             }
 
@@ -222,24 +168,24 @@ class MainActivity constructor() : AppCompatActivity(),
 
     public override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
-        val id: Int = item.getItemId()
+        val id: Int = item.itemId
         if (id == R.id.nav_main) {
-            val transaction: FragmentTransaction = getSupportFragmentManager().beginTransaction()
+            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
             val fragmentmain: FragmentMain = FragmentMain()
             transaction.replace(R.id.main_fragment, fragmentmain)
             transaction.commit()
         } else if (id == R.id.nav_todo) {
-            val transaction: FragmentTransaction = getSupportFragmentManager().beginTransaction()
+            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
             val fragmenttodo: FragmentTodo = FragmentTodo()
             transaction.replace(R.id.main_fragment, fragmenttodo)
             transaction.commit()
         } else if (id == R.id.nav_goals) {
-            val transaction: FragmentTransaction = getSupportFragmentManager().beginTransaction()
+            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
             val fragmentgoals: FragmentGoals = FragmentGoals()
             transaction.replace(R.id.main_fragment, fragmentgoals)
             transaction.commit()
         } else if (id == R.id.nav_shop) {
-            val transaction: FragmentTransaction = getSupportFragmentManager().beginTransaction()
+            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
             val fragmentshop: FragmentShop = FragmentShop()
             transaction.replace(R.id.main_fragment, fragmentshop)
             transaction.commit()
@@ -248,7 +194,7 @@ class MainActivity constructor() : AppCompatActivity(),
 //            settingPreferenceFragment settingPreferencefragment = new settingPreferenceFragment();
 //            transaction.replace(R.id.main_fragment, settingPreferencefragment);
 //            transaction.commit();
-            val transaction: FragmentTransaction = getSupportFragmentManager().beginTransaction()
+            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
             val fragmentSetting: FragmentSetting = FragmentSetting()
             transaction.replace(R.id.main_fragment, fragmentSetting)
             transaction.commit()
@@ -273,7 +219,7 @@ class MainActivity constructor() : AppCompatActivity(),
             )
             am.setRepeating(
                 AlarmManager.RTC_WAKEUP,
-                calendar.getTimeInMillis(),
+                calendar.timeInMillis,
                 AlarmManager.INTERVAL_DAY,
                 sender
             )
