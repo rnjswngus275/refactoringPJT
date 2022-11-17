@@ -132,7 +132,7 @@ class FragmentMain : Fragment() {
             i: Int
         ): ItemViewHolder { //recycler 빼기
             val view =
-                LayoutInflater.from(viewGroup.context).inflate(R.layout.list_item, viewGroup, false)
+                LayoutInflater.from(viewGroup.context).inflate(R.layout.main_list_item, viewGroup, false)
             return ItemViewHolder(view)
         }
 

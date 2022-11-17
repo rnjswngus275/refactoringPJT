@@ -8,7 +8,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Build
-import com.example.yoony.finalpjt.R
 import java.util.*
 
 class BroadcastD : BroadcastReceiver() {

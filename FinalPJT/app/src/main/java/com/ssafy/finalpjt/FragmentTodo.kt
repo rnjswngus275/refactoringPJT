@@ -12,28 +12,25 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.ssafy.finalpjt.databinding.FragmentTodoBinding
 import java.util.*
-private lateinit var binding: FragmentTodoBinding
 
-class FragmentTodo constructor() : Fragment() {
+class FragmentTodo : Fragment() {
     var cal: Calendar = Calendar.getInstance()
     var thisDay: Int = cal.get(Calendar.DAY_OF_MONTH)
     var thisMonth: Int = cal.get(Calendar.MONTH) + 1
     var date: Int = (thisMonth * 100) + thisDay
     var fragmentPageNow: Int = 0
-    var Months: Array<String?> =
+    private var monthList: Array<String?> =
         arrayOf("1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월")
     var tabLayout: LinearLayout? = null
     var btnLayout: LinearLayout? = null
-    var monthSpinner: Spinner? = null
-    var addBtn: Button? = null
-    var addListBtn: ImageButton? = null
     var btnScroll: HorizontalScrollView? = null
+    private lateinit var mAdapter: ArrayAdapter<Any?>
+    private lateinit var binding: FragmentTodoBinding
     private var mNumber: Int = 0
     private val mListner: FragmentManager.OnBackStackChangedListener =
         FragmentManager.OnBackStackChangedListener {
-            val fragmentManager: FragmentManager? = getFragmentManager()
             var count: Int = 0
-            for (f: Fragment? in fragmentManager!!.fragments) {
+            for (f: Fragment? in requireActivity().supportFragmentManager.fragments) {
                 if (f != null) {
                     count++
                 }
@@ -41,67 +38,58 @@ class FragmentTodo constructor() : Fragment() {
             mNumber = count
         }
 
-    public override fun onCreateView(
+    override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding = FragmentTodoBinding.inflate(inflater, container, false)
 
-        binding=FragmentTodoBinding.inflate(inflater,container,false)
+        requireActivity().supportFragmentManager.addOnBackStackChangedListener(mListner)
 
-        val fragmentManager: FragmentManager? = getFragmentManager()
-        fragmentManager!!.addOnBackStackChangedListener(mListner)
-        val fragment: Fragment? = fragmentManager.findFragmentByTag(FRAGMENT_TAG)
-        Log.d("MainActivity", "onCreate fragment =" + fragment)
         if (savedInstanceState == null) { //초기 프레그먼트 생성
             Log.d("enterIf", "savedInstanceState=null")
-            fragmentManager.beginTransaction()
-                .add(R.id.fragment_container, MyFragment.Companion.getInstace(date), FRAGMENT_TAG)
+            requireActivity().supportFragmentManager.beginTransaction()
+                .add(R.id.fragment_container, FragmentTodoList.newInstance(date), FRAGMENT_TAG)
                 .addToBackStack(null)
                 .commit()
             fragmentPageNow = thisDay
         }
 
         createBtn(binding.tabWidget)
-        val adapter: ArrayAdapter<*> = ArrayAdapter<Any?>(requireContext(), R.layout.spin, Months)
-        adapter.setDropDownViewResource(R.layout.spin_dropdown)
-        monthSpinner!!.adapter = adapter
-        monthSpinner!!.setSelection(thisMonth - 1)
-        monthSpinner!!.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            public override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View,
-                position: Int,
-                id: Long
-            ) {
-                Log.e("month", "" + thisMonth)
-                thisMonth = position + 1
-                date = (thisMonth * 100) + thisDay
-                Log.e("newMonth", "" + thisMonth)
-                Log.e("dayofmonth", "" + cal.getActualMaximum(Calendar.DAY_OF_MONTH))
-                cal.set(Calendar.YEAR, thisMonth - 1, thisDay)
-                Log.e("dayofmonth", "" + cal.getActualMaximum(Calendar.DAY_OF_MONTH))
-                binding.tabWidget.removeAllViews()
-                createBtn(binding.tabWidget)
-                callFragment(date)
-            }
 
-            public override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
-//        addListBtn = view.findViewById<View>(R.id.addListBtn) as ImageButton?
+        initAdapter()
+
         binding.addListBtn.setOnClickListener {
             Log.d("onclick", "clicked")
-            val alFragment: AddListFragment = AddListFragment()
-            alFragment.getInstance(fragmentPageNow, tabLayout, btnLayout)
-            fragmentManager.beginTransaction().replace(R.id.fragment_container, alFragment)
+            val addListFragment = AddListFragment()
+            addListFragment.getInstance(fragmentPageNow, tabLayout, btnLayout)
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, addListFragment)
                 .addToBackStack(null).commit()
-            tabLayout!!.setVisibility(View.INVISIBLE)
-            btnLayout!!.setVisibility(View.INVISIBLE)
+            tabLayout!!.visibility = View.INVISIBLE
+            btnLayout!!.visibility = View.INVISIBLE
         }
-        return view
+        return binding.root
     }
 
-    fun createBtn(tabWidgetLayout: LinearLayout) {
+    override fun onDestroy() { //종료시 백스택리스너 삭제
+        super.onDestroy()
+        requireActivity().supportFragmentManager.removeOnBackStackChangedListener(mListner)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) { //홈버튼 누를때 상태 저장
+        super.onSaveInstanceState(outState)
+        outState.putInt(KEY_NUMBER, mNumber)
+    }
+
+    private fun callFragment(fragmentNum: Int) { //프래그먼트 전환
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, FragmentTodoList.newInstance(fragmentNum))
+            .addToBackStack(null).commit()
+    }
+
+    private fun createBtn(tabWidgetLayout: LinearLayout) {
         for (i in 0 until cal.getActualMaximum(Calendar.DAY_OF_MONTH)) { //해당월의 날짜 수 만큼 버튼 생성
             val btn: Button = Button(requireContext()) //버튼 생성
             btn.text = (i + 1).toString() + "일"
@@ -113,12 +101,12 @@ class FragmentTodo constructor() : Fragment() {
                 btn.requestFocus()
                 Log.e("test", "focus" + btn.isFocused)
             }
-            btn.onFocusChangeListener = View.OnFocusChangeListener { v, hasFocus ->
+            btn.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
                 if (hasFocus) {
-                    callFragment(v.getId())
+                    callFragment(view.id)
                     Log.e("left", "position" + btn.left)
                     btnScroll!!.scrollTo(btn.left - 231, 0)
-                    v.background = ContextCompat.getDrawable(
+                    view.background = ContextCompat.getDrawable(
                         requireContext(),
                         R.drawable.selecte_day_btn
                     )
@@ -139,23 +127,31 @@ class FragmentTodo constructor() : Fragment() {
         todayBtn.requestFocus()
     }
 
-    public override fun onDestroy() { //종료시 백스택리스너 삭제
-        super.onDestroy()
-        val fragmentManager: FragmentManager? = getFragmentManager()
-        fragmentManager!!.removeOnBackStackChangedListener(mListner)
-    }
+    private fun initAdapter() {
+        mAdapter = ArrayAdapter<Any?>(requireContext(), R.layout.spin, monthList)
+        mAdapter.setDropDownViewResource(R.layout.spin_dropdown)
 
-    public override fun onSaveInstanceState(outState: Bundle) { //홈버튼 누를때 상태 저장
-        super.onSaveInstanceState(outState)
-        outState.putInt(KEY_NUMBER, mNumber)
-    }
+        binding.monthSpinner.apply {
+            adapter = mAdapter
+            setSelection(thisMonth - 1)
+            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View,
+                    position: Int,
+                    id: Long
+                ) {
+                    thisMonth = position + 1
+                    date = (thisMonth * 100) + thisDay
+                    cal.set(Calendar.YEAR, thisMonth - 1, thisDay)
+                    binding.tabWidget.removeAllViews()
+                    createBtn(binding.tabWidget)
+                    callFragment(date)
+                }
 
-    private fun callFragment(fragment_no: Int) { //프래그먼트 전환
-        val i: Int = fragment_no
-        val fragmentManager: FragmentManager? = getFragmentManager()
-        fragmentManager!!.beginTransaction()
-            .replace(R.id.fragment_container, MyFragment.Companion.getInstace(i))
-            .addToBackStack(null).commit()
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+            }
+        }
     }
 
     companion object {

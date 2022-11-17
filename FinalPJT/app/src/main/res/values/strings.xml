@@ -35,4 +35,6 @@
     <string name="priority_inside">Inside</string>
     <string name="priority_outside">Outside</string>
     <string name="loading" tools:ignore="TypographyEllipsis">Loading...</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
