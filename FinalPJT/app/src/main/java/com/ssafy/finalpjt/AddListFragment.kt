@@ -21,7 +21,6 @@ import com.ssafy.finalpjt.db.DBConst
 import com.ssafy.finalpjt.db.BaseAsyncTask
 import com.ssafy.finalpjt.db.GoalDataTask
 import kotlin.jvm.Volatile
-import com.ssafy.finalpjt.db.BaseAsyncTask.SerialExecutor
 import com.ssafy.finalpjt.db.GoalSubDataTask
 import com.ssafy.finalpjt.DBHelper
 import com.ssafy.finalpjt.MainActivity

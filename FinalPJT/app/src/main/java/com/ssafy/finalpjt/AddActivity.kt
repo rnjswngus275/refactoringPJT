@@ -23,7 +23,6 @@ import com.ssafy.finalpjt.db.DBConst
 import com.ssafy.finalpjt.db.BaseAsyncTask
 import com.ssafy.finalpjt.db.GoalDataTask
 import kotlin.jvm.Volatile
-import com.ssafy.finalpjt.db.BaseAsyncTask.SerialExecutor
 import com.ssafy.finalpjt.db.GoalSubDataTask
 import com.ssafy.finalpjt.DBHelper
 import com.ssafy.finalpjt.MainActivity
@@ -38,7 +37,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.finalpjt.FragmentMain.RecyclerAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ssafy.finalpjt.DetailActivity
-import com.tedpark.tedonactivityresult.rx2.TedRxOnActivityResult
 import com.ssafy.finalpjt.AddActivity
 import com.ssafy.finalpjt.FragmentMain.RecyclerAdapter.ItemViewHolder
 import androidx.cardview.widget.CardView

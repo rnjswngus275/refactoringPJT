@@ -13,9 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.example.yoony.com.ssafy.finalpjt.SplashActivity"
+            android:name="com.ssafy.finalpjt.SplashActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/SplashTheme"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,15 +24,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.yoony.com.ssafy.finalpjt.MainActivity"
+            android:name="com.ssafy.finalpjt.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name="com.example.yoony.com.ssafy.finalpjt.AddActivity" />
-        <activity android:name="com.example.yoony.com.ssafy.finalpjt.DetailActivity" />
-        <activity android:name="com.example.yoony.com.ssafy.finalpjt.DetailActivityUpdate" />
-        <activity android:name="com.example.yoony.com.ssafy.finalpjt.LicenseActivity" />
+        <activity android:name="com.ssafy.finalpjt.AddActivity" />
+        <activity android:name="com.ssafy.finalpjt.DetailActivity" />
+        <activity android:name="com.ssafy.finalpjt.DetailActivityUpdate" />
+        <activity android:name="com.ssafy.finalpjt.LicenseActivity" />
 
-        <receiver android:name="com.example.yoony.com.ssafy.finalpjt.BroadcastD"></receiver>
+        <receiver android:name="com.ssafy.finalpjt.BroadcastD"></receiver>
     </application>
 
 </manifest>
