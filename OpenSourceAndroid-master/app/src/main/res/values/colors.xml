@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#f3ad63</color>
+    <color name="colorPrimaryDark">#f3ad6a</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="sample_card_background">#FFFFFF</color>
+    <color name="sample_card_stroke">#0A000000</color>
+
+    <color name="sample_progress_background">#0A000000</color>
+    <color name="sample_progress_icon_background">#D32F2F</color>
+    <color name="sample_progress_primary">#EF5350</color>
+    <color name="sample_progress_secondary">#40EF5350</color>
+    <color name="sample_progress_gradient_start">#D32F2F</color>
+    <color name="sample_progress_gradient_end">#E57373</color>
+    <color name="sample_progress_text_color">#222222</color>
+
+    <color name="cursorColor">#d2d2d2</color>
+    <color name="nomalColor">#d2d2d2</color>
+
+    <array name="sample_progress_gradient">
+        <item>@color/sample_progress_gradient_start</item>
+        <item>@color/sample_progress_gradient_end</item>
+    </array>
+
+    <color name="index0">#d6e2fc</color>
+    <color name="index1">#f4d9e3</color>
+    <color name="index2">#fdf2d8</color>
+    <color name="index3">#e5dee1</color>
+    <color name="index4">#e3eedc</color>
+    <color name="index5">#e5fef5</color>
+    <color name="index6">#fcedd7</color>
+    <color name="index7">#fbe7e5</color>
+    <color name="index8">#d2efe3</color>
+    <color name="index9">#e9f7e1</color>
+    <color name="index10">#f9e9e3</color>
+</resources>
+

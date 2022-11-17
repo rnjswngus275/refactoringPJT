@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:padding="30dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:text="당근 이미지 저작권자 : https://www.flaticon.com/kr/authors/freepik"
+            android:textColor="#000000" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:text="채찍 이미지 저작권자 : https://www.flaticon.com/kr/authors/eucalyp"
+            android:textColor="#000000" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:text="집 이미지 저작권자 : https://www.flaticon.com/kr/authors/freepik"
+            android:textColor="#000000" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:text="할일 이미지 저작권자 : https://www.flaticon.com/kr/authors/kiranshastry"
+            android:textColor="#000000" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:text="목표 이미지 저작권자 : https://www.flaticon.com/kr/authors/phatplus"
+            android:textColor="#000000" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:text="상점 이미지 저작권자 : https://www.flaticon.com/kr/authors/freepik"
+            android:textColor="#000000" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:text="설정 이미지 저작권자 : https://www.flaticon.com/kr/authors/freepik"
+            android:textColor="#000000" />
+
+        <!--        <Button-->
+        <!--            android:id="@+id/button"-->
+        <!--            android:layout_width="100dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_weight="1"-->
+        <!--            android:layout_gravity="center"-->
+        <!--            android:layout_marginTop="50dp"-->
+        <!--            android:text="닫기"-->
+        <!--            android:textFontWeight="6"-->
+        <!--            android:textSize="20dp"-->
+        <!--            android:background="@drawable/btn_color"  />-->
+
+    </LinearLayout>
+
+</RelativeLayout>

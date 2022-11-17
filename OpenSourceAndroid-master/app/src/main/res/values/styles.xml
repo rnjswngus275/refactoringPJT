@@ -1,0 +1,104 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <!--custom font-family 적용-->
+        <item name="android:textViewStyle">@style/customTextViewFontStyle</item>
+        <item name="android:buttonStyle">@style/customButtonFontStyle</item>
+        <item name="android:editTextStyle">@style/customEditTextFontStyle</item>
+        <item name="android:radioButtonStyle">@style/customRadioButtonFontStyle</item>
+        <item name="android:checkboxStyle">@style/customCheckboxFontStyle</item>
+    </style>
+
+    <style name="ItemFont" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/dxgulim</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="SplashTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash</item>
+    </style>
+
+    <style name="EditTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorAccent">@color/cursorColor</item>
+    </style>
+
+    <style name="Text" />
+
+    <style name="Text.Description">
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Body1</item>
+        <item name="android:lineSpacingExtra">6dp</item>
+    </style>
+
+    <style name="Text.Title">
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Subtitle1
+        </item>
+        <item name="android:lineSpacingExtra">6dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+    <style name="SampleProgress">
+        <item name="android:layout_width">@dimen/content_width</item>
+        <item name="android:layout_height">30dp</item>
+    </style>
+
+    <style name="SampleProgress.Thin">
+        <item name="android:layout_width">@dimen/content_width</item>
+        <item name="android:layout_height">20dp</item>
+    </style>
+
+    <style name="SampleProgress.Fat">
+        <item name="android:layout_width">@dimen/content_width</item>
+        <item name="android:layout_height">50dp</item>
+    </style>
+
+    <style name="SampleProgress.Icon">
+        <item name="android:layout_width">@dimen/content_width</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="SampleProgress.Indeterminate">
+        <item name="android:layout_width">@dimen/content_width</item>
+        <item name="android:layout_height">10dp</item>
+    </style>
+
+    <style name="SampleButton" parent="@style/Widget.MaterialComponents.Button">
+        <item name="android:textSize">@dimen/button_text_size</item>
+        <item name="android:layout_width">@dimen/button_size</item>
+        <item name="android:layout_height">@dimen/button_size</item>
+        <item name="android:padding">@dimen/padding_small</item>
+    </style>
+
+    <style name="SampleCard">
+        <item name="android:background">@drawable/shape_sample_card_background</item>
+        <item name="android:paddingStart">@dimen/padding</item>
+        <item name="android:paddingEnd">@dimen/padding</item>
+        <item name="android:paddingTop">@dimen/padding_large</item>
+        <item name="android:paddingBottom">@dimen/padding_large</item>
+        <item name="android:layout_margin">@dimen/margin</item>
+    </style>
+
+    <style name="SampleCard2">
+        <item name="android:background">@drawable/shape_sample_card_background_2</item>
+        <item name="android:paddingStart">@dimen/padding</item>
+        <item name="android:paddingEnd">@dimen/padding</item>
+        <item name="android:paddingTop">@dimen/padding_large</item>
+        <item name="android:paddingBottom">@dimen/padding_large</item>
+        <item name="android:layout_margin">@dimen/margin_large</item>
+    </style>
+
+</resources>

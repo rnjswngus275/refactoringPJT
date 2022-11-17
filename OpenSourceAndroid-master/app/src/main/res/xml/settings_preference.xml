@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="라이선스 정보">
+
+        <PreferenceScreen
+            android:summary="라이선스 보기"
+            android:title="라이선스">
+            <intent
+                android:targetClass="com.example.yoony.opensourceandroidproject.LicenseActivity"
+                android:targetPackage="com.example.yoony.opensourceandroidproject" />
+
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="어플 정보">
+
+        <Preference
+            android:summary="개발자에게 메일을 보냅니다"
+            android:title="메일 보내기">
+            <intent
+                android:action="android.intent.action.SENDTO"
+                android:data="mailto:sos13313@naver.com" />
+        </Preference>
+    </PreferenceCategory>
+
+</PreferenceScreen>
