@@ -33,14 +33,16 @@ class AddActivity : AppCompatActivity() {
             }
             val goalTitle = binding.edtGoal.text.toString()
             try {
-                val id = GoalDAOFactory.addGoal(applicationContext, Goal(goalTitle))
+                var goal:Goal=Goal()
+                goal.goalTitle=goalTitle
+                val id = GoalDAOFactory.addGoal(applicationContext, goal)
                 if (id != -1L) {
                     // 최종목표 db에 성공적으로 저장되었으면 서브 타이틀 db에 데이터를 입력한다.
                     for (subItemView in mSubItemViewList) {
                         if (subItemView.etInput!!.text.isNotEmpty()) {
                             GoalSubDAOFactory.addGoalSub(
                                 applicationContext,
-                                GoalSub(id.toString(), subItemView.etInput!!.text.toString(), 0)
+                                GoalSub(-1,id.toString(), subItemView.etInput!!.text.toString(), 0)
                             )
                         }
                     }

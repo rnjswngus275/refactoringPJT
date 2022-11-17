@@ -44,9 +44,11 @@ class GoalDAO(private val context: Context, private val mDatabase: SQLiteDatabas
         val pass = false
         try {
             val reportValue = ContentValues()
-            reportValue.put(GoalTable.GOAL_TITLE, info.getGoalTitle())
+            if (info != null) {
+                reportValue.put(GoalTable.GOAL_TITLE, info.goalTitle)
+            }
             val whereClause = "_id=?"
-            val whereArgs = arrayOf(info.getIndexNumber().toString())
+            val whereArgs = arrayOf(info?.indexNumber.toString())
             mDatabase!!.update(GoalTable.TABLE_NAME, reportValue, whereClause, whereArgs)
             return true
         } catch (e: Exception) {

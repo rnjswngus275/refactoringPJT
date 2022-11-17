@@ -30,9 +30,11 @@ class GoalSubDAO(private val context: Context, private val mDatabase: SQLiteData
         val pass = false
         try {
             val reportValue = ContentValues()
-            reportValue.put(SubGoalTable.SUBTITLE, info.getSubTitle())
+            if (info != null) {
+                reportValue.put(SubGoalTable.SUBTITLE, info.subTitle)
+            }
             val whereClause = "_id=?"
-            val whereArgs = arrayOf(info.getIndexNumber().toString())
+            val whereArgs = arrayOf(info?.indexNumber.toString())
             mDatabase!!.update(SubGoalTable.TABLE_NAME, reportValue, whereClause, whereArgs)
             return true
         } catch (e: Exception) {
