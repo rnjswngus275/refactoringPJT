@@ -8,9 +8,6 @@ import com.ssafy.finalpjt.db.model.GoalSub
 class GoalSubDataTask : BaseAsyncTask<Void?, Void?, List<GoalSub?>?>() {
     private var mTaskListener: TaskListener? = null
     private var mFetcher: DataFetcher? = null
-    protected override fun doInBackground(vararg params: Void): List<GoalSub?>? {
-        return mFetcher!!.data
-    }
 
     override fun onPostExecute(data: List<GoalSub?>?) {
         if (mTaskListener != null) {
@@ -20,6 +17,10 @@ class GoalSubDataTask : BaseAsyncTask<Void?, Void?, List<GoalSub?>?>() {
 
     override fun onPreExecute() {
         super.onPreExecute()
+    }
+
+    override fun doInBackground(vararg params: Void?): List<GoalSub?>? {
+        return mFetcher!!.data
     }
 
     interface TaskListener {
@@ -50,4 +51,6 @@ class GoalSubDataTask : BaseAsyncTask<Void?, Void?, List<GoalSub?>?>() {
             return cursorTask
         }
     }
+
+
 }

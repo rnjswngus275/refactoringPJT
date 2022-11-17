@@ -24,7 +24,7 @@ abstract class BaseAsyncTask<Params, Progress, Result> {
     var status = Status.PENDING
         private set
 
-    private fun postResultIfNotInvoked(result: Result?) {
+    private fun postResultIfNotInvoked(result: Result) {
         val wasTaskInvoked = mTaskInvoked.get()
         if (!wasTaskInvoked) {
             postResult(result)
@@ -151,15 +151,15 @@ abstract class BaseAsyncTask<Params, Progress, Result> {
         override fun handleMessage(msg: Message) {
             val result = msg.obj as AsyncTaskResult<*>
             when (msg.what) {
-                MESSAGE_POST_RESULT ->                     // There is only one result
-                    result.mTask.finish(result.mData[0])
-                MESSAGE_POST_PROGRESS -> result.mTask.onProgressUpdate(*result.mData)
+                MESSAGE_POST_RESULT ->          {}           // There is only one result
+//                    result.mTask.finish(result.mData[0])
+                MESSAGE_POST_PROGRESS -> result.mTask.onProgressUpdate()
             }
         }
     }
 
     private abstract class WorkerRunnable<Params, Result> : Callable<Result> {
-        var mParams: Array<Params>
+        lateinit var mParams: Array<out Params>
     }
 
     private class AsyncTaskResult<Data> internal constructor(
@@ -169,7 +169,7 @@ abstract class BaseAsyncTask<Params, Progress, Result> {
         val mData: Array<Data>
 
         init {
-            mData = data
+            mData = data as Array<Data>
         }
     }
 
@@ -182,7 +182,7 @@ abstract class BaseAsyncTask<Params, Progress, Result> {
         private val TAG = BaseAsyncTask::class.java.simpleName
         private const val CORE_POOL_SIZE = 5
         private const val MAXIMUM_POOL_SIZE = 128
-        private const val KEEP_ALIVE = 1
+        private const val KEEP_ALIVE = 1L
         private val sThreadFactory: ThreadFactory = object : ThreadFactory {
             private val mCount = AtomicInteger(1)
             override fun newThread(r: Runnable): Thread {
@@ -251,7 +251,7 @@ abstract class BaseAsyncTask<Params, Progress, Result> {
                         e.cause
                     )
                 } catch (e: CancellationException) {
-                    postResultIfNotInvoked(null)
+//                    postResultIfNotInvoked(null)
                 }
             }
         }

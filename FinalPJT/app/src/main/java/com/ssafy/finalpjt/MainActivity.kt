@@ -210,7 +210,7 @@ class MainActivity constructor() : AppCompatActivity(),
         fun Alarm() {
             val am: AlarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
             val intent: Intent = Intent(this@MainActivity, BroadcastD::class.java)
-            val sender: PendingIntent = PendingIntent.getBroadcast(this@MainActivity, 0, intent, 0)
+            val sender: PendingIntent = PendingIntent.getBroadcast(this@MainActivity, 0, intent, PendingIntent.FLAG_IMMUTABLE)
             val calendar: Calendar = Calendar.getInstance()
             calendar.set(
                 calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(

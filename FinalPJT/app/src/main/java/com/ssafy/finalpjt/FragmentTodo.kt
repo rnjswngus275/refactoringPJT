@@ -21,9 +21,8 @@ class FragmentTodo : Fragment() {
     var fragmentPageNow: Int = 0
     private var monthList: Array<String?> =
         arrayOf("1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월")
-    var tabLayout: LinearLayout? = null
-    var btnLayout: LinearLayout? = null
-    var btnScroll: HorizontalScrollView? = null
+//    var tabLayout: LinearLayout? = null
+//    var btnLayout: LinearLayout? = null
     private lateinit var mAdapter: ArrayAdapter<Any?>
     private lateinit var binding: FragmentTodoBinding
     private var mNumber: Int = 0
@@ -63,12 +62,12 @@ class FragmentTodo : Fragment() {
         binding.addListBtn.setOnClickListener {
             Log.d("onclick", "clicked")
             val addListFragment = AddListFragment()
-            addListFragment.getInstance(fragmentPageNow, tabLayout, btnLayout)
+            addListFragment.getInstance(fragmentPageNow, binding.tabLayout, binding.btnLayout)
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, addListFragment)
                 .addToBackStack(null).commit()
-            tabLayout!!.visibility = View.INVISIBLE
-            btnLayout!!.visibility = View.INVISIBLE
+            binding.tabLayout.visibility = View.INVISIBLE
+            binding.btnLayout.visibility = View.INVISIBLE
         }
         return binding.root
     }
@@ -105,7 +104,7 @@ class FragmentTodo : Fragment() {
                 if (hasFocus) {
                     callFragment(view.id)
                     Log.e("left", "position" + btn.left)
-                    btnScroll!!.scrollTo(btn.left - 231, 0)
+                    binding.btnScroll.scrollTo(btn.left - 231, 0)
                     view.background = ContextCompat.getDrawable(
                         requireContext(),
                         R.drawable.selecte_day_btn
