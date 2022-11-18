@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Build
+import com.ssafy.finalpjt.activity.MainActivity
 import java.util.*
 
 class BroadcastD : BroadcastReceiver() {

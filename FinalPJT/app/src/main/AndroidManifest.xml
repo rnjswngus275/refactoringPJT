@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
+        android:name=".database.DatabaseApplicationClass"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -13,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.ssafy.finalpjt.SplashActivity"
+            android:name="com.ssafy.finalpjt.activity.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme"
             android:exported="true">
@@ -24,13 +25,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.ssafy.finalpjt.MainActivity"
+            android:name="com.ssafy.finalpjt.activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name="com.ssafy.finalpjt.AddActivity" />
-        <activity android:name="com.ssafy.finalpjt.DetailActivity" />
-        <activity android:name="com.ssafy.finalpjt.DetailUpdateActivity" />
-        <activity android:name="com.ssafy.finalpjt.LicenseActivity" />
+        <activity android:name="com.ssafy.finalpjt.activity.AddActivity" />
+        <activity android:name="com.ssafy.finalpjt.activity.DetailActivity" />
+        <activity android:name="com.ssafy.finalpjt.activity.DetailUpdateActivity" />
+        <activity android:name="com.ssafy.finalpjt.activity.LicenseActivity" />
 
         <receiver android:name="com.ssafy.finalpjt.BroadcastD"/>
     </application>

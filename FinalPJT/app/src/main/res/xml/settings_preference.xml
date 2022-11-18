@@ -7,7 +7,7 @@
             android:summary="라이선스 보기"
             android:title="라이선스">
             <intent
-                android:targetClass="com.ssafy.finalpjt.LicenseActivity"
+                android:targetClass="com.ssafy.finalpjt.activity.LicenseActivity"
                 android:targetPackage="com.ssafy.finalpjt" />
 
         </PreferenceScreen>
