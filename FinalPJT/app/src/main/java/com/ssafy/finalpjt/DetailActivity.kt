@@ -15,15 +15,16 @@ import androidx.appcompat.app.AppCompatActivity
 import com.ssafy.finalpjt.databinding.ActivityDetailBinding
 import com.ssafy.finalpjt.db.GoalSubDataTask
 import com.ssafy.finalpjt.db.factory.GoalSubDAOFactory
-import com.ssafy.finalpjt.db.model.Goal
-import com.ssafy.finalpjt.db.model.GoalSub
+import com.ssafy.finalpjt.db.database.dto.Goal
+import com.ssafy.finalpjt.db.database.dto.GoalSub
 
 
-class DetailActivity : AppCompatActivity() {
+private lateinit var binding:ActivityDetailBinding
+class DetailActivity constructor() : AppCompatActivity() {
 
-    private lateinit var binding: ActivityDetailBinding
+
     private val mSubItemViewList: ArrayList<SubItemView> = ArrayList()
-    private var mCurrentGoalSubList = ArrayList<GoalSub>()
+    private var mCurrentGoalSubList=ArrayList<GoalSub>()
     private var mCurrentGoalItem: Goal = Goal()
     private val deleteClickListener: View.OnLongClickListener =
         View.OnLongClickListener { view ->
@@ -39,8 +40,8 @@ class DetailActivity : AppCompatActivity() {
                     }
                     binding.LL.removeAllViews()
                     onGoalSubDataLoad(
-                        mCurrentGoalItem.goalTitle,
-                        mCurrentGoalItem.indexNumber.toString()
+                        mCurrentGoalItem.GoalTitle,
+                        mCurrentGoalItem._id.toString()
                     )
                 }
             } catch (e: Exception) {
@@ -50,7 +51,7 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityDetailBinding.inflate(layoutInflater)
+        binding=ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 
@@ -61,13 +62,13 @@ class DetailActivity : AppCompatActivity() {
 //        btnUpdate = findViewById(R.id.btnRe)
 //        LL = findViewById(R.id.LL)
         onGoalSubDataLoad(
-            mCurrentGoalItem.goalTitle,
-            mCurrentGoalItem.indexNumber.toString()
+            mCurrentGoalItem.GoalTitle,
+            mCurrentGoalItem._id.toString()
         )
         findViewById<View>(R.id.btnDone).setOnClickListener(View.OnClickListener({ view: View? -> finish() }))
         binding.btnRe.setOnClickListener(View.OnClickListener {
             //수정화면으로 전환...
-            val updateIntent: Intent = Intent(this, DetailUpdateActivity::class.java)
+            val updateIntent: Intent = Intent(this, DetailActivityUpdate::class.java)
             updateIntent.putExtra("EXTRA_GOAL", mCurrentGoalItem)
 
             val launcher: ActivityResultLauncher<Intent> = registerForActivityResult(
@@ -100,7 +101,7 @@ class DetailActivity : AppCompatActivity() {
     private fun addSubView(goalSub: GoalSub?, pos: Int) {
         val childView: View = childView
         val tvSubGoal: TextView = childView.findViewById<View>(R.id.tv_title) as TextView
-        tvSubGoal.text = goalSub?.subTitle
+        tvSubGoal.text = goalSub?.SubTitle
         tvSubGoal.tag = pos
         tvSubGoal.setOnLongClickListener(deleteClickListener)
         mSubItemViewList.add(SubItemView(tvSubGoal))

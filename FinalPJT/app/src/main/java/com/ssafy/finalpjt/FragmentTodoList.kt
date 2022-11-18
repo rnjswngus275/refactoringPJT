@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import com.ssafy.finalpjt.db.database.dto.Todo
 import java.util.*
 
 class FragmentTodoList : Fragment() {

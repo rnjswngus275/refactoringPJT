@@ -1,7 +1,7 @@
 package com.ssafy.finalpjt.db.factory
 
 import android.content.Context
-import com.ssafy.finalpjt.db.model.GoalSub
+import com.ssafy.finalpjt.db.database.dto.GoalSub
 import kotlin.Throws
 import com.ssafy.finalpjt.db.DbHelper
 import com.ssafy.finalpjt.db.dao.GoalSubDAO
@@ -50,8 +50,8 @@ object GoalSubDAOFactory {
             val goalSubDAO = GoalSubDAO(context, dbHelper!!.writableDatabase)
             if (goalSub != null) {
                 pass = goalSubDAO.removeGoalSub(
-                    goalSub.indexNumber.toString(),
-                    goalSub.addedByUser
+                    goalSub._id.toString(),
+                    goalSub.GoalId
                 )
             }
         } catch (e: Exception) {
