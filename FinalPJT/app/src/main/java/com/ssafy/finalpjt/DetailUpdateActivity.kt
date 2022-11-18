@@ -5,47 +5,50 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
-import com.ssafy.finalpjt.db.database.dto.Goal
-import com.ssafy.finalpjt.db.database.dto.GoalSub
+import com.ssafy.finalpjt.db.model.Goal
+import com.ssafy.finalpjt.db.model.GoalSub
 import com.ssafy.finalpjt.db.GoalSubDataTask
 import androidx.appcompat.app.AppCompatActivity
+import com.ssafy.finalpjt.databinding.ActivityDetailBinding
 import com.ssafy.finalpjt.databinding.ActivityDetailUpdateBinding
 import com.ssafy.finalpjt.db.factory.GoalDAOFactory
 import com.ssafy.finalpjt.db.factory.GoalSubDAOFactory
 import java.lang.Exception
 import java.util.ArrayList
-private lateinit var binding: ActivityDetailUpdateBinding
 
-class DetailActivityUpdate constructor() : AppCompatActivity() {
+class DetailUpdateActivity : AppCompatActivity() {
     private var mCurrentGoalItem: Goal = Goal()
     private val mSubItemViewList: ArrayList<SubItemView> = ArrayList()
-    private var mCurrentGoalSubList=ArrayList<GoalSub>()
+    private var mCurrentGoalSubList = ArrayList<GoalSub>()
+    private lateinit var binding: ActivityDetailUpdateBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding=ActivityDetailUpdateBinding.inflate(layoutInflater)
+        binding = ActivityDetailUpdateBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 //        LL = findViewById(R.id.LL)
 //        etGoal = findViewById(R.id.etGoal)
 //        btnUpdate = findViewById(R.id.btn_update_complete)
-        val intent: Intent = getIntent()
+        val intent: Intent = intent
         mCurrentGoalItem = (intent.getSerializableExtra("EXTRA_GOAL") as Goal?)!!
         onGoalSubDataLoad(
-            mCurrentGoalItem.GoalTitle,
-            mCurrentGoalItem._id.toString()
+            mCurrentGoalItem.goalTitle,
+            mCurrentGoalItem.indexNumber.toString()
         )
         binding.btnUpdateComplete.setOnClickListener(View.OnClickListener {
             try {
                 for (i in mSubItemViewList.indices) {
                     val goalSub: GoalSub = mCurrentGoalSubList[i]
                     if (goalSub != null) {
-                        goalSub.SubTitle = (mSubItemViewList[i].etInput!!.text.toString())
+                        goalSub.subTitle = (mSubItemViewList[i].etInput!!.text.toString())
                     }
                     GoalSubDAOFactory.updateGoalSub(applicationContext, goalSub)
                 }
-                mCurrentGoalItem.GoalTitle=(binding.etGoal.text.toString())
+                mCurrentGoalItem.goalTitle = (binding.etGoal.text.toString())
                 GoalDAOFactory.updateGoal(applicationContext, mCurrentGoalItem)
                 setResult(RESULT_OK)
                 finish()
@@ -71,7 +74,7 @@ class DetailActivityUpdate constructor() : AppCompatActivity() {
         val childView: View = childView
         val etSubGoal: EditText = childView.findViewById<View>(R.id.EditText2) as EditText
         if (goalSub != null) {
-            etSubGoal.setText(goalSub.SubTitle)
+            etSubGoal.setText(goalSub.subTitle)
         }
         mSubItemViewList.add(SubItemView(etSubGoal))
         binding.LL.addView(childView)
@@ -97,7 +100,7 @@ class DetailActivityUpdate constructor() : AppCompatActivity() {
                         }
                     }
             }).setCallback(object : GoalSubDataTask.TaskListener {
-                 override fun onComplete(data: List<GoalSub?>?) {
+                override fun onComplete(data: List<GoalSub?>?) {
                     if (data != null) {
                         var index: Int = 0
                         mCurrentGoalSubList = data as ArrayList<GoalSub>

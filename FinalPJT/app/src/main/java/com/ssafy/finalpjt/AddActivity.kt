@@ -6,8 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.LinearLayout
-import com.ssafy.finalpjt.db.database.dto.Goal
-import com.ssafy.finalpjt.db.database.dto.GoalSub
+import android.widget.Toast
+import com.ssafy.finalpjt.db.model.Goal
+import com.ssafy.finalpjt.db.model.GoalSub
 import androidx.appcompat.app.AppCompatActivity
 import com.ssafy.finalpjt.db.factory.GoalDAOFactory
 import com.ssafy.finalpjt.db.factory.GoalSubDAOFactory
@@ -29,12 +30,12 @@ class AddActivity : AppCompatActivity() {
         binding.addSubBtn.setOnClickListener { addSubView() }
         binding.btnDone.setOnClickListener(View.OnClickListener {
             if (binding.edtGoal.text.isEmpty()) {
-                return@OnClickListener
+                Toast.makeText(this, "최종목표를 추가해주세요", Toast.LENGTH_SHORT).show()
             }
             val goalTitle = binding.edtGoal.text.toString()
             try {
-                var goal: Goal = Goal()
-                goal.GoalTitle=goalTitle
+                var goal:Goal=Goal()
+                goal.goalTitle=goalTitle
                 val id = GoalDAOFactory.addGoal(applicationContext, goal)
                 if (id != -1L) {
                     // 최종목표 db에 성공적으로 저장되었으면 서브 타이틀 db에 데이터를 입력한다.

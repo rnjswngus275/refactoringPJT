@@ -1,5 +1,6 @@
 package com.ssafy.finalpjt
 
+import android.annotation.SuppressLint
 import android.app.*
 import android.content.Context
 import android.content.Intent
@@ -24,16 +25,16 @@ import androidx.fragment.app.FragmentTransaction
 import java.lang.Exception
 import java.util.*
 
-class MainActivity constructor() : AppCompatActivity(),
+class MainActivity : AppCompatActivity(),
     NavigationView.OnNavigationItemSelectedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setTitle("당근과 채찍")
+        title = "당근과 채찍"
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { //OREO이상 버전 부터는 알림채널을 만들어주어야한다.
             val notificationManager: NotificationManager =
                 getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            val notificationChannel: NotificationChannel =
+            val notificationChannel =
                 NotificationChannel("당근_채찍", "퀘스트앱", NotificationManager.IMPORTANCE_DEFAULT)
             notificationChannel.description = "channel description"
             //불빛,색상,진동패턴 등 해당 채널의 알림동작 설정
@@ -44,35 +45,26 @@ class MainActivity constructor() : AppCompatActivity(),
             notificationChannel.lockscreenVisibility = Notification.VISIBILITY_PRIVATE
             notificationManager.createNotificationChannel(notificationChannel)
         }
-        AlarmHATT(applicationContext).Alarm()
+        AlarmHATT(applicationContext).alarm()
         val toolbar: Toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
 
-        /*
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-         */
-        val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-        val fragmentmain: FragmentMain = FragmentMain()
-        transaction.replace(R.id.main_fragment, fragmentmain)
-        transaction.commit()
+        // 초기화면 설정
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main_fragment, FragmentMain())
+            .commit()
         val drawer: DrawerLayout = findViewById<View>(R.id.drawer_layout) as DrawerLayout
         val toggle: ActionBarDrawerToggle = object : ActionBarDrawerToggle(
             this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
         ) {
-            public override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
                 super.onDrawerSlide(drawerView, slideOffset)
             }
 
-            public override fun onDrawerOpened(drawerView: View) {
+            @SuppressLint("SetTextI18n")
+            override fun onDrawerOpened(drawerView: View) {
                 super.onDrawerOpened(drawerView)
-                val dbHelper: DBHelper = DBHelper(applicationContext, "QuestApp.db", null, 1)
+                val dbHelper = DBHelper(applicationContext, "QuestApp.db", null, 1)
                 try {
                     dbHelper.selectUsername()
                 } catch (e: Exception) {
@@ -82,7 +74,7 @@ class MainActivity constructor() : AppCompatActivity(),
                 //setContentView(R.layout.nav_header_main);
                 val nickname: EditText = findViewById<View>(R.id.user_nickname) as EditText
                 nickname.addTextChangedListener(object : TextWatcher {
-                    public override fun beforeTextChanged(
+                    override fun beforeTextChanged(
                         charSequence: CharSequence,
                         i: Int,
                         i1: Int,
@@ -90,20 +82,20 @@ class MainActivity constructor() : AppCompatActivity(),
                     ) {
                     }
 
-                    public override fun onTextChanged(
+                    override fun onTextChanged(
                         charSequence: CharSequence,
                         i: Int,
                         i1: Int,
                         i2: Int
                     ) {
-                        dbHelper.updateUserNickname(nickname.getText().toString())
+                        dbHelper.updateUserNickname(nickname.text.toString())
                     }
 
-                    public override fun afterTextChanged(editable: Editable) {}
+                    override fun afterTextChanged(editable: Editable) {}
                 })
                 nickname.setOnKeyListener(object : View.OnKeyListener {
-                    public override fun onKey(view: View, i: Int, keyEvent: KeyEvent): Boolean {
-                        if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) && (i == KeyEvent.KEYCODE_ENTER)) {
+                    override fun onKey(view: View, i: Int, keyEvent: KeyEvent): Boolean {
+                        if ((keyEvent.action == KeyEvent.ACTION_DOWN) && (i == KeyEvent.KEYCODE_ENTER)) {
                             val imm: InputMethodManager =
                                 getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
                             imm.hideSoftInputFromWindow(nickname.windowToken, 0)
@@ -116,20 +108,12 @@ class MainActivity constructor() : AppCompatActivity(),
                 if (dbHelper.selectUsername() === "") {
                     dbHelper.setUserNickname("user", 0)
                 } else {
-                    val ds: String? = dbHelper.selectUsername()
+                    val ds: String = dbHelper.selectUsername()
                     val dd: Int = dbHelper.selectUserpoint()
                     val de: String = dd.toString()
                     nickname.setText(ds)
-                    point.text = de + " point"
+                    point.text = "$de point"
                 }
-            }
-
-            public override fun onDrawerClosed(drawerView: View) {
-                super.onDrawerClosed(drawerView)
-            }
-
-            public override fun onDrawerStateChanged(newState: Int) {
-                super.onDrawerStateChanged(newState)
             }
         }
 
@@ -140,7 +124,7 @@ class MainActivity constructor() : AppCompatActivity(),
         navigationView.setNavigationItemSelectedListener(this)
     }
 
-    public override fun onBackPressed() {
+    override fun onBackPressed() {
         val drawer: DrawerLayout = findViewById<View>(R.id.drawer_layout) as DrawerLayout
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START)
@@ -155,59 +139,47 @@ class MainActivity constructor() : AppCompatActivity(),
     //        getMenuInflater().inflate(R.menu.main, menu);
     //        return true;
     //    }
-    public override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        val id: Int = item.getItemId()
+        val id: Int = item.itemId
         if (id == R.id.action_settings) {
             return true
         }
         return super.onOptionsItemSelected(item)
     }
 
-    public override fun onNavigationItemSelected(item: MenuItem): Boolean {
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         val id: Int = item.itemId
-        if (id == R.id.nav_main) {
-            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-            val fragmentmain: FragmentMain = FragmentMain()
-            transaction.replace(R.id.main_fragment, fragmentmain)
-            transaction.commit()
-        } else if (id == R.id.nav_todo) {
-            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-            val fragmenttodo: FragmentTodo = FragmentTodo()
-            transaction.replace(R.id.main_fragment, fragmenttodo)
-            transaction.commit()
-        } else if (id == R.id.nav_goals) {
-            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-            val fragmentgoals: FragmentGoals = FragmentGoals()
-            transaction.replace(R.id.main_fragment, fragmentgoals)
-            transaction.commit()
-        } else if (id == R.id.nav_shop) {
-            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-            val fragmentshop: FragmentShop = FragmentShop()
-            transaction.replace(R.id.main_fragment, fragmentshop)
-            transaction.commit()
-        } else if (id == R.id.nav_setting) {
-//            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//            settingPreferenceFragment settingPreferencefragment = new settingPreferenceFragment();
-//            transaction.replace(R.id.main_fragment, settingPreferencefragment);
-//            transaction.commit();
-            val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
-            val fragmentSetting: FragmentSetting = FragmentSetting()
-            transaction.replace(R.id.main_fragment, fragmentSetting)
-            transaction.commit()
-            //            settingPreferenceFragment setting = new settingPreferenceFragment();
-//            getFragmentManager().beginTransaction().replace(R.id.main_fragment, setting).commit();
+        val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+
+        when(id) {
+            R.id.nav_main -> {
+                transaction.replace(R.id.main_fragment, FragmentMain()).commit()
+            }
+            R.id.nav_todo -> {
+                transaction.replace(R.id.main_fragment, FragmentTodo()).commit()
+            }
+            R.id.nav_goals -> {
+                transaction.replace(R.id.main_fragment, FragmentGoals()).commit()
+            }
+            R.id.nav_shop -> {
+                transaction.replace(R.id.main_fragment, FragmentShop()).commit()
+            }
+            R.id.nav_setting -> {
+                transaction.replace(R.id.main_fragment, FragmentSetting()).commit()
+            }
         }
+
         val drawer: DrawerLayout = findViewById<View>(R.id.drawer_layout) as DrawerLayout
         drawer.closeDrawer(GravityCompat.START)
         return true
     }
 
     inner class AlarmHATT constructor(private val context: Context) {
-        fun Alarm() {
+        fun alarm() {
             val am: AlarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
             val intent: Intent = Intent(this@MainActivity, BroadcastD::class.java)
             val sender: PendingIntent = PendingIntent.getBroadcast(this@MainActivity, 0, intent, PendingIntent.FLAG_IMMUTABLE)

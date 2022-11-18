@@ -26,13 +26,13 @@
         <activity
             android:name="com.ssafy.finalpjt.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name="com.ssafy.finalpjt.AddActivity" />
         <activity android:name="com.ssafy.finalpjt.DetailActivity" />
-        <activity android:name="com.ssafy.finalpjt.DetailActivityUpdate" />
+        <activity android:name="com.ssafy.finalpjt.DetailUpdateActivity" />
         <activity android:name="com.ssafy.finalpjt.LicenseActivity" />
 
-        <receiver android:name="com.ssafy.finalpjt.BroadcastD"></receiver>
+        <receiver android:name="com.ssafy.finalpjt.BroadcastD"/>
     </application>
 
 </manifest>

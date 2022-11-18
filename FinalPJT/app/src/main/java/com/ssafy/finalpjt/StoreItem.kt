@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.ssafy.finalpjt.db.database.dto.Shop
 
 
 class StoreItem : LinearLayout {
@@ -27,12 +26,12 @@ class StoreItem : LinearLayout {
         val inflater: LayoutInflater =
             context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         inflater.inflate(R.layout.store_item, this, true)
-        textView = (findViewById<View>(R.id.textView) as TextView?)!!
-        textView2 = (findViewById<View>(R.id.textView2) as TextView?)!!
-        imageView = (findViewById<View>(R.id.imageView) as ImageView?)!!
+        textView = (findViewById<View>(R.id.store_item_tv) as TextView?)!!
+        textView2 = (findViewById<View>(R.id.store_item_price_tv) as TextView?)!!
+        imageView = (findViewById<View>(R.id.store_item_iv) as ImageView?)!!
     }
 
-    fun setItem(storedto: Shop) {
+    fun setItem(storedto: StoreDTO) {
         textView.setText(storedto.name)
         textView2.setText(storedto.cost.toString())
         imageView!!.setImageResource(storedto.image)
