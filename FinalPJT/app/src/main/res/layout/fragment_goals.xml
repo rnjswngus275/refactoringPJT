@@ -21,8 +21,9 @@
         </com.google.android.material.appbar.AppBarLayout>
 
 
-        <androidx.viewpager.widget.ViewPager
+        <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewpager"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>

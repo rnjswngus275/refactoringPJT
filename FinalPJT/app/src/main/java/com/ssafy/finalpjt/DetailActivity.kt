@@ -19,12 +19,11 @@ import com.ssafy.finalpjt.db.model.Goal
 import com.ssafy.finalpjt.db.model.GoalSub
 
 
-private lateinit var binding:ActivityDetailBinding
-class DetailActivity constructor() : AppCompatActivity() {
+class DetailActivity : AppCompatActivity() {
 
-
+    private lateinit var binding: ActivityDetailBinding
     private val mSubItemViewList: ArrayList<SubItemView> = ArrayList()
-    private var mCurrentGoalSubList=ArrayList<GoalSub>()
+    private var mCurrentGoalSubList = ArrayList<GoalSub>()
     private var mCurrentGoalItem: Goal = Goal()
     private val deleteClickListener: View.OnLongClickListener =
         View.OnLongClickListener { view ->
@@ -51,7 +50,7 @@ class DetailActivity constructor() : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding=ActivityDetailBinding.inflate(layoutInflater)
+        binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 
@@ -68,7 +67,7 @@ class DetailActivity constructor() : AppCompatActivity() {
         findViewById<View>(R.id.btnDone).setOnClickListener(View.OnClickListener({ view: View? -> finish() }))
         binding.btnRe.setOnClickListener(View.OnClickListener {
             //수정화면으로 전환...
-            val updateIntent: Intent = Intent(this, DetailActivityUpdate::class.java)
+            val updateIntent: Intent = Intent(this, DetailUpdateActivity::class.java)
             updateIntent.putExtra("EXTRA_GOAL", mCurrentGoalItem)
 
             val launcher: ActivityResultLauncher<Intent> = registerForActivityResult(

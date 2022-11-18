@@ -18,21 +18,22 @@ import com.ssafy.finalpjt.db.factory.GoalDAOFactory
 import com.ssafy.finalpjt.db.factory.GoalSubDAOFactory
 import java.lang.Exception
 import java.util.ArrayList
-private lateinit var binding: ActivityDetailUpdateBinding
 
-class DetailActivityUpdate constructor() : AppCompatActivity() {
+class DetailUpdateActivity : AppCompatActivity() {
     private var mCurrentGoalItem: Goal = Goal()
     private val mSubItemViewList: ArrayList<SubItemView> = ArrayList()
-    private var mCurrentGoalSubList=ArrayList<GoalSub>()
+    private var mCurrentGoalSubList = ArrayList<GoalSub>()
+    private lateinit var binding: ActivityDetailUpdateBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding=ActivityDetailUpdateBinding.inflate(layoutInflater)
+        binding = ActivityDetailUpdateBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 //        LL = findViewById(R.id.LL)
 //        etGoal = findViewById(R.id.etGoal)
 //        btnUpdate = findViewById(R.id.btn_update_complete)
-        val intent: Intent = getIntent()
+        val intent: Intent = intent
         mCurrentGoalItem = (intent.getSerializableExtra("EXTRA_GOAL") as Goal?)!!
         onGoalSubDataLoad(
             mCurrentGoalItem.goalTitle,
@@ -47,7 +48,7 @@ class DetailActivityUpdate constructor() : AppCompatActivity() {
                     }
                     GoalSubDAOFactory.updateGoalSub(applicationContext, goalSub)
                 }
-                mCurrentGoalItem.goalTitle=(binding.etGoal.text.toString())
+                mCurrentGoalItem.goalTitle = (binding.etGoal.text.toString())
                 GoalDAOFactory.updateGoal(applicationContext, mCurrentGoalItem)
                 setResult(RESULT_OK)
                 finish()
@@ -99,7 +100,7 @@ class DetailActivityUpdate constructor() : AppCompatActivity() {
                         }
                     }
             }).setCallback(object : GoalSubDataTask.TaskListener {
-                 override fun onComplete(data: List<GoalSub?>?) {
+                override fun onComplete(data: List<GoalSub?>?) {
                     if (data != null) {
                         var index: Int = 0
                         mCurrentGoalSubList = data as ArrayList<GoalSub>
