@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.Toast
 import com.ssafy.finalpjt.db.model.Goal
 import com.ssafy.finalpjt.db.model.GoalSub
 import androidx.appcompat.app.AppCompatActivity
@@ -29,7 +30,7 @@ class AddActivity : AppCompatActivity() {
         binding.addSubBtn.setOnClickListener { addSubView() }
         binding.btnDone.setOnClickListener(View.OnClickListener {
             if (binding.edtGoal.text.isEmpty()) {
-                return@OnClickListener
+                Toast.makeText(this, "최종목표를 추가해주세요", Toast.LENGTH_SHORT).show()
             }
             val goalTitle = binding.edtGoal.text.toString()
             try {

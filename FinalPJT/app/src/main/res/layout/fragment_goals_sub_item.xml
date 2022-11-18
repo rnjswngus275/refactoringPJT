@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/linear"
+        android:id="@+id/goal_sub_item_linearlayout"
         style="@style/SampleCard"
         android:layout_width="350dp"
         android:layout_height="wrap_content"

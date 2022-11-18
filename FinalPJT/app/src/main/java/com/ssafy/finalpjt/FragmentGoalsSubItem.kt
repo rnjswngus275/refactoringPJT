@@ -19,6 +19,6 @@ class FragmentGoalsSubItem : LinearLayout {
 
     private fun init(context: Context?) {
         val inflater = context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        inflater.inflate(R.layout.goals_sub_item_fragment, this, true)
+        inflater.inflate(R.layout.fragment_goals_sub_item, this, true)
     }
 }
