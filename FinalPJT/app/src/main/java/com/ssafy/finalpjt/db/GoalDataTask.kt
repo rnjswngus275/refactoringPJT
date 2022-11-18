@@ -1,6 +1,6 @@
 package com.ssafy.finalpjt.db
 
-import com.ssafy.finalpjt.db.model.Goal
+import com.ssafy.finalpjt.db.database.dto.Goal
 
 /**
  * db를 비동기로 가져오기 위함

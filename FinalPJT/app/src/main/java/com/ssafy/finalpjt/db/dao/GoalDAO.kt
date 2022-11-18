@@ -5,7 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.provider.BaseColumns
-import com.ssafy.finalpjt.db.model.Goal
+import com.ssafy.finalpjt.db.database.dto.Goal
 import com.ssafy.finalpjt.db.DBConst.GoalTable
 import java.lang.Exception
 import java.util.ArrayList
@@ -31,7 +31,7 @@ class GoalDAO(private val context: Context, private val mDatabase: SQLiteDatabas
         try {
             //최종목표의 seq값을 찾는 sql문을 만들어 삭제시킨다.
             val sql = "DELETE FROM IMPORT_DATA_GOAL WHERE _id=?"
-            val bindArgsInfo = arrayOf(info.indexNumber.toString())
+            val bindArgsInfo = arrayOf(info._id.toString())
             mDatabase!!.execSQL(sql, bindArgsInfo)
             return true
         } catch (e: Exception) {
@@ -45,10 +45,10 @@ class GoalDAO(private val context: Context, private val mDatabase: SQLiteDatabas
         try {
             val reportValue = ContentValues()
             if (info != null) {
-                reportValue.put(GoalTable.GOAL_TITLE, info.goalTitle)
+                reportValue.put(GoalTable.GOAL_TITLE, info.GoalTitle)
             }
             val whereClause = "_id=?"
-            val whereArgs = arrayOf(info?.indexNumber.toString())
+            val whereArgs = arrayOf(info?._id.toString())
             mDatabase!!.update(GoalTable.TABLE_NAME, reportValue, whereClause, whereArgs)
             return true
         } catch (e: Exception) {
@@ -80,12 +80,12 @@ class GoalDAO(private val context: Context, private val mDatabase: SQLiteDatabas
                             val _id = cursor.getInt(columnIndex)
                             if (_id >= 0) {
                                 val goal = Goal()
-                                goal.indexNumber = _id
+                                goal._id = _id
                                 columnIndex = cursor.getColumnIndex(GoalTable.GOAL_TITLE)
                                 var goalTitle: String? = ""
                                 if (columnIndex >= 0) {
                                     goalTitle = cursor.getString(columnIndex)
-                                    goal.goalTitle = goalTitle
+                                    goal.GoalTitle = goalTitle
                                 }
 
                                 //데이터  List add
@@ -104,7 +104,7 @@ class GoalDAO(private val context: Context, private val mDatabase: SQLiteDatabas
 
     fun setContentValue(goal: Goal): ContentValues {
         val calendarValues = ContentValues()
-        calendarValues.put(GoalTable.GOAL_TITLE, goal.goalTitle)
+        calendarValues.put(GoalTable.GOAL_TITLE, goal.GoalTitle)
         return calendarValues
     }
 }

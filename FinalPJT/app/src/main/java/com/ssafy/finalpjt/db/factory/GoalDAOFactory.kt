@@ -1,7 +1,7 @@
 package com.ssafy.finalpjt.db.factory
 
 import android.content.Context
-import com.ssafy.finalpjt.db.model.Goal
+import com.ssafy.finalpjt.db.database.dto.Goal
 import kotlin.Throws
 import com.ssafy.finalpjt.db.DbHelper
 import com.ssafy.finalpjt.db.dao.GoalDAO

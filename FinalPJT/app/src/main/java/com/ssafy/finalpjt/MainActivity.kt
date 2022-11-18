@@ -24,12 +24,12 @@ import androidx.fragment.app.FragmentTransaction
 import java.lang.Exception
 import java.util.*
 
-class MainActivity : AppCompatActivity(),
+class MainActivity constructor() : AppCompatActivity(),
     NavigationView.OnNavigationItemSelectedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        title = "당근과 채찍"
+        setTitle("당근과 채찍")
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { //OREO이상 버전 부터는 알림채널을 만들어주어야한다.
             val notificationManager: NotificationManager =
                 getSystemService(NOTIFICATION_SERVICE) as NotificationManager

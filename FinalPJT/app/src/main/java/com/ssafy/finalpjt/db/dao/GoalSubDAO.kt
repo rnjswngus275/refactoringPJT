@@ -5,7 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.provider.BaseColumns
-import com.ssafy.finalpjt.db.model.GoalSub
+import com.ssafy.finalpjt.db.database.dto.GoalSub
 import com.ssafy.finalpjt.db.DBConst.SubGoalTable
 import java.lang.Exception
 import java.util.ArrayList
@@ -31,10 +31,10 @@ class GoalSubDAO(private val context: Context, private val mDatabase: SQLiteData
         try {
             val reportValue = ContentValues()
             if (info != null) {
-                reportValue.put(SubGoalTable.SUBTITLE, info.subTitle)
+                reportValue.put(SubGoalTable.SUBTITLE, info.SubTitle)
             }
             val whereClause = "_id=?"
-            val whereArgs = arrayOf(info?.indexNumber.toString())
+            val whereArgs = arrayOf(info?._id.toString())
             mDatabase!!.update(SubGoalTable.TABLE_NAME, reportValue, whereClause, whereArgs)
             return true
         } catch (e: Exception) {
@@ -64,24 +64,24 @@ class GoalSubDAO(private val context: Context, private val mDatabase: SQLiteData
                         val _id = cursor.getInt(columnIndex)
                         if (_id >= 0) {
                             val goalSub = GoalSub()
-                            goalSub.indexNumber = _id
+                            goalSub._id = _id
                             columnIndex = cursor.getColumnIndex(SubGoalTable.ADDEDBYUSER)
                             var addedByUser: String? = ""
                             if (columnIndex >= 0) {
                                 addedByUser = cursor.getString(columnIndex)
-                                goalSub.addedByUser = addedByUser
+                                goalSub.GoalId = addedByUser
                             }
                             columnIndex = cursor.getColumnIndex(SubGoalTable.SUBTITLE)
                             var vihicleName: String? = ""
                             if (columnIndex >= 0) {
                                 vihicleName = cursor.getString(columnIndex)
-                                goalSub.subTitle = vihicleName
+                                goalSub.SubTitle = vihicleName
                             }
                             columnIndex = cursor.getColumnIndex(SubGoalTable.DISABLE)
                             var disable = 0
                             if (columnIndex >= 0) {
                                 disable = cursor.getInt(columnIndex)
-                                goalSub.disable = disable
+                                goalSub.Completed = disable
                             }
 
                             //데이터  List add
@@ -116,9 +116,9 @@ class GoalSubDAO(private val context: Context, private val mDatabase: SQLiteData
 
     fun setContentValue(goalSub: GoalSub): ContentValues {
         val calendarValues = ContentValues()
-        calendarValues.put(SubGoalTable.ADDEDBYUSER, goalSub.addedByUser)
-        calendarValues.put(SubGoalTable.SUBTITLE, goalSub.subTitle)
-        calendarValues.put(SubGoalTable.DISABLE, goalSub.disable)
+        calendarValues.put(SubGoalTable.ADDEDBYUSER, goalSub.GoalId)
+        calendarValues.put(SubGoalTable.SUBTITLE, goalSub.SubTitle)
+        calendarValues.put(SubGoalTable.DISABLE, goalSub.Completed)
         return calendarValues
     }
 }
