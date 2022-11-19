@@ -13,7 +13,7 @@ import androidx.fragment.app.FragmentManager
 import com.ssafy.finalpjt.R
 import com.ssafy.finalpjt.databinding.FragmentTodoBinding
 import java.util.*
-
+/*todo 보여주는 페이지*/
 class FragmentTodo : Fragment() {
     var cal: Calendar = Calendar.getInstance()
     var thisDay: Int = cal.get(Calendar.DAY_OF_MONTH)
@@ -62,10 +62,10 @@ class FragmentTodo : Fragment() {
 
         binding.addListBtn.setOnClickListener {
             Log.d("onclick", "clicked")
-            val addListFragment = AddListFragment()
-            addListFragment.getInstance(fragmentPageNow, binding.tabLayout, binding.btnLayout)
+            val addTodoListFragment = AddTodoListFragment()
+            addTodoListFragment.getInstance(fragmentPageNow, binding.tabLayout, binding.btnLayout)
             requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, addListFragment)
+                .replace(R.id.fragment_container, addTodoListFragment)
                 .addToBackStack(null).commit()
             binding.tabLayout.visibility = View.INVISIBLE
             binding.btnLayout.visibility = View.INVISIBLE

@@ -25,6 +25,12 @@ class GoalRepository (private val db: CarrotDatabase){
     suspend fun deleteGoal(goal: Goal)=db.withTransaction{
         goalDao.deleteGoal(goal)
     }
+    fun getGoalTitle(): LiveData<ArrayList<String>> {
+        return goalDao.getGoalTtitle()
+    }
+    fun getGoalId(title:String): Int {
+        return goalDao.getGoalId(title)
+    }
 
     companion object{
         private var INSTANCE : GoalRepository? =null

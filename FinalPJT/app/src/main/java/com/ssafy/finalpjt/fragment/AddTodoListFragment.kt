@@ -8,12 +8,21 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import com.ssafy.finalpjt.R
+import com.ssafy.finalpjt.database.dto.Todo
+import com.ssafy.finalpjt.database.repository.GoalRepository
+import com.ssafy.finalpjt.database.repository.TodoRepository
 import com.ssafy.finalpjt.databinding.AddlistLayoutBinding
-
-class AddListFragment : Fragment() {
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+/*todo 추가 페이지*/
+class AddTodoListFragment : Fragment() {
     private lateinit var binding: AddlistLayoutBinding
     private lateinit var mAdapter: ArrayAdapter<Any?>
-    private var questdata = arrayOf<String>()
+    private var questdata = ArrayList<String>()
+    private lateinit var goalRepository:GoalRepository
+    private lateinit var todoRepository: TodoRepository
+
     var prevPage: Int = 0
     var t: LinearLayout? = null
     var b: LinearLayout? = null
@@ -26,6 +35,8 @@ class AddListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val data: Bundle? = arguments
+        goalRepository=GoalRepository.get()
+        todoRepository=TodoRepository.get()
     }
 
     override fun onCreateView(
@@ -34,19 +45,26 @@ class AddListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = AddlistLayoutBinding.inflate(inflater, container, false)
+        goalRepository.getGoal()
+        goalRepository.getGoalTitle().observe(viewLifecycleOwner){
+            questdata =it
+        }
 
-        val dbHelper: DBHelper = DBHelper(requireContext(), "QuestApp.db", null, 1)
-        questdata = dbHelper.MainQuest().split("\n").toTypedArray()
 
         Log.e("quest", questdata.toString())
 
         initAdaper()
 
         binding.addBtn.setOnClickListener {
-            val quest = binding.spinner1.selectedItem.toString()
+            val goaltitle = binding.spinner1.selectedItem.toString()
             val date = ((binding.datePicker.month + 1) * 100) + binding.datePicker.dayOfMonth
-            val job = binding.job.text.toString()
-            dbHelper.insert(job, date, quest)
+            val todo = binding.job.text.toString()
+
+            val id=goalRepository.getGoalId(goaltitle)
+            var Todo= Todo(todo,date,id,0)
+            CoroutineScope(Dispatchers.IO).launch {
+                todoRepository.insertTodo(Todo)
+            }
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, FragmentTodoList.newInstance(prevPage))
                 .addToBackStack(null)
@@ -57,7 +75,7 @@ class AddListFragment : Fragment() {
     }
 
     private fun initAdaper() {
-        mAdapter = ArrayAdapter(requireContext(), R.layout.spin, questdata)
+        mAdapter = ArrayAdapter(requireContext(), R.layout.spin, questdata as List<Any?>)
         mAdapter.setDropDownViewResource(R.layout.spin_dropdown)
         binding.spinner1.adapter = mAdapter
     }

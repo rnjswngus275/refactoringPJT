@@ -12,13 +12,15 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import com.ssafy.finalpjt.R
 import com.ssafy.finalpjt.database.dto.Todo
+import com.ssafy.finalpjt.database.repository.TodoRepository
 import java.util.*
 
 class FragmentTodoList : Fragment() {
     var todoList = ArrayList<Todo>() //데이터베이스
     var myAdapter: MyAdapter? = null
-    var dbHelper: DBHelper? = null
     var num: Int = 0
+    private lateinit var todoRepository: TodoRepository
+
     private val color = intArrayOf(
         Color.parseColor("#e9f7e1"), Color.parseColor("#f4d9e3"),
         Color.parseColor("#fdf2d8"), Color.parseColor("#e5dee1"),
@@ -27,16 +29,25 @@ class FragmentTodoList : Fragment() {
         Color.parseColor("#d2efe3"), Color.parseColor("#d6e2fc")
     )
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        num = requireArguments().getInt(ARG_NO, 0)
+        todoRepository=TodoRepository.get()
+
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.today_todo_list, null)
-        dbHelper = DBHelper(view.context, "QuestApp.db", null, 1)
-        if (dbHelper!!.sortTodo(requireArguments().getInt(ARG_NO, 0)) !== "") {
-            createList()
+        todoRepository.getTodayTodo(num).observe(viewLifecycleOwner){
+                if(it!=null){
+                    createList()
+                }
         }
+
         myAdapter = MyAdapter(activity, todoList)
         val listView = view.findViewById<View>(R.id.today_todo_listview) as ListView
         listView.apply {
@@ -48,27 +59,14 @@ class FragmentTodoList : Fragment() {
     }
 
     private fun createList() {
-        val temp = dbHelper!!.sortTodo(requireArguments().getInt(ARG_NO, 0)).split("\n").toTypedArray()
-        val data = Array(5) { arrayOfNulls<String>(temp.size) }
-        for (i in temp.indices) {
-            for (k in 0..4) {
-                data[k][i] = temp[i].split("\\|").toTypedArray()[k]
-            }
-            todoList.add(
-                Todo(
-                    data[0][i]!!.toInt(),
-                    color[dbHelper!!.MainQuestIndex(data[3][i])],
-                    data[1][i],
-                    data[4][i]!!
-                        .toInt()
+        todoRepository.getTodayTodo(num).observe(viewLifecycleOwner){
+            for (i in it.indices) {
+                todoList.add(
+                    it[i]
                 )
-            )
+            }
         }
-    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        num = requireArguments().getInt(ARG_NO, 0)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
