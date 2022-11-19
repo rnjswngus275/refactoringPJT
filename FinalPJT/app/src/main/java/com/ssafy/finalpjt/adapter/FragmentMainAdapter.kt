@@ -10,12 +10,12 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.finalpjt.R
+import com.ssafy.finalpjt.database.dto.Goal
 import com.ssafy.finalpjt.db.model.Goal
 
 class FragmentMainAdapter() : RecyclerView.Adapter<FragmentMainAdapter.FragmentMainViewHolder>() {
-    var goalList = mutableListOf<Goal>()
+    var goalList : List<Goal> = emptyList()
     private var rPosition = RecyclerView.NO_POSITION
-    lateinit var dbHelper: DBHelper
     lateinit var itemClickListener: ItemClickListener
 
     //10번 인덱스까지 색상을 변경할 배경을 만들도록한다.
@@ -38,7 +38,7 @@ class FragmentMainAdapter() : RecyclerView.Adapter<FragmentMainAdapter.FragmentM
         val cardView: CardView = itemView.findViewById(R.id.cv)
 
         fun bindInfo(goal: Goal) {
-            maintext.text = goal.goalTitle
+            maintext.text = goal.GoalTitle
             progressNum.text = if (dbHelper!!.isMainQuestinRate(goal.goalTitle)) {
                 "0%"
             } else {

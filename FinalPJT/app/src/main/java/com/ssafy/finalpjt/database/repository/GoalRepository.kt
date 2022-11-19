@@ -13,8 +13,8 @@ class GoalRepository (private val db: CarrotDatabase){
 
     private val goalDao=db.goalDao()
 
-    fun getGoal():LiveData<Goal>{
-        return goalDao.getGoal()
+    fun getAllGoals():LiveData<MutableList<Goal>>{
+        return goalDao.getAllGoals()
     }
     suspend fun insertGoal(goal: Goal)=db.withTransaction{
         goalDao.insertGoal(goal)
@@ -37,7 +37,7 @@ class GoalRepository (private val db: CarrotDatabase){
 
         fun get() : GoalRepository {
             return INSTANCE ?:
-            throw IllegalStateException("NoteRepository must be initialized")
+            throw IllegalStateException("GoalRepository must be initialized")
         }
     }
 }

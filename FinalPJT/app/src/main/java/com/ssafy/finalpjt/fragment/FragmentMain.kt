@@ -12,17 +12,20 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ssafy.finalpjt.FragmentMainViewModel
 import com.ssafy.finalpjt.activity.AddActivity
 import com.ssafy.finalpjt.activity.DetailActivity
 import com.ssafy.finalpjt.adapter.FragmentMainAdapter
+import com.ssafy.finalpjt.database.dto.Goal
 import com.ssafy.finalpjt.databinding.FragmentMainBinding
-import com.ssafy.finalpjt.db.model.Goal
 
 class FragmentMain : Fragment() {
-    lateinit var fragmentMainAdapter: FragmentMainAdapter
     private var goalList: MutableList<Goal> = arrayListOf()
     private lateinit var binding: FragmentMainBinding
+    private lateinit var fragmentMainAdapter: FragmentMainAdapter
+    private val fragmentMainViewModel: FragmentMainViewModel by viewModels()
     private val launcher: ActivityResultLauncher<Intent> = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result: ActivityResult ->
@@ -31,7 +34,6 @@ class FragmentMain : Fragment() {
             onGoalDataLoad()
         }
     }
-    var dbHelper: DBHelper? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,8 +46,6 @@ class FragmentMain : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        dbHelper = DBHelper(view?.context, "QuestApp.db", null, 1)
 
         initAdapter()
 
@@ -72,14 +72,17 @@ class FragmentMain : Fragment() {
 
     private fun initAdapter() {
         fragmentMainAdapter = FragmentMainAdapter().apply {
-            this.goalList = this@FragmentMain.goalList
             this.itemClickListener = object : FragmentMainAdapter.ItemClickListener {
                 override fun onClick(view: View, position: Int) {
                     val intent = Intent(requireContext(), DetailActivity::class.java)
-                    intent.putExtra("EXTRA_GOAL", goalList[position])
+                    fragmentMainViewModel.setSelectedGoal(goalList[position])
                     launcher.launch(intent)
                 }
             }
+        }
+        fragmentMainViewModel.goalList.observe(viewLifecycleOwner) {
+            fragmentMainAdapter.goalList = it
+            fragmentMainAdapter.notifyDataSetChanged()
         }
     }
 
