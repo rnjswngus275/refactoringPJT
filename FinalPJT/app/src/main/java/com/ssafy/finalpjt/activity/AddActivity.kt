@@ -7,12 +7,18 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Toast
-import com.ssafy.finalpjt.db.model.Goal
-import com.ssafy.finalpjt.db.model.GoalSub
 import androidx.appcompat.app.AppCompatActivity
 import com.ssafy.finalpjt.R
 import com.ssafy.finalpjt.SubItemView
+import com.ssafy.finalpjt.database.dto.Goal
+import com.ssafy.finalpjt.database.dto.GoalSub
+import com.ssafy.finalpjt.database.repository.GoalRepository
+import com.ssafy.finalpjt.database.repository.GoalSubRepository
+import com.ssafy.finalpjt.database.repository.TodoRepository
 import com.ssafy.finalpjt.databinding.ActivityAddBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.lang.Exception
 import java.util.ArrayList
 
@@ -20,11 +26,14 @@ class AddActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddBinding
     private lateinit var mLinearLayout: LinearLayout
     private var mSubItemViewList = ArrayList<SubItemView>()
+    private lateinit var goalRepository: GoalRepository
+    private lateinit var goalSubRepository: GoalSubRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        goalRepository=GoalRepository.get()
         mLinearLayout = findViewById(R.id.addLinearLayout)
         addSubView()
         binding.addSubBtn.setOnClickListener { addSubView() }
@@ -34,17 +43,22 @@ class AddActivity : AppCompatActivity() {
             }
             val goalTitle = binding.edtGoal.text.toString()
             try {
-                var goal:Goal=Goal()
-                goal.goalTitle=goalTitle
-                val id = GoalDAOFactory.addGoal(applicationContext, goal)
-                if (id != -1L) {
+                var goal =Goal()
+
+                goal.GoalTitle=goalTitle
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    goalRepository.insertGoal(goal)
+                }
+                val id = goalRepository.getGoalId(goal.GoalTitle)
+                if (id != -1) {
                     // 최종목표 db에 성공적으로 저장되었으면 서브 타이틀 db에 데이터를 입력한다.
                     for (subItemView in mSubItemViewList) {
                         if (subItemView.etInput!!.text.isNotEmpty()) {
-                            GoalSubDAOFactory.addGoalSub(
-                                applicationContext,
-                                GoalSub(-1,id.toString(), subItemView.etInput!!.text.toString(), 0)
-                            )
+                            var goalsub= GoalSub(id,subItemView.etInput!!.text.toString(),0)
+                            CoroutineScope(Dispatchers.IO).launch {
+                                goalSubRepository.insertGoal(goalsub)
+                            }
                         }
                     }
                     setResult(RESULT_OK)
