@@ -8,12 +8,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.finalpjt.R
-import com.ssafy.finalpjt.StoreDTO
+import com.ssafy.finalpjt.database.dto.Shop
 
-class FragmentShopAdapter() : RecyclerView.Adapter<FragmentShopAdapter.FragmentShopViewHolder>() {
-    var itemList = mutableListOf<StoreDTO>()
+class FragmentShopAdapter : RecyclerView.Adapter<FragmentShopAdapter.FragmentShopViewHolder>() {
+    var itemList = mutableListOf<Shop>()
     lateinit var itemClickListener: ItemClickListener
-    private var rPosition = RecyclerView.NO_POSITION
+    lateinit var menuItemClickListener: MenuItemClickListener
 
     inner class FragmentShopViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
         View.OnCreateContextMenuListener
@@ -22,11 +22,11 @@ class FragmentShopAdapter() : RecyclerView.Adapter<FragmentShopAdapter.FragmentS
         var itemName: TextView = itemView.findViewById(R.id.store_item_tv)
         var itemPrice: TextView = itemView.findViewById(R.id.store_item_price_tv)
 
-        fun bindInfo(item: StoreDTO) {
-//            val resId = itemView.context.resources.getIdentifier("index" + (layoutPosition % 11), "drawable", itemView.context.packageName)
-            itemImage.setImageResource(item.image)
-            itemName.text = item.name
-            itemPrice.text = item.cost.toString()
+        fun bindInfo(item: Shop) {
+            val resId = itemView.context.resources.getIdentifier("index" + (layoutPosition % 11), "drawable", itemView.context.packageName)
+            itemImage.setImageResource(resId)
+            itemName.text = item.Item
+            itemPrice.text = item.Price.toString()
         }
 
         override fun onCreateContextMenu(
@@ -34,8 +34,11 @@ class FragmentShopAdapter() : RecyclerView.Adapter<FragmentShopAdapter.FragmentS
             v: View?,
             menuInfo: ContextMenu.ContextMenuInfo?
         ) {
-            rPosition = this.adapterPosition
-            menu?.add(0, 0, 0, "삭제")
+            val menuItem = menu?.add(0, 0, 0, "삭제")
+            menuItem?.setOnMenuItemClickListener {
+                menuItemClickListener.onClick(itemList[layoutPosition])
+                true
+            }
         }
     }
 
@@ -57,5 +60,7 @@ class FragmentShopAdapter() : RecyclerView.Adapter<FragmentShopAdapter.FragmentS
         fun onClick(view: View, position: Int)
     }
 
-    fun getPostion(): Int = rPosition
+    interface MenuItemClickListener {
+        fun onClick(item: Shop)
+    }
 }

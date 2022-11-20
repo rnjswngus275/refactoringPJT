@@ -1,22 +1,22 @@
 package com.ssafy.finalpjt.adapter
 
+import android.annotation.SuppressLint
 import android.graphics.Color
-import android.view.ContextMenu
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.finalpjt.R
 import com.ssafy.finalpjt.database.dto.Goal
-import com.ssafy.finalpjt.db.model.Goal
+import com.ssafy.finalpjt.database.repository.GoalSubRepository
 
-class FragmentMainAdapter() : RecyclerView.Adapter<FragmentMainAdapter.FragmentMainViewHolder>() {
+class FragmentMainAdapter : RecyclerView.Adapter<FragmentMainAdapter.FragmentMainViewHolder>() {
     var goalList : List<Goal> = emptyList()
-    private var rPosition = RecyclerView.NO_POSITION
     lateinit var itemClickListener: ItemClickListener
+    lateinit var menuItemClickListener: MenuItemClickListener
+    private var goalSubRepository = GoalSubRepository.get()
+
 
     //10번 인덱스까지 색상을 변경할 배경을 만들도록한다.
     private val cardViewBackGround = intArrayOf(
@@ -32,19 +32,29 @@ class FragmentMainAdapter() : RecyclerView.Adapter<FragmentMainAdapter.FragmentM
         init {
             itemView.setOnCreateContextMenuListener(this)
         }
-        val maintext: TextView = itemView.findViewById(R.id.item_maintext)
-        val progressNum: TextView = itemView.findViewById(R.id.percent_num_main)
-        val progressBar: ProgressBar = itemView.findViewById(R.id.progress_main)
-        val cardView: CardView = itemView.findViewById(R.id.cv)
+        private val mainText: TextView = itemView.findViewById(R.id.item_maintext)
+        private val progressNum: TextView = itemView.findViewById(R.id.percent_num_main)
+        private val progressBar: ProgressBar = itemView.findViewById(R.id.progress_main)
+        private val cardView: CardView = itemView.findViewById(R.id.cv)
 
+        @SuppressLint("SetTextI18n")
         fun bindInfo(goal: Goal) {
-            maintext.text = goal.GoalTitle
-            progressNum.text = if (dbHelper!!.isMainQuestinRate(goal.goalTitle)) {
-                "0%"
-            } else {
-                "${dbHelper!!.selectRate(goal.goalTitle)}%"
+            mainText.text = goal.GoalTitle
+
+            val subGoalList = goalSubRepository.getGoalSub(goal.id).value
+            var isCompleted = 0
+            var percent = 0
+            if (subGoalList != null) {
+                for (subGoal in subGoalList) {
+                    if (subGoal.Completed == 1) {
+                        isCompleted += 1
+                    }
+                }
+                percent = (isCompleted / subGoalList.size)
             }
-            progressBar.progress = dbHelper!!.selectRate(goal.goalTitle)
+
+            progressNum.text = "$percent%"
+            progressBar.progress = percent
             cardView.setBackgroundColor(cardViewBackGround[layoutPosition % 10])
 
             itemView.setOnClickListener {
@@ -57,8 +67,11 @@ class FragmentMainAdapter() : RecyclerView.Adapter<FragmentMainAdapter.FragmentM
             v: View?,
             menuInfo: ContextMenu.ContextMenuInfo?
         ) {
-            rPosition = this.adapterPosition
-            menu?.add(0, 0, 0, "삭제")
+            val menuItem = menu?.add(0, 0, 0, "삭제")
+            menuItem?.setOnMenuItemClickListener {
+                menuItemClickListener.onClick(goalList[layoutPosition])
+                true
+            }
         }
     }
 
@@ -81,5 +94,7 @@ class FragmentMainAdapter() : RecyclerView.Adapter<FragmentMainAdapter.FragmentM
         fun onClick(view: View, position: Int)
     }
 
-    fun getPosition(): Int = rPosition
+    interface MenuItemClickListener {
+        fun onClick(goal: Goal)
+    }
 }

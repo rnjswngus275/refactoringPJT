@@ -15,11 +15,15 @@ class UserRepository (private val db: CarrotDatabase){
 
     private val userDao=db.userDao()
 
-    fun getUser(id:Int): User {
+    fun getUser(id:Long): User {
         return userDao.getUser(id)
     }
     suspend fun insertUser(user: User)=db.withTransaction{
         userDao.insertUser(user)
+    }
+
+    suspend fun updateUser(user: User)=db.withTransaction {
+        userDao.updateUser(user)
     }
 
 

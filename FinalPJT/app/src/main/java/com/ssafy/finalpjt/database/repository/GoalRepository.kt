@@ -10,15 +10,20 @@ import com.ssafy.finalpjt.database.dto.Goal
 
 class GoalRepository (private val db: CarrotDatabase){
 
-
     private val goalDao=db.goalDao()
 
     fun getAllGoals():LiveData<MutableList<Goal>>{
         return goalDao.getAllGoals()
     }
-    suspend fun insertGoal(goal: Goal)=db.withTransaction{
-        goalDao.insertGoal(goal)
+
+    fun getGoal(id: Long): LiveData<Goal> {
+        return goalDao.getGoal(id)
     }
+
+    suspend fun insertGoal(goal: Goal)=db.withTransaction {
+        return@withTransaction goalDao.insertGoal(goal)
+    }
+
     suspend fun updateGoal(goal: Goal)=db.withTransaction{
         goalDao.updateGoal(goal)
     }

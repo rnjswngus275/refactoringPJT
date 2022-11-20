@@ -17,14 +17,14 @@ import androidx.room.PrimaryKey
 )
 
 data class GoalSub(
-    var GoalId: Int = -1,
+    var GoalId: Long = -1L,
     var SubTitle: String? = null,
     var Completed: Int = 0
 ){
     @PrimaryKey(autoGenerate = true)
-    var id :Int=0
+    var id :Long=0
 
-    constructor(id:Int,GoalId: Int,SubTitle:String,Completed: Int):this(GoalId,SubTitle,Completed){
+    constructor(id:Long,GoalId: Long,SubTitle:String,Completed: Int):this(GoalId,SubTitle,Completed){
         this.id=id
     }
 

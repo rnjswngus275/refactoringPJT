@@ -7,7 +7,7 @@ import com.ssafy.finalpjt.database.dto.GoalSub
 @Dao
 interface GoalSubDao {
     @Query("SELECT * FROM GoalSub WHERE GoalId=(:goalId)")
-    fun getGoalSub(goalId:Int): LiveData<ArrayList<GoalSub>>
+    fun getGoalSub(goalId:Long): LiveData<MutableList<GoalSub>>
 
     @Insert
     suspend fun insertGoalSub(goalSub: GoalSub)
@@ -17,5 +17,8 @@ interface GoalSubDao {
 
     @Delete
     suspend fun deleteGoalSub(goalSub: GoalSub)
+
+    @Query("DELETE FROM GoalSub WHERE id=(:id)")
+    suspend fun deleteGoalSubById(id: Long)
 
 }

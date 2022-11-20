@@ -2,7 +2,6 @@ package com.ssafy.finalpjt.database
 
 import android.app.Application
 import com.ssafy.finalpjt.database.repository.*
-import com.ssafy.finalpjt.db.database.repository.*
 
 class DatabaseApplicationClass: Application() {
     override fun onCreate() {
