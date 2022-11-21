@@ -23,7 +23,5 @@ interface UserDao {
     @Query("SELECT * FROM User WHERE UserName=(:name)")
     suspend fun getUserById(name:String): User
 
-    @Update
-    suspend fun updatePoint(user:User)
 
 }

@@ -30,11 +30,11 @@ class FragmentGoals : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var mainQuestList=ArrayList<Goal>()
-        goalRepository.getGoal().observe(viewLifecycleOwner){
+        var mainQuestList= mutableListOf<Goal>()
+        goalRepository.getAllGoals().observe(viewLifecycleOwner){
             mainQuestList=it
         }
-            val _id= ArrayList<Int> ()
+            val _id= ArrayList<Long> ()
         for(i in mainQuestList){
             _id.add(i.id)
         }

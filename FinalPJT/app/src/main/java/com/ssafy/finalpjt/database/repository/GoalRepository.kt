@@ -12,11 +12,8 @@ class GoalRepository (private val db: CarrotDatabase){
 
     private val goalDao=db.goalDao()
 
-    fun getAllGoals():LiveData<MutableList<Goal>>{
+    fun getAllGoals():LiveData<MutableList<Goal>> {
         return goalDao.getAllGoals()
-
-    fun getGoal():LiveData<ArrayList<Goal>>{
-        return goalDao.getGoal()
     }
 
     fun getGoal(id: Long): LiveData<Goal> {
@@ -33,7 +30,7 @@ class GoalRepository (private val db: CarrotDatabase){
     suspend fun deleteGoal(goal: Goal)=db.withTransaction{
         goalDao.deleteGoal(goal)
     }
-    fun getGoalTitle(): LiveData<ArrayList<String>> {
+    fun getGoalTitle(): LiveData<MutableList<String>> {
         return goalDao.getGoalTtitle()
     }
     fun getGoalId(title:String): Int {

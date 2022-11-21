@@ -14,14 +14,14 @@ import androidx.room.PrimaryKey
         )
     ])
 data class Todo(    var Todo: String = "",
-                    var Date: Int = 0,
+                    var Date: Long = 0,
                     var GoalId:Int=0,
                     var Completed: Int = 0) {
 
     @PrimaryKey(autoGenerate = true)
-    var id :Int=0
+    var id :Long=0
 
-    constructor(id:Int,Todo: String,Date: Int,GoalId: Int,Completed: Int):this(Todo,Date,GoalId,Completed){
+    constructor(id:Long,Todo: String,Date: Long,GoalId: Int,Completed: Int):this(Todo,Date,GoalId,Completed){
         this.id=id
     }
 }

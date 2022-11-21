@@ -17,6 +17,7 @@ class UserRepository (private val db: CarrotDatabase){
 
     fun getUser(id:Long): User {
         return userDao.getUser(id)
+    }
 
     fun getUser(): User {
         return userDao.getUser()
@@ -28,10 +29,6 @@ class UserRepository (private val db: CarrotDatabase){
 
     suspend fun getUserById(name:String)=db.withTransaction{
         userDao.getUserById(name)
-    }
-    
-    suspend fun updatePoint(user:User)=db.withTransaction{
-        userDao.updatePoint(user)
     }
 
 

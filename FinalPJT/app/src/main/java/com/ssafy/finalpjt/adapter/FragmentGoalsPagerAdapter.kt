@@ -10,8 +10,8 @@ import com.ssafy.finalpjt.fragment.FragmentGoalsItem
 class FragmentGoalsPagerAdapter(
     fm: FragmentManager, //tab의 갯수
     lifecycle: Lifecycle,
-    var id: ArrayList<Int>,
-    var mainQuestList: ArrayList<Goal>
+    var id: ArrayList<Long>,
+    var mainQuestList: MutableList<Goal>
 ) : FragmentStateAdapter(fm, lifecycle) {
 
     override fun getItemCount(): Int {

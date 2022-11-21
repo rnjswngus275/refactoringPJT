@@ -10,7 +10,7 @@ data class User(
     var Point:Int
 ){
     @PrimaryKey(autoGenerate = true)
-    var id :Int=0
+    var id :Long=0
 
     constructor(_id:Int,UserName: String,Point: Int):this(UserName,Point){
         this.id=id
