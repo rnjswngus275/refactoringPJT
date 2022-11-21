@@ -8,29 +8,33 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ssafy.finalpjt.adapter.FragmentGoalsItemAdapter
+import com.ssafy.finalpjt.database.dto.GoalSub
+import com.ssafy.finalpjt.database.repository.GoalRepository
+import com.ssafy.finalpjt.database.repository.GoalSubRepository
 import com.ssafy.finalpjt.databinding.FragmentGoalsItemBinding
 
 class FragmentGoalsItem : Fragment() {
-    var id: Long? = null
-    var main_: String? = null
+    var id: Int? = null
+    var maingoal: String? = null
     private var subQuestList: ArrayList<String> = arrayListOf()
     private lateinit var goalsItemAdapter: FragmentGoalsItemAdapter
     private lateinit var binding: FragmentGoalsItemBinding
-    private lateinit var dbHelper: DBHelper
+    private lateinit var goalSubRepository: GoalSubRepository
+    var goalsublist=ArrayList<GoalSub>()
 
-    fun getInstance(id: String, main: String?) {
-        this.id = id.toLong()
-        main_ = main
+    fun getInstance(id: Int, mainGoal: String?) {
+        this.id = id
+        maingoal = mainGoal
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        goalSubRepository=GoalSubRepository.get()
         binding = FragmentGoalsItemBinding.inflate(inflater, container, false)
-        dbHelper = DBHelper(requireContext(), "QuestApp.db", null, 1)
-        binding.progressBar.progress = dbHelper.selectRate(main_)
-        binding.percentNum.text = "${dbHelper.selectRate(main_)}%"
+        binding.progressBar.progress = getRate()
+        binding.percentNum.text = "${getRate()}%"
         return binding.root
     }
 
@@ -55,18 +59,26 @@ class FragmentGoalsItem : Fragment() {
                     compoundButton: CompoundButton,
                     isChecked: Boolean
                 ) {
-                    if (isChecked) {
 
-                    } else {
-
-                    }
-                    val percent = 50
-                    dbHelper.updateRate(main_, percent)
-                    binding.progressBar.progress = dbHelper.selectRate(main_)
-                    binding.percentNum.text = "$percent%"
+                    binding.progressBar.progress = getRate()
+                    binding.percentNum.text = "${getRate()}%"
                 }
             }
         }
+    }
+
+    private fun getRate():Int{
+        goalSubRepository.getGoalSub(id!!).observe(viewLifecycleOwner){
+            goalsublist=it
+        }
+        var total=goalsublist.size
+        var complete=0
+        for(i in goalsublist){
+            if(i.Completed==0){//미완
+                complete++
+            }
+        }
+        return complete/total
     }
 
 }

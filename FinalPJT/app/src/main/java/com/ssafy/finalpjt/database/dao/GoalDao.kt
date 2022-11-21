@@ -11,7 +11,7 @@ import com.ssafy.finalpjt.database.dto.Goal
 @Dao
 interface GoalDao {
     @Query("SELECT * FROM Goal")
-    fun getGoal(): LiveData<Goal>
+    fun getGoal(): LiveData<ArrayList<Goal>>
 
     @Insert
     suspend fun insertGoal(goal: Goal)

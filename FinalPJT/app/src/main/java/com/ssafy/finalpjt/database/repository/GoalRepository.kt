@@ -13,7 +13,7 @@ class GoalRepository (private val db: CarrotDatabase){
 
     private val goalDao=db.goalDao()
 
-    fun getGoal():LiveData<Goal>{
+    fun getGoal():LiveData<ArrayList<Goal>>{
         return goalDao.getGoal()
     }
     suspend fun insertGoal(goal: Goal)=db.withTransaction{
