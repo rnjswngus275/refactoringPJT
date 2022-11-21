@@ -12,13 +12,21 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import com.ssafy.finalpjt.R
 import com.ssafy.finalpjt.database.dto.Todo
+import com.ssafy.finalpjt.database.dto.User
+import com.ssafy.finalpjt.database.repository.TodoRepository
+import com.ssafy.finalpjt.database.repository.UserRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 
 class FragmentTodoList : Fragment() {
     var todoList = ArrayList<Todo>() //데이터베이스
     var myAdapter: MyAdapter? = null
-    var dbHelper: DBHelper? = null
     var num: Int = 0
+    private lateinit var todoRepository: TodoRepository
+    private lateinit var userRepository: UserRepository
+
     private val color = intArrayOf(
         Color.parseColor("#e9f7e1"), Color.parseColor("#f4d9e3"),
         Color.parseColor("#fdf2d8"), Color.parseColor("#e5dee1"),
@@ -27,16 +35,26 @@ class FragmentTodoList : Fragment() {
         Color.parseColor("#d2efe3"), Color.parseColor("#d6e2fc")
     )
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        num = requireArguments().getInt(ARG_NO, 0)
+        todoRepository=TodoRepository.get()
+        userRepository=UserRepository.get()
+
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.today_todo_list, null)
-        dbHelper = DBHelper(view.context, "QuestApp.db", null, 1)
-        if (dbHelper!!.sortTodo(requireArguments().getInt(ARG_NO, 0)) !== "") {
-            createList()
+        todoRepository.getTodayTodo(num).observe(viewLifecycleOwner){
+                if(it!=null){
+                    createList()
+                }
         }
+
         myAdapter = MyAdapter(activity, todoList)
         val listView = view.findViewById<View>(R.id.today_todo_listview) as ListView
         listView.apply {
@@ -48,27 +66,14 @@ class FragmentTodoList : Fragment() {
     }
 
     private fun createList() {
-        val temp = dbHelper!!.sortTodo(requireArguments().getInt(ARG_NO, 0)).split("\n").toTypedArray()
-        val data = Array(5) { arrayOfNulls<String>(temp.size) }
-        for (i in temp.indices) {
-            for (k in 0..4) {
-                data[k][i] = temp[i].split("\\|").toTypedArray()[k]
-            }
-            todoList.add(
-                Todo(
-                    data[0][i]!!.toInt(),
-                    color[dbHelper!!.MainQuestIndex(data[3][i])],
-                    data[1][i],
-                    data[4][i]!!
-                        .toInt()
+        todoRepository.getTodayTodo(num).observe(viewLifecycleOwner){
+            for (i in it.indices) {
+                todoList.add(
+                    it[i]
                 )
-            )
+            }
         }
-    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        num = requireArguments().getInt(ARG_NO, 0)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -98,26 +103,39 @@ class FragmentTodoList : Fragment() {
             val shape = questcolor.background as GradientDrawable
             val todoThing = view.findViewById<View>(R.id.todo_thing) as TextView
             val isDone = view.findViewById<View>(R.id.isDone) as CheckBox
-            shape.setColor(sample[position].quest)
-            todoThing.text = sample[position].job
-            isDone.isChecked = sample[position].isChecked
+            shape.setColor(sample[position].GoalId)
+            todoThing.text = sample[position].Todo
+            isDone.isChecked = if(sample[position].Completed==1) true else false
             sort()
             isDone.setOnCheckedChangeListener { buttonView, isChecked ->
+                var user=userRepository.getUser()
                 if (isChecked) {
-                    dbHelper!!.plusUserPoint(10)
+
+                    var updateuser= User(user.UserName,user.Point+10)
+                    CoroutineScope(Dispatchers.IO).launch {
+                        userRepository.updatePoint(updateuser)
+                    }
                     Toast.makeText(
                         requireContext(),
                         "10포인트가 적립되었습니다.",
                         Toast.LENGTH_LONG
                     ).show()
-                    val dbHelper = DBHelper(view.context, "QuestApp.db", null, 1)
-                    dbHelper.updateisDone(sample[position].id, 1)
-                    sample[position].isChecked = true
+                    var todo=Todo(sample[position].Todo,sample[position].Date,sample[position].GoalId,1)
+                    CoroutineScope(Dispatchers.IO).launch {
+                        todoRepository.updateCompleted(todo)
+                    }
+                    sample[position].Completed = 1
                 } else {
-                    dbHelper!!.minusUserPoint(10)
-                    val dbHelper = DBHelper(view.context, "QuestApp.db", null, 1)
-                    dbHelper.updateisDone(sample[position].id, 0)
-                    sample[position].isChecked = false
+                    var updateuser=User(user.UserName,user.Point-10)
+                    CoroutineScope(Dispatchers.IO).launch {
+                        userRepository.updatePoint(updateuser)
+                    }
+                    var todo=Todo(sample[position].Todo,sample[position].Date,sample[position].GoalId,0)
+                    CoroutineScope(Dispatchers.IO).launch {
+                        todoRepository.updateCompleted(todo)
+                    }
+                    sample[position].Completed = 0
+
                 }
                 sort()
                 myAdapter!!.notifyDataSetChanged()
@@ -129,10 +147,10 @@ class FragmentTodoList : Fragment() {
             sample.sortWith(Comparator { o1, o2 -> //수행 여부로 정렬
                 //메인퀘스트로 한번 더 정렬해야됨
                 var x = 0
-                if (o1.isDone < o2.isDone) {
+                if (o1.Completed < o2.Completed) {
                     x = -1
-                } else if (o1.isDone == o2.isDone) {
-                    if (o1.quest < o2.quest) {
+                } else if (o1.Completed == o2.Completed) {
+                    if (o1.GoalId < o2.GoalId) {
                         x = -1
                     }
                 }

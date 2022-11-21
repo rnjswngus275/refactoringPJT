@@ -10,8 +10,11 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.ssafy.finalpjt.R
 import com.ssafy.finalpjt.adapter.FragmentGoalsPagerAdapter
+import com.ssafy.finalpjt.database.dto.Goal
+import com.ssafy.finalpjt.database.repository.GoalRepository
 
 class FragmentGoals : Fragment() {
+    private lateinit var goalRepository: GoalRepository
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -19,6 +22,7 @@ class FragmentGoals : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         super.onCreate(savedInstanceState)
+        goalRepository=GoalRepository.get()
 
         return inflater.inflate(R.layout.fragment_goals, container, false)
     }
@@ -26,9 +30,14 @@ class FragmentGoals : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val dbHelper = DBHelper(view.context, "QuestApp.db", null, 1)
-        val mainQuestList: Array<String> = dbHelper.MainQuest().split("\n").toTypedArray()
-        val _id: Array<String> = dbHelper.addedByUser().split("\n").toTypedArray()
+        var mainQuestList=ArrayList<Goal>()
+        goalRepository.getGoal().observe(viewLifecycleOwner){
+            mainQuestList=it
+        }
+            val _id= ArrayList<Int> ()
+        for(i in mainQuestList){
+            _id.add(i.id)
+        }
 
         val tabLayout: TabLayout = view.findViewById<View>(R.id.tabs) as TabLayout
         tabLayout.tabGravity = TabLayout.GRAVITY_FILL
@@ -39,7 +48,7 @@ class FragmentGoals : Fragment() {
         }
 
         TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
-            tab.text = mainQuestList[position]
+            tab.text = mainQuestList[position].GoalTitle
         }
     }
 }

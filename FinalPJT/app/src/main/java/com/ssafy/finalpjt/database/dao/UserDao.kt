@@ -11,10 +11,19 @@ interface UserDao {
     @Query("SELECT * FROM User WHERE id=(:id)")
     fun getUser(id:Long): User
 
+    @Query("SELECT * FROM User ")
+    fun getUser(): User
+
     @Insert
     suspend fun insertUser(user: User)
 
     @Update
     suspend fun updateUser(user: User)
+
+    @Query("SELECT * FROM User WHERE UserName=(:name)")
+    suspend fun getUserById(name:String): User
+
+    @Update
+    suspend fun updatePoint(user:User)
 
 }

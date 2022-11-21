@@ -20,6 +20,9 @@ class TodoRepository (private val db: CarrotDatabase){
     suspend fun insertTodo(todo: Todo)=db.withTransaction{
         todoDao.insertTodo(todo)
     }
+    suspend fun updateCompleted(todo :Todo)=db.withTransaction{
+        todoDao.updateCompleted(todo)
+    }
 
 
     companion object{

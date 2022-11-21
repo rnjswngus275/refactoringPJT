@@ -17,6 +17,9 @@ import com.ssafy.finalpjt.adapter.AddAdapter
 import com.ssafy.finalpjt.database.dto.Goal
 import com.ssafy.finalpjt.database.dto.GoalSub
 import com.ssafy.finalpjt.databinding.ActivityAddBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.lang.Exception
 import kotlin.collections.ArrayList
 
