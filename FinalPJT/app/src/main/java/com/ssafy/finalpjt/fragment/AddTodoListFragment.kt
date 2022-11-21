@@ -15,11 +15,14 @@ import com.ssafy.finalpjt.databinding.AddlistLayoutBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
+import kotlin.collections.ArrayList
+
 /*todo 추가 페이지*/
 class AddTodoListFragment : Fragment() {
     private lateinit var binding: AddlistLayoutBinding
     private lateinit var mAdapter: ArrayAdapter<Any?>
-    private var questdata = ArrayList<String>()
+    private var questdata = mutableListOf<String>()
     private lateinit var goalRepository:GoalRepository
     private lateinit var todoRepository: TodoRepository
 
@@ -45,7 +48,7 @@ class AddTodoListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = AddlistLayoutBinding.inflate(inflater, container, false)
-        goalRepository.getGoal()
+
         goalRepository.getGoalTitle().observe(viewLifecycleOwner){
             questdata =it
         }
@@ -56,8 +59,11 @@ class AddTodoListFragment : Fragment() {
         initAdaper()
 
         binding.addBtn.setOnClickListener {
+            var cal:Calendar=Calendar.getInstance()
             val goaltitle = binding.spinner1.selectedItem.toString()
-            val date = ((binding.datePicker.month + 1) * 100) + binding.datePicker.dayOfMonth
+            cal.set(binding.datePicker.year,binding.datePicker.month ,binding.datePicker.dayOfMonth)
+            var date=cal.timeInMillis
+
             val todo = binding.job.text.toString()
 
             val id=goalRepository.getGoalId(goaltitle)

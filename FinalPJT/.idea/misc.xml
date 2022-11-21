@@ -3,10 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/multicampus/Documents/finalPJT/FinalPJT/app/src/main/res/layout/activity_add.xml" value="0.2726449275362319" />
         <entry key="..\:/Users/multicampus/Documents/finalPJT/FinalPJT/app/src/main/res/layout/activity_detail.xml" value="0.21014492753623187" />
         <entry key="..\:/Users/multicampus/Documents/finalPJT/FinalPJT/app/src/main/res/layout/activity_detail_update.xml" value="0.24547101449275363" />
         <entry key="..\:/Users/multicampus/Documents/finalPJT/FinalPJT/app/src/main/res/layout/activity_main.xml" value="0.2833333333333333" />
-        <entry key="..\:/Users/multicampus/Documents/finalPJT/FinalPJT/app/src/main/res/layout/addlist_layout.xml" value="0.17603850050658562" />
+        <entry key="..\:/Users/multicampus/Documents/finalPJT/FinalPJT/app/src/main/res/layout/addlist_layout.xml" value="0.33" />
         <entry key="..\:/Users/multicampus/Documents/finalPJT/FinalPJT/app/src/main/res/layout/content_main.xml" value="0.26992753623188404" />
         <entry key="..\:/Users/multicampus/Documents/finalPJT/FinalPJT/app/src/main/res/layout/fragment_goals.xml" value="0.26992753623188404" />
         <entry key="..\:/Users/multicampus/Documents/finalPJT/FinalPJT/app/src/main/res/layout/fragment_todo.xml" value="0.25226449275362317" />
@@ -15,6 +16,7 @@
         <entry key="..\:/Users/multicampus/Documents/finalPJT/FinalPJT/app/src/main/res/layout/goals_fragment_list.xml" value="0.13779128672745694" />
         <entry key="..\:/Users/multicampus/Documents/finalPJT/FinalPJT/app/src/main/res/layout/goals_holder.xml" value="0.26992753623188404" />
         <entry key="..\:/Users/multicampus/Documents/finalPJT/FinalPJT/app/src/main/res/layout/listfragment.xml" value="0.254981884057971" />
+        <entry key="..\:/Users/multicampus/Documents/finalPJT/FinalPJT/app/src/main/res/layout/nav_header_main.xml" value="0.67" />
         <entry key="..\:/Users/multicampus/Documents/finalPJT/FinalPJT/app/src/main/res/layout/singer_shop_item.xml" value="0.22916666666666666" />
         <entry key="..\:/Users/multicampus/Documents/finalPJT/FinalPJT/app/src/main/res/layout/today_todo.xml" value="0.2554347826086957" />
       </map>

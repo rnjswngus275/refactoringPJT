@@ -23,7 +23,7 @@ import java.util.*
 class FragmentTodoList : Fragment() {
     var todoList = ArrayList<Todo>() //데이터베이스
     var myAdapter: MyAdapter? = null
-    var num: Int = 0
+    var num: Long = 0
     private lateinit var todoRepository: TodoRepository
     private lateinit var userRepository: UserRepository
 
@@ -37,7 +37,7 @@ class FragmentTodoList : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        num = requireArguments().getInt(ARG_NO, 0)
+        num = requireArguments().getLong(ARG_NO, 0)
         todoRepository=TodoRepository.get()
         userRepository=UserRepository.get()
 
@@ -78,7 +78,7 @@ class FragmentTodoList : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        num = requireArguments().getInt(ARG_NO, 0)
+        num = requireArguments().getLong(ARG_NO, 0)
     }
 
     inner class MyAdapter(context: Context?, data: ArrayList<Todo>) : BaseAdapter() {
@@ -113,7 +113,7 @@ class FragmentTodoList : Fragment() {
 
                     var updateuser= User(user.UserName,user.Point+10)
                     CoroutineScope(Dispatchers.IO).launch {
-                        userRepository.updatePoint(updateuser)
+                        userRepository.updateUser(updateuser)
                     }
                     Toast.makeText(
                         requireContext(),
@@ -128,7 +128,7 @@ class FragmentTodoList : Fragment() {
                 } else {
                     var updateuser=User(user.UserName,user.Point-10)
                     CoroutineScope(Dispatchers.IO).launch {
-                        userRepository.updatePoint(updateuser)
+                        userRepository.updateUser(updateuser)
                     }
                     var todo=Todo(sample[position].Todo,sample[position].Date,sample[position].GoalId,0)
                     CoroutineScope(Dispatchers.IO).launch {

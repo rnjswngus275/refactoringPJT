@@ -7,8 +7,8 @@ import com.ssafy.finalpjt.database.dto.Todo
 @Dao
 
 interface TodoDao {
-    @Query("SELECT * FROM Todo WHERE Date=(:date)")
-    fun getTodayTodo(date:Int):LiveData<MutableList<Todo>>
+    @Query("SELECT * FROM Todo WHERE Date=(:date) ORDER BY Completed ASC")
+    fun getTodayTodo(date:Long):LiveData<MutableList<Todo>>
 
     @Insert
     suspend fun insertTodo(todo: Todo)

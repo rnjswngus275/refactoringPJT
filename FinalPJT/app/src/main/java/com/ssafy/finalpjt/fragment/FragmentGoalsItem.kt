@@ -14,15 +14,15 @@ import com.ssafy.finalpjt.database.repository.GoalSubRepository
 import com.ssafy.finalpjt.databinding.FragmentGoalsItemBinding
 
 class FragmentGoalsItem : Fragment() {
-    var id: Int? = null
+    var id: Long? = null
     var maingoal: String? = null
     private var subQuestList: ArrayList<String> = arrayListOf()
     private lateinit var goalsItemAdapter: FragmentGoalsItemAdapter
     private lateinit var binding: FragmentGoalsItemBinding
     private lateinit var goalSubRepository: GoalSubRepository
-    var goalsublist=ArrayList<GoalSub>()
+    var goalsublist= mutableListOf<GoalSub>()
 
-    fun getInstance(id: Int, mainGoal: String?) {
+    fun getInstance(id: Long, mainGoal: String?) {
         this.id = id
         maingoal = mainGoal
     }

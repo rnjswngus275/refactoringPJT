@@ -26,7 +26,7 @@ interface GoalDao {
     suspend fun deleteGoal(goal: Goal)
 
     @Query("SELECT GoalTitle FROM Goal")
-    fun getGoalTtitle():LiveData<ArrayList<String>>
+    fun getGoalTtitle():LiveData<MutableList<String>>
 
     @Query("SELECT id FROM Goal WHERE GoalTitle=(:goaltitle)")
     fun getGoalId(goaltitle:String):Int
