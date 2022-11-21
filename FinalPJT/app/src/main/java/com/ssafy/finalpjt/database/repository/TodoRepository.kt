@@ -14,7 +14,7 @@ class TodoRepository (private val db: CarrotDatabase){
 
     private val todoDao=db.todoDao()
 
-    fun getTodayTodo(date:Int):LiveData<ArrayList<Todo>>{
+    fun getTodayTodo(date:Int):LiveData<MutableList<Todo>>{
         return todoDao.getTodayTodo(date)
     }
     suspend fun insertTodo(todo: Todo)=db.withTransaction{

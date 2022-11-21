@@ -14,17 +14,21 @@ class GoalSubRepository (private val db: CarrotDatabase){
 
     private val goalsubDao=db.goalSubDao()
 
-    fun getGoalSub(goalId:Int):LiveData<ArrayList<GoalSub>>{
+    fun getGoalSub(goalId:Long):LiveData<MutableList<GoalSub>>{
         return goalsubDao.getGoalSub(goalId)
     }
-    suspend fun insertGoal(goalSub: GoalSub)=db.withTransaction{
+    suspend fun insertGoalSub(goalSub: GoalSub)=db.withTransaction{
         goalsubDao.insertGoalSub(goalSub)
     }
-    suspend fun updateGoal(goalSub: GoalSub)=db.withTransaction{
+    suspend fun updateGoalSub(goalSub: GoalSub)=db.withTransaction{
         goalsubDao.updateGoalSub(goalSub)
     }
-    suspend fun deleteGoal(goalSub: GoalSub)=db.withTransaction{
+    suspend fun deleteGoalSub(goalSub: GoalSub)=db.withTransaction{
         goalsubDao.deleteGoalSub(goalSub)
+    }
+
+    suspend fun deleteGoalSubById(id: Long)=db.withTransaction {
+        goalsubDao.deleteGoalSubById(id)
     }
 
     companion object{

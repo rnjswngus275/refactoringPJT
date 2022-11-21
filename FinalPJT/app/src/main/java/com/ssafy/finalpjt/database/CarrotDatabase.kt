@@ -5,7 +5,6 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.ssafy.finalpjt.database.dao.*
 import com.ssafy.finalpjt.database.dto.*
-
 import kotlinx.coroutines.CoroutineScope
 
 private const val DATABASE_NAME = "Carrot"

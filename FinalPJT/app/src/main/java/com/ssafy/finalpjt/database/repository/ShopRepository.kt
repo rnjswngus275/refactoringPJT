@@ -14,7 +14,7 @@ class ShopRepository (private val db: CarrotDatabase){
 
     private val shopDao=db.shopDao()
 
-    fun getShop():LiveData<ArrayList<Shop>>{
+    fun getShop():LiveData<MutableList<Shop>>{
         return shopDao.getShop()
     }
     suspend fun insertShop(shop: Shop)=db.withTransaction{

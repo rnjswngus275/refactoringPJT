@@ -8,9 +8,9 @@ data class Goal (
     var GoalTitle: String=""
 ) {
     @PrimaryKey(autoGenerate = true)
-    var id :Int=0
+    var id :Long=0
 
-    constructor(id:Int,GoalTitle: String):this(GoalTitle){
+    constructor(id:Long,GoalTitle: String):this(GoalTitle){
         this.id=id
     }
 }

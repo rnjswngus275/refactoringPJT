@@ -7,60 +7,85 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.ssafy.finalpjt.AddActivityViewModel
 import com.ssafy.finalpjt.R
 import com.ssafy.finalpjt.SubItemView
+import com.ssafy.finalpjt.adapter.AddAdapter
 import com.ssafy.finalpjt.database.dto.Goal
 import com.ssafy.finalpjt.database.dto.GoalSub
-import com.ssafy.finalpjt.database.repository.GoalRepository
-import com.ssafy.finalpjt.database.repository.GoalSubRepository
-import com.ssafy.finalpjt.database.repository.TodoRepository
 import com.ssafy.finalpjt.databinding.ActivityAddBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Exception
-import java.util.ArrayList
+import kotlin.collections.ArrayList
 
 class AddActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddBinding
-    private lateinit var mLinearLayout: LinearLayout
-    private var mSubItemViewList = ArrayList<SubItemView>()
-    private lateinit var goalRepository: GoalRepository
-    private lateinit var goalSubRepository: GoalSubRepository
+    private lateinit var addAdapter: AddAdapter
+    private val addActivityViewModel: AddActivityViewModel by viewModels()
+    private var mSubGoalList: MutableList<GoalSub> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        goalRepository=GoalRepository.get()
-        mLinearLayout = findViewById(R.id.addLinearLayout)
-        addSubView()
-        binding.addSubBtn.setOnClickListener { addSubView() }
+
+        initAdapter()
+
+        initObserve()
+
+        initView()
+    }
+
+    private fun initAdapter() {
+        addAdapter = AddAdapter().apply {
+            this.menuItemClickListener = object : AddAdapter.MenuItemClickListener {
+                override fun onClick(position: Int) {
+                    mSubGoalList.removeAt(position)
+                    addActivityViewModel.setSubGoalList(mSubGoalList)
+                }
+            }
+        }
+    }
+
+    private fun initObserve() {
+        addActivityViewModel.subGoalList.observe(this) {
+            addAdapter.subGoalList = it
+            addAdapter.notifyDataSetChanged()
+        }
+
+        addActivityViewModel.setSubGoalList(mSubGoalList)
+    }
+
+    private fun initView() {
+        binding.addRecyclerView.apply {
+            adapter = addAdapter
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        }
+
+        binding.addSubBtn.setOnClickListener {
+            mSubGoalList.add(GoalSub())
+            addActivityViewModel.setSubGoalList(mSubGoalList)
+        }
+
         binding.btnDone.setOnClickListener(View.OnClickListener {
-            if (binding.edtGoal.text.isEmpty()) {
+            if (binding.goalEt.text.isEmpty()) {
                 Toast.makeText(this, "최종목표를 추가해주세요", Toast.LENGTH_SHORT).show()
             }
-            val goalTitle = binding.edtGoal.text.toString()
+            val goalTitle = binding.goalEt.text.toString()
             try {
-                var goal =Goal()
-
-                goal.GoalTitle=goalTitle
-
-                CoroutineScope(Dispatchers.IO).launch {
-                    goalRepository.insertGoal(goal)
-                }
-                val id = goalRepository.getGoalId(goal.GoalTitle)
-                if (id != -1) {
+                val goal = Goal()
+                goal.GoalTitle = goalTitle
+                val goalId = addActivityViewModel.insertGoal(goal)
+                if (goalId != -1L) {
                     // 최종목표 db에 성공적으로 저장되었으면 서브 타이틀 db에 데이터를 입력한다.
-                    for (subItemView in mSubItemViewList) {
-                        if (subItemView.etInput!!.text.isNotEmpty()) {
-                            var goalsub= GoalSub(id,subItemView.etInput!!.text.toString(),0)
-                            CoroutineScope(Dispatchers.IO).launch {
-                                goalSubRepository.insertGoal(goalsub)
-                            }
-                        }
-                    }
+                    addActivityViewModel.insertSubGoalList(goalId,
+                        mSubGoalList as ArrayList<GoalSub>
+                    )
                     setResult(RESULT_OK)
                     finish()
                 }
@@ -68,28 +93,10 @@ class AddActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
         })
-        binding.btnNo.setOnClickListener {
+
+        binding.btnCancel.setOnClickListener {
             finish()
         }
     }
 
-    private val childView: View
-        get() {
-            val childView =
-                LayoutInflater.from(applicationContext).inflate(R.layout.item_sub_goal_holder, null)
-            val params = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-            params.weight = 1f
-            childView.layoutParams = params
-            return childView
-        }
-
-    private fun addSubView() {
-        val childView = childView
-        val etSubGoal = childView.findViewById<View>(R.id.EditText2) as EditText
-        mSubItemViewList.add(SubItemView(etSubGoal))
-        mLinearLayout.addView(childView)
-    }
 }

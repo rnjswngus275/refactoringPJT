@@ -9,7 +9,7 @@ import com.ssafy.finalpjt.database.dto.Shop
 @Dao
 interface ShopDao {
     @Query("SELECT * FROM Shop")
-    fun getShop(): LiveData<ArrayList<Shop>>
+    fun getShop(): LiveData<MutableList<Shop>>
 
     @Insert
     suspend fun insertShop(shop: Shop)
