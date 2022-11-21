@@ -14,7 +14,7 @@ class FragmentShopViewModel(var id: Long) : ViewModel() {
     private val userRepository = UserRepository.get()
     private val shopRepository = ShopRepository.get()
 
-    val shopList: LiveData<ArrayList<Shop>> = shopRepository.getShop()
+    val shopList: LiveData<MutableList<Shop>> = shopRepository.getShop()
 
     fun insertShop(item: Shop) {
         viewModelScope.launch {

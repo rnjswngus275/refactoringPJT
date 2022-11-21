@@ -16,7 +16,7 @@ class DetailActivityViewModel(id: Long) : ViewModel() {
     private var goalSubRepository = GoalSubRepository.get()
 
     val goal: LiveData<Goal>
-    val originalSubGoalList: LiveData<ArrayList<GoalSub>>
+    val originalSubGoalList: LiveData<MutableList<GoalSub>>
 
     init {
         goal = goalRepository.getGoal(id)
