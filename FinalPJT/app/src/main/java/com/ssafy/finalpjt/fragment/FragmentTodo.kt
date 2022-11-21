@@ -14,11 +14,13 @@ import com.ssafy.finalpjt.R
 import com.ssafy.finalpjt.databinding.FragmentTodoBinding
 import java.util.*
 /*todo 보여주는 페이지*/
+private const val TAG = "FragmentTodo"
 class FragmentTodo : Fragment() {
     var cal: Calendar = Calendar.getInstance()
+    var thisYear:Int=cal.get(Calendar.YEAR)
     var thisDay: Int = cal.get(Calendar.DAY_OF_MONTH)
-    var thisMonth: Int = cal.get(Calendar.MONTH) + 1
-    var date: Int = (thisMonth * 100) + thisDay
+    var thisMonth: Int = cal.get(Calendar.MONTH)
+    var date: Long =0L
     var fragmentPageNow: Int = 0
     private var monthList: Array<String?> =
         arrayOf("1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월")
@@ -37,7 +39,12 @@ class FragmentTodo : Fragment() {
             }
             mNumber = count
         }
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        cal.set(cal.get(Calendar.YEAR),thisMonth,thisDay)
+        date= cal.timeInMillis
+        Log.d(TAG, "thisyear: $thisYear vs ${cal.get(Calendar.YEAR)}")
+        super.onCreate(savedInstanceState)
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -50,15 +57,16 @@ class FragmentTodo : Fragment() {
         if (savedInstanceState == null) { //초기 프레그먼트 생성
             Log.d("enterIf", "savedInstanceState=null")
             requireActivity().supportFragmentManager.beginTransaction()
-                .add(R.id.fragment_container, FragmentTodoList.newInstance(date), FRAGMENT_TAG)
+                .add(R.id.fragment_container, FragmentTodoList.newInstance(((date/1000/60/60/24)-1).toInt()), FRAGMENT_TAG)
                 .addToBackStack(null)
                 .commit()
-            fragmentPageNow = thisDay
+            fragmentPageNow = (date/1000/60/60/24).toInt()
+            Log.d(TAG, "onCreateView: fragmentapgeNow : $fragmentPageNow")
         }
-
+        initAdapter()
         createBtn(binding.tabWidget)
 
-        initAdapter()
+
 
         binding.addListBtn.setOnClickListener {
             Log.d("onclick", "clicked")
@@ -93,18 +101,27 @@ class FragmentTodo : Fragment() {
         for (i in 0 until cal.getActualMaximum(Calendar.DAY_OF_MONTH)) { //해당월의 날짜 수 만큼 버튼 생성
             val btn: Button = Button(requireContext()) //버튼 생성
             btn.text = (i + 1).toString() + "일"
-            btn.id = (thisMonth * 100) + (i + 1)
+            cal.set(thisYear,thisMonth,i)
+//            Log.d(TAG, " year: ${thisYear}")
+//            Log.d(TAG, "month: $thisMonth")
+//            Log.d(TAG, "day: $i")
+            var id=(cal.timeInMillis/1000/60/60/24).toInt()
+            btn.id = id
+//            Log.d(TAG, "createBtn: $id")
             btn.background = ContextCompat.getDrawable(requireContext(), R.drawable.day_btn)
+
             btn.setOnClickListener {
-                fragmentPageNow = btn.id % 100
+                cal.timeInMillis=btn.id.toLong()
+                fragmentPageNow =(date/1000/60/60/24).toInt()
                 btn.isFocusableInTouchMode = true
                 btn.requestFocus()
                 Log.e("test", "focus" + btn.isFocused)
             }
             btn.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
                 if (hasFocus) {
+                    Log.d(TAG, "createBtn: view id로  callfragment ${view.id}")
                     callFragment(view.id)
-                    Log.e("left", "position" + btn.left)
+//                    Log.d(TAG, "position" + btn.left)
                     binding.btnScroll.scrollTo(btn.left - 231, 0)
                     view.background = ContextCompat.getDrawable(
                         requireContext(),
@@ -121,8 +138,11 @@ class FragmentTodo : Fragment() {
             }
             tabWidgetLayout.addView(btn)
         }
-        val todayBtn: Button = tabWidgetLayout.findViewById(date)
-        todayBtn.left = 231 * (date % 100 - 1)
+
+        Log.d(TAG, "createBtn: ${(date/1000/60/60/24).toInt()}")
+        val todayBtn: Button = tabWidgetLayout.findViewById(((date/1000/60/60/24)-1).toInt())
+        Log.d(TAG, "createBtn: $thisDay")
+        todayBtn.left = (231 * thisDay)-231
         todayBtn.isFocusableInTouchMode = true
         todayBtn.requestFocus()
     }
@@ -142,11 +162,13 @@ class FragmentTodo : Fragment() {
                     id: Long
                 ) {
                     thisMonth = position + 1
-                    date = (thisMonth * 100) + thisDay
+                    cal.set(cal.get(Calendar.YEAR),thisMonth,thisDay)
+                    date= cal.timeInMillis
                     cal.set(Calendar.YEAR, thisMonth - 1, thisDay)
                     binding.tabWidget.removeAllViews()
                     createBtn(binding.tabWidget)
-                    callFragment(date)
+                    Log.d(TAG, "onItemSelected: item selected에서 callfragment")
+                    callFragment(((date/1000/60/60/24)-1).toInt())
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}

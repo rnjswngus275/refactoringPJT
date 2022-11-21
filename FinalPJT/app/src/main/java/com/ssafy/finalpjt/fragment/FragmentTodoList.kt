@@ -5,28 +5,33 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.viewModelScope
+import com.ssafy.finalpjt.FragmentTodoListViewModel
 import com.ssafy.finalpjt.R
 import com.ssafy.finalpjt.database.dto.Todo
 import com.ssafy.finalpjt.database.dto.User
 import com.ssafy.finalpjt.database.repository.TodoRepository
 import com.ssafy.finalpjt.database.repository.UserRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.util.*
+
+private const val TAG = "FragmentTodoList"
 
 class FragmentTodoList : Fragment() {
     var todoList = ArrayList<Todo>() //데이터베이스
     var myAdapter: MyAdapter? = null
-    var num: Long = 0
+    var num: Int = 0
     private lateinit var todoRepository: TodoRepository
     private lateinit var userRepository: UserRepository
-
+    private val viewmodel: FragmentTodoListViewModel by viewModels()
     private val color = intArrayOf(
         Color.parseColor("#e9f7e1"), Color.parseColor("#f4d9e3"),
         Color.parseColor("#fdf2d8"), Color.parseColor("#e5dee1"),
@@ -37,10 +42,10 @@ class FragmentTodoList : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        num = requireArguments().getLong(ARG_NO, 0)
-        todoRepository=TodoRepository.get()
-        userRepository=UserRepository.get()
-
+        num = requireArguments().getInt(ARG_NO, 0)
+        todoRepository = TodoRepository.get()
+        userRepository = UserRepository.get()
+        Log.d(TAG, "onCreate: Todolist num :$num")
     }
 
     override fun onCreateView(
@@ -49,12 +54,13 @@ class FragmentTodoList : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.today_todo_list, null)
-        todoRepository.getTodayTodo(num).observe(viewLifecycleOwner){
-                if(it!=null){
-                    createList()
-                }
-        }
 
+
+
+                createList()
+
+
+        Log.d(TAG, "onCreateView: $num")
         myAdapter = MyAdapter(activity, todoList)
         val listView = view.findViewById<View>(R.id.today_todo_listview) as ListView
         listView.apply {
@@ -66,19 +72,27 @@ class FragmentTodoList : Fragment() {
     }
 
     private fun createList() {
-        todoRepository.getTodayTodo(num).observe(viewLifecycleOwner){
-            for (i in it.indices) {
-                todoList.add(
-                    it[i]
-                )
-            }
-        }
+
+        viewmodel.setTodolist(num)
+        todoList= viewmodel.todoList as ArrayList<Todo>
+//
+//        CoroutineScope(Dispatchers.IO).launch {
+//            withContext(Dispatchers.IO){
+//                if(viewmodel.gettodolist(num)!=null){
+//                    todoList=viewmodel.todoList
+//                    todoList= viewmodel.gettodolist(num) as ArrayList<Todo>
+//                }
+//            }
+//        }
+
+        Log.d(TAG, "createList: $num")
+        Log.d(TAG, "createList: ${viewmodel.todoList}")
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        num = requireArguments().getLong(ARG_NO, 0)
+        num = requireArguments().getInt(ARG_NO, 0)
     }
 
     inner class MyAdapter(context: Context?, data: ArrayList<Todo>) : BaseAdapter() {
@@ -105,16 +119,16 @@ class FragmentTodoList : Fragment() {
             val isDone = view.findViewById<View>(R.id.isDone) as CheckBox
             shape.setColor(sample[position].GoalId)
             todoThing.text = sample[position].Todo
-            isDone.isChecked = if(sample[position].Completed==1) true else false
+            isDone.isChecked = if (sample[position].Completed == 1) true else false
             sort()
             isDone.setOnCheckedChangeListener { buttonView, isChecked ->
-                lateinit var user:User
-                userRepository.getUser().observe(viewLifecycleOwner){
-                    user=it
+                lateinit var user: User
+                userRepository.getUser().observe(viewLifecycleOwner) {
+                    user = it
                 }
                 if (isChecked) {
 
-                    var updateuser= User(user.UserName,user.Point+10)
+                    var updateuser = User(user.UserName, user.Point + 10)
                     CoroutineScope(Dispatchers.IO).launch {
                         userRepository.updateUser(updateuser)
                     }
@@ -123,17 +137,27 @@ class FragmentTodoList : Fragment() {
                         "10포인트가 적립되었습니다.",
                         Toast.LENGTH_LONG
                     ).show()
-                    var todo=Todo(sample[position].Todo,sample[position].Date,sample[position].GoalId,1)
+                    var todo = Todo(
+                        sample[position].Todo,
+                        sample[position].Date,
+                        sample[position].GoalId,
+                        1
+                    )
                     CoroutineScope(Dispatchers.IO).launch {
                         todoRepository.updateCompleted(todo)
                     }
                     sample[position].Completed = 1
                 } else {
-                    var updateuser=User(user.UserName,user.Point-10)
+                    var updateuser = User(user.UserName, user.Point - 10)
                     CoroutineScope(Dispatchers.IO).launch {
                         userRepository.updateUser(updateuser)
                     }
-                    var todo=Todo(sample[position].Todo,sample[position].Date,sample[position].GoalId,0)
+                    var todo = Todo(
+                        sample[position].Todo,
+                        sample[position].Date,
+                        sample[position].GoalId,
+                        0
+                    )
                     CoroutineScope(Dispatchers.IO).launch {
                         todoRepository.updateCompleted(todo)
                     }

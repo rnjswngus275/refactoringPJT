@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/multicampus/Documents/finalPJT/FinalPJT/app/src/main/res/drawable/day_btn.xml" value="0.1" />
         <entry key="..\:/Users/multicampus/Documents/finalPJT/FinalPJT/app/src/main/res/layout/activity_add.xml" value="0.2726449275362319" />
         <entry key="..\:/Users/multicampus/Documents/finalPJT/FinalPJT/app/src/main/res/layout/activity_detail.xml" value="0.21014492753623187" />
         <entry key="..\:/Users/multicampus/Documents/finalPJT/FinalPJT/app/src/main/res/layout/activity_detail_update.xml" value="0.24547101449275363" />
@@ -19,6 +20,7 @@
         <entry key="..\:/Users/multicampus/Documents/finalPJT/FinalPJT/app/src/main/res/layout/nav_header_main.xml" value="0.67" />
         <entry key="..\:/Users/multicampus/Documents/finalPJT/FinalPJT/app/src/main/res/layout/singer_shop_item.xml" value="0.22916666666666666" />
         <entry key="..\:/Users/multicampus/Documents/finalPJT/FinalPJT/app/src/main/res/layout/today_todo.xml" value="0.2554347826086957" />
+        <entry key="..\:/Users/multicampus/Documents/finalPJT/FinalPJT/app/src/main/res/layout/today_todo_item.xml" value="0.2375" />
       </map>
     </option>
   </component>
