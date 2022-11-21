@@ -22,6 +22,7 @@ import com.google.android.material.navigation.NavigationView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.LifecycleOwner
 import com.ssafy.finalpjt.*
 import com.ssafy.finalpjt.database.dto.User
 import com.ssafy.finalpjt.database.repository.TodoRepository
@@ -75,22 +76,25 @@ class MainActivity : AppCompatActivity(),
 
             @SuppressLint("SetTextI18n")
             override fun onDrawerOpened(drawerView: View) {
+                var user=User("test",500)
                 super.onDrawerOpened(drawerView)
 //                val dbHelper = DBHelper(applicationContext, "QuestApp.db", null, 1)
-                try {
-                    userRepository.getUser().UserName
-                } catch (e: Exception) {
-                    var user= User("user",0)
-                    CoroutineScope(Dispatchers.IO).launch {
-                        userRepository.insertUser(user)
+
+                    userRepository.getUser().observe(this@MainActivity){
+                        if(it==null){
+                            CoroutineScope(Dispatchers.IO).launch {
+                                userRepository.insertUser(user)
+                            }
+                        }else   user=it
                     }
-                }
+
+
 
                 //setContentView(R.layout.nav_header_main);
                 val nickname: TextView = findViewById<View>(R.id.user_nickname) as TextView
                 val point: TextView = findViewById<View>(R.id.user_point) as TextView
 
-                var user=userRepository.getUser()
+
 
                 nickname.text = user.UserName
                     point.text = "${user.Point} point"

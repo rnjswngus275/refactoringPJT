@@ -83,9 +83,7 @@ class AddActivity : AppCompatActivity() {
                 val goalId = addActivityViewModel.insertGoal(goal)
                 if (goalId != -1L) {
                     // 최종목표 db에 성공적으로 저장되었으면 서브 타이틀 db에 데이터를 입력한다.
-                    addActivityViewModel.insertSubGoalList(goalId,
-                        mSubGoalList as ArrayList<GoalSub>
-                    )
+                    addActivityViewModel.insertSubGoalList(goalId, mSubGoalList)
                     setResult(RESULT_OK)
                     finish()
                 }

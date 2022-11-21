@@ -19,7 +19,7 @@ class UserRepository (private val db: CarrotDatabase){
         return userDao.getUser(id)
     }
 
-    fun getUser(): User {
+    fun getUser(): LiveData<User> {
         return userDao.getUser()
     }
 

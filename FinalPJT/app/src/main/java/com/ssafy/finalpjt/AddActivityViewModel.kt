@@ -36,7 +36,7 @@ class AddActivityViewModel : ViewModel() {
         return id
     }
 
-    fun insertSubGoalList(goalId: Long, subGoalList: ArrayList<GoalSub>) {
+    fun insertSubGoalList(goalId: Long, subGoalList: MutableList<GoalSub>) {
         viewModelScope.launch {
             for (subGoal in subGoalList) {
                 goalSubRepository.insertGoalSub(subGoal)

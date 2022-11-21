@@ -12,7 +12,7 @@ interface UserDao {
     fun getUser(id:Long): User
 
     @Query("SELECT * FROM User ")
-    fun getUser(): User
+    fun getUser():LiveData<User>
 
     @Insert
     suspend fun insertUser(user: User)
