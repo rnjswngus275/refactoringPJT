@@ -108,7 +108,10 @@ class FragmentTodoList : Fragment() {
             isDone.isChecked = if(sample[position].Completed==1) true else false
             sort()
             isDone.setOnCheckedChangeListener { buttonView, isChecked ->
-                var user=userRepository.getUser()
+                lateinit var user:User
+                userRepository.getUser().observe(viewLifecycleOwner){
+                    user=it
+                }
                 if (isChecked) {
 
                     var updateuser= User(user.UserName,user.Point+10)
