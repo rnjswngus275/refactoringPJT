@@ -2,18 +2,11 @@ package com.ssafy.finalpjt.activity
 
 import android.annotation.SuppressLint
 import android.app.*
-import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -22,17 +15,15 @@ import com.google.android.material.navigation.NavigationView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.LifecycleOwner
 import com.ssafy.finalpjt.*
-import com.ssafy.finalpjt.database.dto.User
+import com.ssafy.finalpjt.database.DatabaseApplicationClass
 import com.ssafy.finalpjt.database.repository.TodoRepository
 import com.ssafy.finalpjt.database.repository.UserRepository
 import com.ssafy.finalpjt.fragment.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.w3c.dom.Text
-import java.lang.Exception
+import kotlinx.coroutines.withContext
 import java.util.*
 
 class MainActivity : AppCompatActivity(),
@@ -76,33 +67,25 @@ class MainActivity : AppCompatActivity(),
 
             @SuppressLint("SetTextI18n")
             override fun onDrawerOpened(drawerView: View) {
-                var user=User("test",500)
+                var userName = DatabaseApplicationClass.sharedPreferencesUtil.getUserName()
                 super.onDrawerOpened(drawerView)
-//                val dbHelper = DBHelper(applicationContext, "QuestApp.db", null, 1)
 
-                    userRepository.getUser().observe(this@MainActivity){
-                        if(it==null){
-                            CoroutineScope(Dispatchers.IO).launch {
-                                userRepository.insertUser(user)
-                            }
-                        }else   user=it
-                    }
-
-
-
-                //setContentView(R.layout.nav_header_main);
                 val nickname: TextView = findViewById<View>(R.id.user_nickname) as TextView
                 val point: TextView = findViewById<View>(R.id.user_point) as TextView
 
-
-
-                nickname.text = user.UserName
-                    point.text = "${user.Point} point"
-
+                CoroutineScope(Dispatchers.IO).launch {
+                    withContext(Dispatchers.IO) {
+                        userRepository.getUserByName(userName).observe(this@MainActivity) {
+                            CoroutineScope(Dispatchers.Main).launch {
+                                nickname.text = userName
+                                point.text = "${it.Point} point"
+                            }
+                        }
+                    }
+                }
             }
         }
 
-        //drawer.setDrawerListener(toggle); // 이건 Deprecated 되었다니깐 아래와 같이 바꿔줍니다.
         drawer.addDrawerListener(toggle)
         toggle.syncState()
         val navigationView: NavigationView = findViewById<View>(R.id.nav_view) as NavigationView
@@ -128,7 +111,6 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
         val id: Int = item.itemId
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
 

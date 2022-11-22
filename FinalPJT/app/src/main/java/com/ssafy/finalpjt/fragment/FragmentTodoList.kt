@@ -110,10 +110,9 @@ class FragmentTodoList : Fragment() {
             isDone.setOnCheckedChangeListener { buttonView, isChecked ->
                 lateinit var user:User
                 userRepository.getUser().observe(viewLifecycleOwner){
-                    user=it
+                    user=it[0]
                 }
                 if (isChecked) {
-
                     var updateuser= User(user.UserName,user.Point+10)
                     CoroutineScope(Dispatchers.IO).launch {
                         userRepository.updateUser(updateuser)
