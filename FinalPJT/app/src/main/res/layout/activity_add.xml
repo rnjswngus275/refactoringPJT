@@ -23,10 +23,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/index9"
                 android:gravity="center"
+                android:padding="8dp"
                 android:text="최종목표"
                 android:textColor="#000"
                 android:textSize="22dp" />
@@ -37,37 +37,39 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
+                android:padding="8dp"
                 android:fontFamily="@font/dxgulim"
                 android:gravity="center"
                 android:hint="목표를 입력하세요."
-                android:textSize="18dp"
+                android:textSize="22dp"
                 android:theme="@style/EditTheme" />
 
             <TextView
                 android:id="@+id/subGoalTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
+                android:padding="8dp"
                 android:background="@color/index10"
                 android:gravity="center"
                 android:text="세부목표"
                 android:textColor="#000"
                 android:textSize="22dp" />
 
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/addRecyclerView"
+                android:layout_margin="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"/>
 
             <ImageButton
                 android:id="@+id/addSubBtn"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="30px"
+                android:layout_margin="10dp"
                 android:background="@android:color/transparent"
                 android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_add_black_24dp" />
@@ -78,9 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/addSubBtn"
             android:orientation="horizontal"
-            android:paddingLeft="30dp"
-            android:paddingTop="35dp"
-            android:paddingRight="30dp">
+            android:padding="16dp">
 
             <Button
                 android:id="@+id/btnCancel"

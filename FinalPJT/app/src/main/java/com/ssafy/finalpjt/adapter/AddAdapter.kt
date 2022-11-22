@@ -1,6 +1,7 @@
 package com.ssafy.finalpjt.adapter
 
-import android.view.ContextMenu
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,35 +11,45 @@ import com.ssafy.finalpjt.R
 import com.ssafy.finalpjt.database.dto.GoalSub
 
 class AddAdapter : RecyclerView.Adapter<AddAdapter.AddViewHolder>() {
-    var subGoalList : List<GoalSub> = emptyList()
+    var subGoalList = mutableListOf<GoalSub>()
 
-    lateinit var menuItemClickListener: MenuItemClickListener
-
-    inner class AddViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
-            View.OnCreateContextMenuListener {
+    inner class AddViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val editText: EditText = itemView.findViewById(R.id.sub_goal_et)
 
         fun bindInfo(goalSub: GoalSub) {
-            editText.setText(goalSub.SubTitle)
-        }
+            editText.apply {
+                setText(goalSub.SubTitle)
+                addTextChangedListener( object : TextWatcher {
+                    override fun onTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        before: Int,
+                        count: Int
+                    ) {
 
-        override fun onCreateContextMenu(
-            menu: ContextMenu?,
-            v: View?,
-            menuInfo: ContextMenu.ContextMenuInfo?
-        ) {
-            val menuItem = menu?.add(0,0,0,"삭제")
-            menuItem?.setOnMenuItemClickListener {
-                menuItemClickListener.onClick(layoutPosition)
-                true
+                        subGoalList[layoutPosition].SubTitle = s.toString()
+                    }
+
+                    override fun afterTextChanged(s: Editable?) {
+                    }
+
+                    override fun beforeTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        count: Int,
+                        after: Int
+                    ) {
+                    }
+
+                })
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_sub_goal_holder, parent, false)
+            .inflate(R.layout.item_sub_goal_holder_et, parent, false)
         return AddViewHolder(view)
     }
 
@@ -50,7 +61,9 @@ class AddAdapter : RecyclerView.Adapter<AddAdapter.AddViewHolder>() {
         return subGoalList.size
     }
 
-    interface MenuItemClickListener {
-        fun onClick(position: Int)
+    override fun onViewAttachedToWindow(holder: AddViewHolder) {
+        holder.itemView.requestFocus()
+        super.onViewAttachedToWindow(holder)
     }
+
 }

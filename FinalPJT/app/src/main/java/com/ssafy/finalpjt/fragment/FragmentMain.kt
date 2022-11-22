@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ssafy.finalpjt.FragmentMainViewModel
 import com.ssafy.finalpjt.activity.AddActivity
 import com.ssafy.finalpjt.activity.DetailActivity
+import com.ssafy.finalpjt.activity.DetailUpdateActivity
 import com.ssafy.finalpjt.adapter.FragmentMainAdapter
 import com.ssafy.finalpjt.database.dto.Goal
 import com.ssafy.finalpjt.databinding.FragmentMainBinding
