@@ -1,86 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/background"
     tools:context=".activity.AddActivity">
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@color/index9"
-            android:gravity="center"
-            android:text="최종목표"
-            android:textColor="#000"
-            android:textSize="26dp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvGoal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:textColor="#000"
-            android:textSize="22dp"
-            android:theme="@style/EditTheme" />
-
-        <TextView
-            android:id="@+id/text2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="35dp"
-            android:layout_marginBottom="10dp"
-            android:background="@color/index10"
-            android:gravity="center"
-            android:text="세부목표"
-            android:textColor="#000"
-            android:textSize="26dp"
-            android:textStyle="bold" />
-
-
-        <LinearLayout
-            android:id="@+id/LL"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"></LinearLayout>
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/index9"
+                android:gravity="center"
+                android:padding="8dp"
+                android:text="최종목표"
+                android:textColor="#000"
+                android:textSize="22dp" />
+
+            <TextView
+                android:id="@+id/goalTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:padding="8dp"
+                android:fontFamily="@font/dxgulim"
+                android:gravity="center"
+                android:hint="목표를 입력하세요."
+                android:textSize="22dp"
+                android:theme="@style/EditTheme" />
+
+            <TextView
+                android:id="@+id/subGoalTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:padding="8dp"
+                android:background="@color/index10"
+                android:gravity="center"
+                android:text="세부목표"
+                android:textColor="#000"
+                android:textSize="22dp" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/detailRecyclerView"
+                android:layout_margin="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:padding="16dp">
 
             <Button
-                android:id="@+id/btn_update"
+                android:id="@+id/btnUpdate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="3dp"
                 android:layout_weight="1"
                 android:background="@drawable/btn_color"
                 android:text="수정" />
-
-            <Button
-                android:id="@+id/btn_done"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-                android:layout_weight="1"
-                android:background="@drawable/btn_color"
-                android:text="확인" />
 
         </LinearLayout>
     </LinearLayout>

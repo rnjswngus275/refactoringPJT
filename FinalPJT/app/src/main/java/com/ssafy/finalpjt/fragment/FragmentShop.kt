@@ -1,6 +1,7 @@
 package com.ssafy.finalpjt.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,12 +14,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ssafy.finalpjt.FragmentShopViewModel
 import com.ssafy.finalpjt.adapter.FragmentShopAdapter
 import com.ssafy.finalpjt.database.dto.Shop
+import com.ssafy.finalpjt.database.repository.UserRepository
 import com.ssafy.finalpjt.databinding.FragmentShopBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class FragmentShop() : Fragment() {
     private lateinit var binding: FragmentShopBinding
     private lateinit var shopAdapter: FragmentShopAdapter
-    private val fragmentShopViewModel: FragmentShopViewModel by viewModels()
+    private lateinit var fragmentShopViewModel: FragmentShopViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,10 +36,14 @@ class FragmentShop() : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        initAdapter()
-
-        initView()
+        val userRepository = UserRepository.get()
+        userRepository.getUser().observe(viewLifecycleOwner) {
+            CoroutineScope(Dispatchers.Main).launch {
+                fragmentShopViewModel = FragmentShopViewModel(it.id)
+                initAdapter()
+                initView()
+            }
+        }
     }
 
 
