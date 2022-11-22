@@ -8,9 +8,11 @@
         android:id="@+id/sub_goal_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         android:fontFamily="@font/dxgulim"
         android:gravity="center"
         android:hint="세부 목표를 추가하세요."
-        android:textSize="18dp"
+        android:textSize="22dp"
         android:theme="@style/EditTheme" />
 </RelativeLayout>
