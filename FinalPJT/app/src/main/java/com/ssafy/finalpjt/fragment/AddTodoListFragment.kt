@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.ssafy.finalpjt.FragmentAddTodoViewModel
 import com.ssafy.finalpjt.R
+import com.ssafy.finalpjt.activity.MainActivity
+import com.ssafy.finalpjt.database.dto.Goal
 import com.ssafy.finalpjt.database.dto.Todo
 import com.ssafy.finalpjt.databinding.AddlistLayoutBinding
 import kotlinx.coroutines.*
@@ -21,19 +23,15 @@ class AddTodoListFragment : Fragment() {
     private lateinit var binding: AddlistLayoutBinding
     private lateinit var mAdapter: ArrayAdapter<String>
     private var questdata = mutableListOf<String>()
+    private var GoalList = mutableListOf<Goal>()
     private val viewmodel :FragmentAddTodoViewModel by viewModels()
     var prevPage: Int = 0
     var t: LinearLayout? = null
     var b: LinearLayout? = null
-    fun getInstance(prevPage: Int, t: LinearLayout?, b: LinearLayout?) {
-        this.prevPage = prevPage
-        this.t = t
-        this.b = b
-    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val data: Bundle? = arguments
     }
 
     override fun onCreateView(
@@ -43,8 +41,12 @@ class AddTodoListFragment : Fragment() {
     ): View {
         binding = AddlistLayoutBinding.inflate(inflater, container, false)
 
-        viewmodel.goalTitleList.observe(viewLifecycleOwner){
-            questdata.addAll(it)
+        viewmodel.goalList.observe(viewLifecycleOwner){
+            GoalList.addAll(it)
+
+            for(i in it){
+                questdata.add(i.GoalTitle)
+            }
             Log.d(TAG, "onCreateView: 나와라...$it")
             initAdaper()
         }
@@ -60,18 +62,22 @@ class AddTodoListFragment : Fragment() {
 
             var dateId=(date/1000/60/60/24)-1
             var todo = binding.job.text.toString()
-
             var id=0
+            for(i in GoalList){
+                if(i.GoalTitle==goaltitle) id= i.id.toInt()
+            }
+            Log.d(TAG, "onCreateView: $id")
+            var Todo_insert = Todo(todo,dateId,id,0)
+
             CoroutineScope(Dispatchers.IO).launch {
                 withContext(Dispatchers.IO){
-                    viewmodel.getGoalId(goaltitle,todo,dateId)
+                    viewmodel.insertTodo(Todo_insert)
                 }
+                Log.d(TAG, "onCreateView: 통과중......")
+                var main= activity as MainActivity
+                main.changeFragment(1)
             }
 
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, FragmentTodoList.newInstance(prevPage))
-                .addToBackStack(null)
-                .commit()
         }
 
         return binding.root

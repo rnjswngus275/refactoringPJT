@@ -40,30 +40,30 @@ class FragmentTodoList : Fragment() {
         Color.parseColor("#d2efe3"), Color.parseColor("#d6e2fc")
     )
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         num = requireArguments().getInt(ARG_NO, 0)
         todoRepository = TodoRepository.get()
         userRepository = UserRepository.get()
-        Log.d(TAG, "onCreate: Todolist num :$num")
 
-        myAdapter = MyAdapter(activity)
+        myAdapter = MyAdapter(requireActivity())
 
         viewmodel= FragmentTodoListViewModel(num)
 
 
         viewmodel.originaltodoList.observe(this){
-            Log.d(TAG, "------------------: $it")
             viewmodel.mtodoList.addAll(it)
             viewmodel.setTodolist()
         }
-        Log.d(TAG, "------------------: ${viewmodel.mtodoList}")
 
     }
     override fun onResume() {
         super.onResume()
-        Log.d(TAG, "onResume: ")
     }
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,40 +71,9 @@ class FragmentTodoList : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.today_todo_list, null)
-
-
-//
-//
-//           CoroutineScope(Dispatchers.IO).launch {
-//                withContext(Dispatchers.IO) {
-//
-//                    viewmodel.gettodolist(num)
-//
-//                    todoList = viewmodel.todoList as ArrayList<Todo>
-//                    Log.d(TAG, "createList: with context 안")
-//                    Log.d(TAG, "createList: $num")
-//                    Log.d(TAG, "onCreateView: $num")
-//
-//                }
-//            }
-
-
-
         return view
 
     }
-
-//    private fun createList() {
-//
-//
-//
-//
-//
-//        Log.d(TAG, "createList: $num")
-//        Log.d(TAG, "createList: ${viewmodel.todoList}")
-//        Log.d(TAG, "createList: $todoList")
-//
-//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -112,7 +81,6 @@ class FragmentTodoList : Fragment() {
         viewmodel.todoList.observe(viewLifecycleOwner){
             myAdapter!!.data=it
             myAdapter!!.notifyDataSetChanged()
-            Log.d(TAG, "onCreateView: $it")
         }
         val listView = view.findViewById<View>(R.id.today_todo_listview) as ListView
         listView.apply {
@@ -120,11 +88,9 @@ class FragmentTodoList : Fragment() {
             dividerHeight = 15
             adapter = myAdapter
         }
-        Log.d(TAG, "onCreateView:dsfadsfasdf")
     }
 
     override fun onDestroy() {
-        Log.d(TAG, "onDestroy: ")
         super.onDestroy()
     }
 
@@ -230,6 +196,7 @@ class FragmentTodoList : Fragment() {
     companion object {
         private const val ARG_NO = "ARG_NO"
         fun newInstance(no: Int): FragmentTodoList {
+            Log.d(TAG, "newInstance: ")
             val fragment = FragmentTodoList()
             val args = Bundle()
             args.putInt(ARG_NO, no)
