@@ -154,6 +154,17 @@ class MainActivity : AppCompatActivity(),
         drawer.closeDrawer(GravityCompat.START)
         return true
     }
+    fun changeFragment(index :Int){
+        val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+        when(index){
+            1->{
+                transaction.replace(R.id.main_fragment, FragmentTodo()).commit()
+            }
+            2->{
+                transaction.replace(R.id.main_fragment, AddTodoListFragment()).commit()
+            }
+        }
+    }
 //
 //    inner class AlarmHATT constructor(private val context: Context) {
 //        fun alarm() {
