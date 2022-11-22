@@ -31,7 +31,7 @@ class FragmentTodoList : Fragment() {
     var num: Int = 0
     private lateinit var todoRepository: TodoRepository
     private lateinit var userRepository: UserRepository
-    private val viewmodel: FragmentTodoListViewModel by viewModels()
+    private lateinit var viewmodel: FragmentTodoListViewModel
     private val color = intArrayOf(
         Color.parseColor("#e9f7e1"), Color.parseColor("#f4d9e3"),
         Color.parseColor("#fdf2d8"), Color.parseColor("#e5dee1"),
@@ -42,12 +42,29 @@ class FragmentTodoList : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         num = requireArguments().getInt(ARG_NO, 0)
         todoRepository = TodoRepository.get()
         userRepository = UserRepository.get()
         Log.d(TAG, "onCreate: Todolist num :$num")
-    }
 
+        myAdapter = MyAdapter(activity)
+
+        viewmodel= FragmentTodoListViewModel(num)
+
+
+        viewmodel.originaltodoList.observe(this){
+            Log.d(TAG, "------------------: $it")
+            viewmodel.mtodoList.addAll(it)
+            viewmodel.setTodolist()
+        }
+        Log.d(TAG, "------------------: ${viewmodel.mtodoList}")
+
+    }
+    override fun onResume() {
+        super.onResume()
+        Log.d(TAG, "onResume: ")
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -56,46 +73,64 @@ class FragmentTodoList : Fragment() {
         val view = inflater.inflate(R.layout.today_todo_list, null)
 
 
+//
+//
+//           CoroutineScope(Dispatchers.IO).launch {
+//                withContext(Dispatchers.IO) {
+//
+//                    viewmodel.gettodolist(num)
+//
+//                    todoList = viewmodel.todoList as ArrayList<Todo>
+//                    Log.d(TAG, "createList: with context 안")
+//                    Log.d(TAG, "createList: $num")
+//                    Log.d(TAG, "onCreateView: $num")
+//
+//                }
+//            }
 
-                createList()
 
 
-        Log.d(TAG, "onCreateView: $num")
-        myAdapter = MyAdapter(activity, todoList)
+        return view
+
+    }
+
+//    private fun createList() {
+//
+//
+//
+//
+//
+//        Log.d(TAG, "createList: $num")
+//        Log.d(TAG, "createList: ${viewmodel.todoList}")
+//        Log.d(TAG, "createList: $todoList")
+//
+//    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        num = requireArguments().getInt(ARG_NO, 0)
+        viewmodel.todoList.observe(viewLifecycleOwner){
+            myAdapter!!.data=it
+            myAdapter!!.notifyDataSetChanged()
+            Log.d(TAG, "onCreateView: $it")
+        }
         val listView = view.findViewById<View>(R.id.today_todo_listview) as ListView
         listView.apply {
             divider = ColorDrawable(Color.TRANSPARENT)
             dividerHeight = 15
             adapter = myAdapter
         }
-        return view
+        Log.d(TAG, "onCreateView:dsfadsfasdf")
     }
 
-    private fun createList() {
-
-        viewmodel.setTodolist(num)
-        todoList= viewmodel.todoList as ArrayList<Todo>
-//
-//        CoroutineScope(Dispatchers.IO).launch {
-//            withContext(Dispatchers.IO){
-//                if(viewmodel.gettodolist(num)!=null){
-//                    todoList=viewmodel.todoList
-//                    todoList= viewmodel.gettodolist(num) as ArrayList<Todo>
-//                }
-//            }
-//        }
-
-        Log.d(TAG, "createList: $num")
-        Log.d(TAG, "createList: ${viewmodel.todoList}")
-
+    override fun onDestroy() {
+        Log.d(TAG, "onDestroy: ")
+        super.onDestroy()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        num = requireArguments().getInt(ARG_NO, 0)
-    }
+    inner class MyAdapter(context: Context?) : BaseAdapter() {
 
-    inner class MyAdapter(context: Context?, data: ArrayList<Todo>) : BaseAdapter() {
+        var data= mutableListOf<Todo>()
         var mContext: Context? = null
         var mLayoutInflater: LayoutInflater? = null
         var sample: ArrayList<Todo>
@@ -187,7 +222,7 @@ class FragmentTodoList : Fragment() {
 
         init {
             mContext = context
-            sample = data
+            sample = data as ArrayList<Todo>
             mLayoutInflater = LayoutInflater.from(mContext)
         }
     }

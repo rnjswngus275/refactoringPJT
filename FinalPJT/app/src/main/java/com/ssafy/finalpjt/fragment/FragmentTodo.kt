@@ -60,7 +60,7 @@ class FragmentTodo : Fragment() {
                 .add(R.id.fragment_container, FragmentTodoList.newInstance(((date/1000/60/60/24)-1).toInt()), FRAGMENT_TAG)
                 .addToBackStack(null)
                 .commit()
-            fragmentPageNow = (date/1000/60/60/24).toInt()
+            fragmentPageNow = ((date/1000/60/60/24)-1).toInt()
             Log.d(TAG, "onCreateView: fragmentapgeNow : $fragmentPageNow")
         }
         initAdapter()
@@ -80,6 +80,7 @@ class FragmentTodo : Fragment() {
         }
         return binding.root
     }
+
 
     override fun onDestroy() { //종료시 백스택리스너 삭제
         super.onDestroy()
@@ -112,7 +113,7 @@ class FragmentTodo : Fragment() {
 
             btn.setOnClickListener {
                 cal.timeInMillis=btn.id.toLong()
-                fragmentPageNow =(date/1000/60/60/24).toInt()
+                fragmentPageNow =((date/1000/60/60/24)-1).toInt()
                 btn.isFocusableInTouchMode = true
                 btn.requestFocus()
                 Log.e("test", "focus" + btn.isFocused)
@@ -139,7 +140,7 @@ class FragmentTodo : Fragment() {
             tabWidgetLayout.addView(btn)
         }
 
-        Log.d(TAG, "createBtn: ${(date/1000/60/60/24).toInt()}")
+        Log.d(TAG, "createBtn: ${(date/1000/60/60/24)-1}")
         val todayBtn: Button = tabWidgetLayout.findViewById(((date/1000/60/60/24)-1).toInt())
         Log.d(TAG, "createBtn: $thisDay")
         todayBtn.left = (231 * thisDay)-231
