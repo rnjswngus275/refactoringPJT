@@ -212,38 +212,32 @@ class FragmentTodo : Fragment() {
                     isChecked: Boolean
                 ) {
                     if (isChecked) {
-                        CoroutineScope(Dispatchers.IO).launch {
-                            userRepository.updateUserPoint(user.Point+10, user.UserName)
-                        }
-                        Toast.makeText(
-                            requireContext(),
-                            "10포인트가 적립되었습니다.",
-                            Toast.LENGTH_LONG
-                        ).show()
                         var todo = Todo(
+                            todoAdapter.list[position].id,
                             todoAdapter.list[position].Todo,
                             todoAdapter.list[position].Date,
                             todoAdapter.list[position].GoalId,
                             1
                         )
-                        CoroutineScope(Dispatchers.IO).launch {
-                            todoRepository.updateCompleted(todo)
-                        }
-                        todoAdapter.list[position].Completed = 1
+                        viewmodel.updateAll(user.Point+10,user.UserName,todo)
+                        Toast.makeText(
+                            requireContext(),
+                            "10포인트가 적립되었습니다.",
+                            Toast.LENGTH_LONG
+                        ).show()
+
+                        Log.d(TAG, "onCheckChanged: 후")
+                        
                     } else {
-                        CoroutineScope(Dispatchers.IO).launch {
-                            userRepository.updateUserPoint(user.Point-10, user.UserName)
-                        }
+
                         var todo = Todo(
+                            todoAdapter.list[position].id,
                             todoAdapter.list[position].Todo,
                             todoAdapter.list[position].Date,
                             todoAdapter.list[position].GoalId,
                             0
                         )
-                        CoroutineScope(Dispatchers.IO).launch {
-                            todoRepository.updateCompleted(todo)
-                        }
-                        todoAdapter.list[position].Completed = 0
+                        viewmodel.updateAll(user.Point-10,user.UserName,todo)
                     }
                 }
             }

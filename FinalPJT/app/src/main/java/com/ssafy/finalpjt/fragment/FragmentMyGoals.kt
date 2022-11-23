@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.google.android.material.tabs.TabLayout
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.ssafy.finalpjt.R
 import com.ssafy.finalpjt.adapter.FragmentGoalsPagerAdapter
@@ -36,8 +36,8 @@ class FragmentMyGoals : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val viewPager2: ViewPager2 = view.findViewById<View>(R.id.viewpager) as ViewPager2
 
-        viewPagerAdapter= FragmentGoalsPagerAdapter(requireActivity().supportFragmentManager, lifecycle, goalIdList, mainQuestList)
-        viewPager2.adapter=viewPagerAdapter
+        viewPagerAdapter= FragmentGoalsPagerAdapter(requireActivity().supportFragmentManager, lifecycle)
+
 
         Log.d(TAG, "onViewCreated: viewpageradapter")
         val tabLayout: TabLayout = view.findViewById<View>(R.id.tabs) as TabLayout
@@ -50,11 +50,28 @@ class FragmentMyGoals : Fragment() {
                 goalIdList.add(i.id)
             }
             viewPagerAdapter.id=goalIdList
-            Log.d(TAG, "onViewCreated: $it")
+            viewPager2.adapter=viewPagerAdapter
             TabLayoutMediator(tabLayout, viewPager2) { tab, position ->     //tablayout과 viewpager연결하는게  Mediator
                 tab.text = it[position].GoalTitle
             }.attach()
+
+
         }
+
+//        tabLayout.addOnTabSelectedListener(object :TabLayout.OnTabSelectedListener{
+//            override fun onTabSelected(tab: TabLayout.Tab?) {
+//                tab?.let {
+//                    viewPager2.isUserInputEnabled=tab.position!=1
+//                }
+//            }
+//
+//            override fun onTabUnselected(tab: TabLayout.Tab?) {
+//            }
+//
+//            override fun onTabReselected(tab: TabLayout.Tab?) {
+//            }
+//
+//        })
 
         Log.d(TAG, "=---------")
 
