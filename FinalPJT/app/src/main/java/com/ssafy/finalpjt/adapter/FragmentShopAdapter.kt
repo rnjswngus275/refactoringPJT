@@ -27,6 +27,10 @@ class FragmentShopAdapter : RecyclerView.Adapter<FragmentShopAdapter.FragmentSho
             itemImage.setImageResource(resId)
             itemName.text = item.Item
             itemPrice.text = item.Price.toString()
+
+            itemView.setOnClickListener {
+                itemClickListener.onClick(it, layoutPosition)
+            }
         }
 
         override fun onCreateContextMenu(

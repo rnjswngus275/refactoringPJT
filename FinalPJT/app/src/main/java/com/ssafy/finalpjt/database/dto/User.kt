@@ -7,12 +7,13 @@ import androidx.room.PrimaryKey
 
 data class User(
     var UserName:String,
+    var UserPw:String,
     var Point:Int
 ){
     @PrimaryKey(autoGenerate = true)
     var id :Long=0
 
-    constructor(_id:Int,UserName: String,Point: Int):this(UserName,Point){
+    constructor(id:Long,UserName: String,UserPw: String,Point: Int):this(UserName, UserPw, Point){
         this.id=id
     }
 }

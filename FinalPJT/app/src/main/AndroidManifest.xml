@@ -14,10 +14,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.ssafy.finalpjt.activity.SplashActivity"
+            android:name=".activity.JoinActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.SplashActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/SplashTheme"
-            android:exported="true">
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,15 +31,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.ssafy.finalpjt.activity.MainActivity"
+            android:name=".activity.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name="com.ssafy.finalpjt.activity.AddActivity" />
-        <activity android:name="com.ssafy.finalpjt.activity.DetailActivity" />
-        <activity android:name="com.ssafy.finalpjt.activity.DetailUpdateActivity" />
-        <activity android:name="com.ssafy.finalpjt.activity.LicenseActivity" />
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activity.AddActivity" />
+        <activity android:name=".activity.DetailActivity" />
+        <activity android:name=".activity.DetailUpdateActivity" />
+        <activity android:name=".activity.LicenseActivity" />
 
-        <receiver android:name="com.ssafy.finalpjt.BroadcastD"/>
+<!--        <receiver android:name="com.ssafy.finalpjt.BroadcastD" />-->
     </application>
 
 </manifest>

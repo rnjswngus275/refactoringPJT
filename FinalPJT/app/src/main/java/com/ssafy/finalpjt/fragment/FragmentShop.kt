@@ -14,16 +14,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ssafy.finalpjt.FragmentShopViewModel
 import com.ssafy.finalpjt.adapter.FragmentShopAdapter
 import com.ssafy.finalpjt.database.dto.Shop
+import com.ssafy.finalpjt.database.dto.User
 import com.ssafy.finalpjt.database.repository.UserRepository
 import com.ssafy.finalpjt.databinding.FragmentShopBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
+private const val TAG = "FragmentShop_싸피"
 class FragmentShop() : Fragment() {
     private lateinit var binding: FragmentShopBinding
     private lateinit var shopAdapter: FragmentShopAdapter
-    private lateinit var fragmentShopViewModel: FragmentShopViewModel
+    private val fragmentShopViewModel: FragmentShopViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,37 +39,34 @@ class FragmentShop() : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val userRepository = UserRepository.get()
-        userRepository.getUser().observe(viewLifecycleOwner) {
-            CoroutineScope(Dispatchers.Main).launch {
-                fragmentShopViewModel = FragmentShopViewModel(it.id)
-                initAdapter()
-                initView()
-            }
-        }
+
+        initAdapter()
+
+        initView()
+
     }
 
 
     private fun initAdapter() {
+        Log.d(TAG, "initAdapter: hi")
         shopAdapter = FragmentShopAdapter().apply {
             this.itemClickListener = object : FragmentShopAdapter.ItemClickListener {
                 override fun onClick(view: View, position: Int) {
-                    var user = fragmentShopViewModel.getUser()
-                    var shopList = fragmentShopViewModel.shopList.value!!
+                    var user = fragmentShopViewModel.user
                     val builder = AlertDialog.Builder(requireContext()).apply {
                         setMessage("구매하시겠습니까?")
                         setPositiveButton("예") { dialog, which ->
-                            if (user.Point < shopList[position].Price) {
+                            if (user.Point < shopAdapter.itemList[position].Price) {
                                 Toast.makeText(
                                     requireContext(),
-                                     "${(shopList[position].Price - user.Point)} 포인트가 부족하여 구매할 수 없습니다.",
+                                     "${(shopAdapter.itemList[position].Price - user.Point)} 포인트가 부족하여 구매할 수 없습니다.",
                                     Toast.LENGTH_SHORT
                                 ).show()
                             } else {
-                                fragmentShopViewModel.updateUser(shopList[position].Price)
+                                fragmentShopViewModel.updateUser(shopAdapter.itemList[position].Price)
                                 Toast.makeText(
                                     requireContext(),
-                                    "${shopList[position].Price} 포인트를 지불하여 구매하였습니다.",
+                                    "${shopAdapter.itemList[position].Price} 포인트를 지불하여 구매하였습니다.",
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -103,8 +103,7 @@ class FragmentShop() : Fragment() {
         binding.addBtn.setOnClickListener {
             val name = binding.nameEt.text.toString().trim { it <= ' ' }
             val price = binding.pointEt.text.toString().trim { it <= ' ' }.toInt()
-            val item = Shop(name, price)
-            fragmentShopViewModel.insertShop(item)
+            fragmentShopViewModel.insertShop(Shop(name, price))
         }
     }
 
