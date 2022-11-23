@@ -1,5 +1,6 @@
 package com.ssafy.finalpjt.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,11 +11,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.finalpjt.R
 import com.ssafy.finalpjt.database.dto.GoalSub
 
-class FragmentGoalsItemAdapter() :
-    RecyclerView.Adapter<FragmentGoalsItemAdapter.FragmentGoalsItemViewHolder>() {
+private const val TAG = "FragmentMyGoalsItemAdap"
+class FragmentMyGoalsItemAdapter() :
+    RecyclerView.Adapter<FragmentMyGoalsItemAdapter.FragmentGoalsItemViewHolder>() {
     var subQuestList = mutableListOf<GoalSub>()
     lateinit var checkChangeListener: CheckChangeListener
-
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        Log.d(TAG, "onAttachedToRecyclerView: $subQuestList")
+        super.onAttachedToRecyclerView(recyclerView)
+    }
     inner class FragmentGoalsItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val holderText: TextView = itemView.findViewById(R.id.holder_text)
         val checkBox: CheckBox = itemView.findViewById(R.id.checkBox)

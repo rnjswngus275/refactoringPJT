@@ -21,7 +21,7 @@ class GoalSubRepository (private val db: CarrotDatabase){
         goalsubDao.insertGoalSub(goalSub)
     }
     suspend fun updateGoalSub(goalSub: GoalSub)=db.withTransaction{
-        goalsubDao.updateGoalSub(goalSub)
+        goalsubDao.updateGoalSub(goalSub.Completed,goalSub.id)
     }
     suspend fun deleteGoalSub(goalSub: GoalSub)=db.withTransaction{
         goalsubDao.deleteGoalSub(goalSub)

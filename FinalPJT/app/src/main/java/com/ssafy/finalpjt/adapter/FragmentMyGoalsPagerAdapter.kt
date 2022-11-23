@@ -27,11 +27,13 @@ class FragmentGoalsPagerAdapter(
     }
 
     override fun createFragment(position: Int): Fragment {
-        Log.d(TAG, "createFragment: ")
+        Log.d(TAG, "createFragment: $position ")
 
         for(i in 1..id.size){
-            if(i==position)
-            return FragmentMyGoalsItem(i.toLong())
+            if(i==position+1) {
+                Log.d(TAG, "createFragment for문 안: $position")
+                return FragmentMyGoalsItem(i.toLong())
+            }
         }
 
         return FragmentMyGoalsItem(1)
