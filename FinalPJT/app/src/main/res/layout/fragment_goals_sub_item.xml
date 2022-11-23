@@ -8,7 +8,7 @@
     <LinearLayout
         android:id="@+id/goal_sub_item_linearlayout"
         style="@style/SampleCard"
-        android:layout_width="350dp"
+        android:layout_width="@dimen/sub_item_content_width"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="horizontal">

@@ -21,17 +21,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView"
-            android:textColor="#000000"
-            android:textSize="30dp" />
+            android:text="@string/item_name"
+            android:textColor="@android:color/black"
+            android:textSize="30sp" />
 
         <TextView
             android:id="@+id/store_item_price_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView2"
-            android:textColor="#000000"
-            android:textSize="30dp" />
+            android:text="@string/point"
+            android:textColor="@android:color/black"
+            android:textSize="30sp" />
     </LinearLayout>
 </LinearLayout>

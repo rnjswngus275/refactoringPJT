@@ -8,6 +8,7 @@
     <dimen name="button_size">48dp</dimen>
     <dimen name="card_stroke_width">2dp</dimen>
     <dimen name="content_width">260dp</dimen>
+    <dimen name="sub_item_content_width">350dp</dimen>
     <dimen name="button_text_size">16sp</dimen>
     <dimen name="progress_text_size_small">12sp</dimen>
     <dimen name="corner_radius">8dp</dimen>

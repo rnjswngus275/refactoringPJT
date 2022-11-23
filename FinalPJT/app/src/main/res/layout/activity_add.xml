@@ -27,9 +27,9 @@
                 android:background="@color/index9"
                 android:gravity="center"
                 android:padding="8dp"
-                android:text="최종목표"
-                android:textColor="#000"
-                android:textSize="22dp" />
+                android:text="@string/goal"
+                android:textColor="@android:color/black"
+                android:textSize="22sp" />
 
             <EditText
                 android:id="@+id/goalEt"
@@ -40,8 +40,8 @@
                 android:padding="8dp"
                 android:fontFamily="@font/dxgulim"
                 android:gravity="center"
-                android:hint="목표를 입력하세요."
-                android:textSize="22dp"
+                android:hint="@string/insert_goal"
+                android:textSize="22sp"
                 android:theme="@style/EditTheme" />
 
             <TextView
@@ -53,9 +53,9 @@
                 android:padding="8dp"
                 android:background="@color/index10"
                 android:gravity="center"
-                android:text="세부목표"
+                android:text="@string/sub_goal"
                 android:textColor="#000"
-                android:textSize="22dp" />
+                android:textSize="22sp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/addRecyclerView"
@@ -78,7 +78,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/addSubBtn"
             android:orientation="horizontal"
             android:padding="16dp">
 
@@ -89,7 +88,7 @@
                 android:layout_margin="6dp"
                 android:layout_weight="1"
                 android:background="@drawable/btn_color"
-                android:text="취소" />
+                android:text="@string/cancel" />
 
             <Button
                 android:id="@+id/btnDone"
@@ -98,7 +97,7 @@
                 android:layout_margin="6dp"
                 android:layout_weight="1"
                 android:background="@drawable/btn_color"
-                android:text="완료" />
+                android:text="@string/done" />
 
         </LinearLayout>
     </LinearLayout>

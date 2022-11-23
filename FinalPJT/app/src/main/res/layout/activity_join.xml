@@ -24,8 +24,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/dxgulim"
-        android:text="JOIN"
-        android:textSize="40dp"
+        android:text="@string/join"
+        android:textSize="40sp"
         app:layout_constraintBottom_toTopOf="@+id/et_join_id"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="40dp"
         android:layout_marginBottom="20dp"
-        android:hint="id"
+        android:hint="@string/id"
         android:textColor="@android:color/black"
         app:layout_constraintBottom_toTopOf="@+id/et_join_pw"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="40dp"
         android:layout_marginBottom="20dp"
-        android:hint="password"
+        android:hint="@string/password"
         android:textColor="@android:color/black"
         app:layout_constraintBottom_toTopOf="@+id/btn_linear_layout"
         app:layout_constraintEnd_toEndOf="parent"
@@ -74,7 +74,7 @@
             android:layout_margin="6dp"
             android:layout_weight="1"
             android:background="@drawable/btn_color"
-            android:text="취소" />
+            android:text="@string/cancel" />
 
         <Button
             android:id="@+id/btnJoin"
@@ -83,7 +83,7 @@
             android:layout_margin="6dp"
             android:layout_weight="1"
             android:background="@drawable/btn_color"
-            android:text="회원가입" />
+            android:text="@string/join_kr" />
 
     </LinearLayout>
 

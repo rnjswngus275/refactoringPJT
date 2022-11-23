@@ -29,14 +29,12 @@
         android:background="@android:color/transparent"
         android:fontFamily="@font/dxgulim"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="닉네임"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
         android:id="@+id/user_point"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/nav_header_subtitle" />
+        android:layout_gravity="center" />
 
 </LinearLayout>

@@ -18,7 +18,7 @@
             android:layout_marginTop="@dimen/margin"
             android:layout_marginEnd="@dimen/margin"
             android:gravity="center"
-            android:text="@string/title_text_round_corner_progress_bar" />
+            android:text="@string/goal_progress" />
 
         <LinearLayout
             style="@style/SampleCard2"
@@ -27,13 +27,13 @@
             android:orientation="vertical">
 
             <FrameLayout
-                android:layout_width="316dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <ProgressBar
                     android:id="@+id/progress_bar"
                     style="@android:style/Widget.ProgressBar.Horizontal"
-                    android:layout_width="316dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:progress="25"
                     android:progressBackgroundTint="#ffffff"
@@ -41,11 +41,11 @@
 
                 <TextView
                     android:id="@+id/percent_num"
-                    android:layout_width="312dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:text="0%"
-                    android:textSize="17dp" />
+                    android:gravity="end"
+                    android:text="@string/zero_percent"
+                    android:textSize="18sp" />
             </FrameLayout>
         </LinearLayout>
 

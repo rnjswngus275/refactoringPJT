@@ -25,8 +25,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/dxgulim"
-        android:text="LOGIN"
-        android:textSize="40dp"
+        android:text="@string/login"
+        android:textSize="40sp"
         app:layout_constraintBottom_toTopOf="@+id/et_login_id"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="40dp"
         android:layout_marginBottom="20dp"
-        android:hint="id"
+        android:hint="@string/id"
         android:windowSoftInputMode="adjustPan|adjustResize"
         android:textColor="@android:color/black"
         android:maxLines="1"
@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="40dp"
         android:layout_marginBottom="20dp"
-        android:hint="password"
+        android:hint="@string/password"
         android:textColor="@android:color/black"
         android:maxLines="1"
         app:layout_constraintBottom_toTopOf="@+id/btn_linear_layout"
@@ -78,7 +78,7 @@
             android:layout_margin="6dp"
             android:layout_weight="1"
             android:background="@drawable/btn_color"
-            android:text="Login" />
+            android:text="@string/login" />
 
         <Button
             android:id="@+id/btnJoin"
@@ -87,7 +87,7 @@
             android:layout_margin="6dp"
             android:layout_weight="1"
             android:background="@drawable/btn_color"
-            android:text="Join" />
+            android:text="@string/join" />
 
     </LinearLayout>
 

@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:text="메인퀘스트" />
+        android:text="@string/goal" />
 
     <Spinner
         android:id="@+id/spinner1"
@@ -24,13 +24,13 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="날짜" />
+        android:text="@string/date_kr" />
 
     <DatePicker
         android:id="@+id/datePicker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:calendarTextColor="#000000"
+        android:calendarTextColor="@android:color/black"
         android:calendarViewShown="false"
         android:datePickerMode="spinner"/>
 
@@ -38,13 +38,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:text="할일" />
+        android:text="@string/todo_kr" />
 
     <EditText
         android:id="@+id/job"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Job"
+        android:hint="@string/insert_todo"
         android:textColor="@android:color/black" />
 
     <Button
@@ -54,6 +54,6 @@
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:background="@drawable/btn_color"
-        android:text="추가하기" />
+        android:text="@string/insert" />
 
 </LinearLayout>

@@ -12,7 +12,7 @@
         android:layout_marginBottom="4dp"
         android:fontFamily="@font/dxgulim"
         android:gravity="center"
-        android:hint="세부 목표를 추가하세요."
-        android:textSize="22dp"
+        android:hint="@string/insert_sub_goal"
+        android:textSize="22sp"
         android:theme="@style/EditTheme" />
 </RelativeLayout>
