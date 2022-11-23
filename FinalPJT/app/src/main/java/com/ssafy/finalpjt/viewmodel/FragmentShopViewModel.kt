@@ -1,4 +1,4 @@
-package com.ssafy.finalpjt
+package com.ssafy.finalpjt.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel

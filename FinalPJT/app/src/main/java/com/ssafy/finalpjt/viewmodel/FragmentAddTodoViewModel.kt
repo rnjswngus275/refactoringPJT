@@ -1,11 +1,10 @@
-package com.ssafy.finalpjt
+package com.ssafy.finalpjt.viewmodel
 
 import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ssafy.finalpjt.database.dto.Goal
 import com.ssafy.finalpjt.database.dto.Todo
 import com.ssafy.finalpjt.database.repository.GoalRepository
 import com.ssafy.finalpjt.database.repository.TodoRepository

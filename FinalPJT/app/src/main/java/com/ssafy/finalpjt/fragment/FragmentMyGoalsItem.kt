@@ -1,40 +1,61 @@
 package com.ssafy.finalpjt.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ssafy.finalpjt.adapter.FragmentGoalsItemAdapter
 import com.ssafy.finalpjt.database.dto.GoalSub
-import com.ssafy.finalpjt.database.repository.GoalRepository
+import com.ssafy.finalpjt.database.dto.Todo
+import com.ssafy.finalpjt.database.dto.User
 import com.ssafy.finalpjt.database.repository.GoalSubRepository
 import com.ssafy.finalpjt.databinding.FragmentGoalsItemBinding
+import com.ssafy.finalpjt.viewmodel.FragmentMyGoalsItemViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
-class FragmentGoalsItem : Fragment() {
+private const val TAG = "FragmentMyGoalsItem"
+class FragmentMyGoalsItem : Fragment() {
     var id: Long? = null
-    var maingoal: String? = null
-    private var subQuestList: ArrayList<String> = arrayListOf()
     private lateinit var goalsItemAdapter: FragmentGoalsItemAdapter
     private lateinit var binding: FragmentGoalsItemBinding
-    private lateinit var goalSubRepository: GoalSubRepository
     var goalsublist= mutableListOf<GoalSub>()
+    var maingoal: String? = null
 
+    private val viewmodel:FragmentMyGoalsItemViewModel by viewModels()
     fun getInstance(id: Long, mainGoal: String?) {
+        Log.d(TAG, "getInstance: ")
         this.id = id
         maingoal = mainGoal
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        goalSubRepository=GoalSubRepository.get()
         binding = FragmentGoalsItemBinding.inflate(inflater, container, false)
-        binding.progressBar.progress = getRate()
-        binding.percentNum.text = "${getRate()}%"
+        viewmodel.getGoalSub(id!!.toLong()).observe(viewLifecycleOwner){
+            goalsublist=it
+
+            var total=goalsublist.size
+            var complete=0
+            for(i in goalsublist){
+                if(i.Completed==1){     //완료
+                    complete++
+                }
+            }
+            binding.progressBar.progress=complete/total
+            binding.percentNum.text ="${complete/total}%"
+
+        }
         return binding.root
     }
 
@@ -51,7 +72,7 @@ class FragmentGoalsItem : Fragment() {
 
     private fun initAdapter() {
         goalsItemAdapter = FragmentGoalsItemAdapter().apply {
-            this.subQuestList = this@FragmentGoalsItem.subQuestList
+            this.subQuestList = this@FragmentMyGoalsItem.goalsublist
             this.checkChangeListener = object : FragmentGoalsItemAdapter.CheckChangeListener {
                 override fun onCheckChanged(
                     view: View,
@@ -59,27 +80,41 @@ class FragmentGoalsItem : Fragment() {
                     compoundButton: CompoundButton,
                     isChecked: Boolean
                 ) {
+                    viewmodel.getGoalSub(id!!.toLong()).observe(viewLifecycleOwner){
+                        goalsublist=it
+                        goalsItemAdapter.subQuestList=it
+                        var total=goalsublist.size
+                        var complete=0
+                        for(i in goalsublist){
+                            if(i.Completed==1){     //완료
+                                complete++
+                            }
+                        }
+                        binding.progressBar.progress=complete/total
+                        binding.percentNum.text ="${complete/total}%"
 
-                    binding.progressBar.progress = getRate()
-                    binding.percentNum.text = "${getRate()}%"
+                    }
+
+                    if (isChecked) {
+                        //update completed
+                        var sub= GoalSub(id!!,goalsublist[position].SubTitle,0)
+                        CoroutineScope(Dispatchers.IO).launch {
+                            viewmodel.updateGoalSub(sub)
+                        }
+                        goalsublist[position].Completed=0
+
+                    } else {
+                        var sub= GoalSub(id!!,goalsublist[position].SubTitle,0)
+                        CoroutineScope(Dispatchers.IO).launch {
+                            viewmodel.updateGoalSub(sub)
+                        }
+                        goalsublist[position].Completed=0
+                    }
                 }
             }
         }
     }
 
-    private fun getRate():Int{
-        goalSubRepository.getGoalSub(id!!).observe(viewLifecycleOwner){
-            goalsublist=it
-        }
-        var total=goalsublist.size
-        var complete=0
-        for(i in goalsublist){
-            if(i.Completed==0){//미완
-                complete++
-            }
-        }
-        return complete/total
-    }
 
 }
 

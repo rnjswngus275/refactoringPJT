@@ -1,17 +1,15 @@
 package com.ssafy.finalpjt.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ssafy.finalpjt.FragmentShopViewModel
+import com.ssafy.finalpjt.viewmodel.FragmentShopViewModel
 import com.ssafy.finalpjt.adapter.FragmentShopAdapter
 import com.ssafy.finalpjt.database.dto.Shop
 import com.ssafy.finalpjt.database.repository.UserRepository

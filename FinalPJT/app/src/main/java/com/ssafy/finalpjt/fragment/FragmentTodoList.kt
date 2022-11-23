@@ -10,11 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.viewModelScope
-import com.ssafy.finalpjt.FragmentTodoListViewModel
+import com.ssafy.finalpjt.viewmodel.FragmentTodoListViewModel
 import com.ssafy.finalpjt.R
 import com.ssafy.finalpjt.database.dto.Todo
 import com.ssafy.finalpjt.database.dto.User

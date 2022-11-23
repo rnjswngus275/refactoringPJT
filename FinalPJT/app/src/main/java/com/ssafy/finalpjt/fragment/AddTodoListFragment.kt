@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.ssafy.finalpjt.FragmentAddTodoViewModel
+import com.ssafy.finalpjt.viewmodel.FragmentAddTodoViewModel
 import com.ssafy.finalpjt.R
 import com.ssafy.finalpjt.activity.MainActivity
 import com.ssafy.finalpjt.database.dto.Goal
@@ -24,7 +24,7 @@ class AddTodoListFragment : Fragment() {
     private lateinit var mAdapter: ArrayAdapter<String>
     private var questdata = mutableListOf<String>()
     private var GoalList = mutableListOf<Goal>()
-    private val viewmodel :FragmentAddTodoViewModel by viewModels()
+    private val viewmodel : FragmentAddTodoViewModel by viewModels()
     var prevPage: Int = 0
     var t: LinearLayout? = null
     var b: LinearLayout? = null

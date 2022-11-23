@@ -1,13 +1,11 @@
 package com.ssafy.finalpjt.activity
 
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ssafy.finalpjt.AddActivityViewModel
+import com.ssafy.finalpjt.viewmodel.AddActivityViewModel
 import com.ssafy.finalpjt.adapter.AddAdapter
 import com.ssafy.finalpjt.database.dto.Goal
 import com.ssafy.finalpjt.database.dto.GoalSub

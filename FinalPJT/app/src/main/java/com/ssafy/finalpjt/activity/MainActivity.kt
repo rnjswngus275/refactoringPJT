@@ -2,18 +2,11 @@ package com.ssafy.finalpjt.activity
 
 import android.annotation.SuppressLint
 import android.app.*
-import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.KeyEvent
 import android.view.MenuItem
 import android.view.View
-import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -22,7 +15,6 @@ import com.google.android.material.navigation.NavigationView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.LifecycleOwner
 import com.ssafy.finalpjt.*
 import com.ssafy.finalpjt.database.dto.User
 import com.ssafy.finalpjt.database.repository.TodoRepository
@@ -31,9 +23,6 @@ import com.ssafy.finalpjt.fragment.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.w3c.dom.Text
-import java.lang.Exception
-import java.util.*
 
 class MainActivity : AppCompatActivity(),
     NavigationView.OnNavigationItemSelectedListener {
@@ -140,7 +129,7 @@ class MainActivity : AppCompatActivity(),
                 transaction.replace(R.id.main_fragment, FragmentTodo()).commit()
             }
             R.id.nav_goals -> {
-                transaction.replace(R.id.main_fragment, FragmentGoals()).commit()
+                transaction.replace(R.id.main_fragment, FragmentMyGoals()).commit()
             }
             R.id.nav_shop -> {
                 transaction.replace(R.id.main_fragment, FragmentShop()).commit()
