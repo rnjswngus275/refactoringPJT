@@ -2,6 +2,7 @@ package com.ssafy.finalpjt.database
 
 import android.app.Application
 import android.content.SharedPreferences
+import android.util.Log
 import com.ssafy.finalpjt.SharedPreferencesUtil
 import com.ssafy.finalpjt.database.repository.*
 
@@ -11,7 +12,6 @@ class DatabaseApplicationClass: Application() {
     }
 
     override fun onCreate() {
-        super.onCreate()
         sharedPreferencesUtil = SharedPreferencesUtil(applicationContext)
         val db by lazy{ CarrotDatabase.getInstance(this) }
         GoalRepository.initialize(db)
@@ -19,5 +19,6 @@ class DatabaseApplicationClass: Application() {
         ShopRepository.initialize(db)
         TodoRepository.initialize(db)
         UserRepository.initialize(db)
+        super.onCreate()
     }
 }

@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -17,6 +18,7 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.FragmentTransaction
 import com.ssafy.finalpjt.*
 import com.ssafy.finalpjt.database.DatabaseApplicationClass
+import com.ssafy.finalpjt.database.dto.User
 import com.ssafy.finalpjt.database.repository.TodoRepository
 import com.ssafy.finalpjt.database.repository.UserRepository
 import com.ssafy.finalpjt.fragment.*
@@ -28,28 +30,22 @@ import java.util.*
 
 class MainActivity : AppCompatActivity(),
     NavigationView.OnNavigationItemSelectedListener {
-    var userRepository=UserRepository.get()
-    var todoRepository= TodoRepository.get()
+    private val mainViewModel : MainViewModel by viewModels()
+    private val userRepository = UserRepository.get()
+    private val sharedPreferencesUtil = DatabaseApplicationClass.sharedPreferencesUtil
+    lateinit var user : User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         title = "당근과 채찍"
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { //OREO이상 버전 부터는 알림채널을 만들어주어야한다.
-            val notificationManager: NotificationManager =
-                getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            val notificationChannel =
-                NotificationChannel("당근_채찍", "퀘스트앱", NotificationManager.IMPORTANCE_DEFAULT)
-            notificationChannel.description = "channel description"
-            //불빛,색상,진동패턴 등 해당 채널의 알림동작 설정
-            notificationChannel.enableLights(true)
-            notificationChannel.lightColor = Color.GREEN
-            notificationChannel.enableVibration(true)
-            notificationChannel.vibrationPattern = longArrayOf(100, 200, 100, 200)
-            notificationChannel.lockscreenVisibility = Notification.VISIBILITY_PRIVATE
-            notificationManager.createNotificationChannel(notificationChannel)
+
+        userRepository.getUserByName(sharedPreferencesUtil.getUserName()).observe(this) {
+            user = it
         }
-//        AlarmHATT(applicationContext).alarm()
+
+        initNotification()
+
         val toolbar: Toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
 
@@ -57,37 +53,9 @@ class MainActivity : AppCompatActivity(),
         supportFragmentManager.beginTransaction()
             .replace(R.id.main_fragment, FragmentMain())
             .commit()
-        val drawer: DrawerLayout = findViewById<View>(R.id.drawer_layout) as DrawerLayout
-        val toggle: ActionBarDrawerToggle = object : ActionBarDrawerToggle(
-            this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
-        ) {
-            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
-                super.onDrawerSlide(drawerView, slideOffset)
-            }
 
-            @SuppressLint("SetTextI18n")
-            override fun onDrawerOpened(drawerView: View) {
-                var userName = DatabaseApplicationClass.sharedPreferencesUtil.getUserName()
-                super.onDrawerOpened(drawerView)
+        initDrawer()
 
-                val nickname: TextView = findViewById<View>(R.id.user_nickname) as TextView
-                val point: TextView = findViewById<View>(R.id.user_point) as TextView
-
-                CoroutineScope(Dispatchers.IO).launch {
-                    withContext(Dispatchers.IO) {
-                        userRepository.getUserByName(userName).observe(this@MainActivity) {
-                            CoroutineScope(Dispatchers.Main).launch {
-                                nickname.text = userName
-                                point.text = "${it.Point} point"
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        drawer.addDrawerListener(toggle)
-        toggle.syncState()
         val navigationView: NavigationView = findViewById<View>(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
     }
@@ -102,7 +70,6 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
         val id: Int = item.itemId
         if (id == R.id.action_settings) {
             return true
@@ -136,6 +103,51 @@ class MainActivity : AppCompatActivity(),
         drawer.closeDrawer(GravityCompat.START)
         return true
     }
+
+    private fun initNotification() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { //OREO이상 버전 부터는 알림채널을 만들어주어야한다.
+            val notificationManager: NotificationManager =
+                getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            val notificationChannel =
+                NotificationChannel("당근_채찍", "퀘스트앱", NotificationManager.IMPORTANCE_DEFAULT)
+            notificationChannel.description = "channel description"
+            //불빛,색상,진동패턴 등 해당 채널의 알림동작 설정
+            notificationChannel.enableLights(true)
+            notificationChannel.lightColor = Color.GREEN
+            notificationChannel.enableVibration(true)
+            notificationChannel.vibrationPattern = longArrayOf(100, 200, 100, 200)
+            notificationChannel.lockscreenVisibility = Notification.VISIBILITY_PRIVATE
+            notificationManager.createNotificationChannel(notificationChannel)
+        }
+//        AlarmHATT(applicationContext).alarm()
+    }
+
+    private fun initDrawer() {
+        val drawer: DrawerLayout = findViewById<View>(R.id.drawer_layout) as DrawerLayout
+        val toolbar: Toolbar = findViewById<View>(R.id.toolbar) as Toolbar
+        val toggle: ActionBarDrawerToggle = object : ActionBarDrawerToggle(
+            this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        ) {
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
+                super.onDrawerSlide(drawerView, slideOffset)
+            }
+
+            @SuppressLint("SetTextI18n")
+            override fun onDrawerOpened(drawerView: View) {
+                super.onDrawerOpened(drawerView)
+
+                val nickname: TextView = findViewById<View>(R.id.user_nickname) as TextView
+                val point: TextView = findViewById<View>(R.id.user_point) as TextView
+
+                nickname.text = user.UserName
+                point.text = "${user.Point} point"
+
+            }
+        }
+        drawer.addDrawerListener(toggle)
+        toggle.syncState()
+    }
+
     fun changeFragment(index :Int){
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         when(index){

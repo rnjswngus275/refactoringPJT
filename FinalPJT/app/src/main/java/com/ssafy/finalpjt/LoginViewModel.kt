@@ -13,7 +13,7 @@ class LoginViewModel : ViewModel() {
 
     private var userRepository = UserRepository.get()
 
-    var userList = userRepository.getUser()
+    var userList = userRepository.getAllUser()
 
     fun insertUser(user: User) {
         viewModelScope.launch {

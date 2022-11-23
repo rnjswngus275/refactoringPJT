@@ -24,6 +24,8 @@ class JoinActivity : AppCompatActivity() {
         binding = ActivityJoinBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.hide()
+
         loginViewModel.userList.observe(this) {
             this@JoinActivity.userList = it
         }

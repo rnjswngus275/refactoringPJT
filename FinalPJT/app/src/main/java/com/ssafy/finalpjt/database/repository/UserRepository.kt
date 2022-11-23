@@ -13,20 +13,24 @@ class UserRepository (private val db: CarrotDatabase){
         return userDao.getUser(id)
     }
 
-    fun getUser(): LiveData<MutableList<User>> {
-        return userDao.getUser()
+    fun getUserByName(name:String) : LiveData<User> {
+        return userDao.getUserByName(name)
+    }
+
+    fun getAllUser(): LiveData<MutableList<User>> {
+        return userDao.getAllUser()
     }
 
     suspend fun insertUser(user: User)=db.withTransaction{
         userDao.insertUser(user)
     }
 
-    suspend fun getUserByName(name:String)=db.withTransaction{
-        userDao.getUserByName(name)
-    }
-
     suspend fun updateUser(user: User)=db.withTransaction {
         userDao.updateUser(user)
+    }
+
+    suspend fun updateUserPoint(point: Int, userName: String)=db.withTransaction {
+        userDao.updateUserPoint(point, userName)
     }
 
 

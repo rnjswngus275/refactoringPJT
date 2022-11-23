@@ -27,6 +27,8 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.hide()
+
         loginViewModel.userList.observe(this) {
             this@LoginActivity.userList = it
         }
@@ -45,6 +47,7 @@ class LoginActivity : AppCompatActivity() {
                         addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     }
                     startActivity(intent)
+                    finish()
                 }
             }
         }
