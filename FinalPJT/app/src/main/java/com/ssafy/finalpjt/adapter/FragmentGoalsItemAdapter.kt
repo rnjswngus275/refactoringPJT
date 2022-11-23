@@ -18,8 +18,12 @@ class FragmentGoalsItemAdapter() :
     inner class FragmentGoalsItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val holderText: TextView = itemView.findViewById(R.id.holder_text)
         val checkBox: CheckBox = itemView.findViewById(R.id.checkBox)
-        fun bindInfo(subQuest: String) {
-            holderText.text = subQuest
+        fun bindInfo(sub: GoalSub) {
+            holderText.text = sub.SubTitle
+            if(sub.Completed==1){
+                checkBox.isChecked=true
+            }else checkBox.isChecked=false
+
             checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
                 checkChangeListener.onCheckChanged(this.itemView, layoutPosition, buttonView, isChecked)
             }
@@ -33,7 +37,7 @@ class FragmentGoalsItemAdapter() :
     }
 
     override fun onBindViewHolder(holder: FragmentGoalsItemViewHolder, position: Int) {
-        holder.bindInfo(subQuestList[position].SubTitle)
+        holder.bindInfo(subQuestList[position])
     }
 
     override fun getItemCount(): Int {

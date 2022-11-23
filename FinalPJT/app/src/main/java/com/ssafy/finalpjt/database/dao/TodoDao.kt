@@ -13,8 +13,8 @@ interface TodoDao {
     @Insert
     suspend fun insertTodo(todo: Todo)
 
-    @Update
-    suspend fun updateCompleted(todo :Todo)
+    @Query("UPDATE Todo SET Completed=(:Completed) WHERE id=(:id)")
+    suspend fun updateTodo(Completed :Int,id:Long)
 
 
 }

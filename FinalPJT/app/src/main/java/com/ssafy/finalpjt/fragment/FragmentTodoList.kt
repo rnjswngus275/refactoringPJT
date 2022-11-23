@@ -56,6 +56,7 @@ class FragmentTodoList : Fragment() {
         viewmodel.originaltodoList.observe(this){
             viewmodel.mtodoList.addAll(it)
             viewmodel.setTodolist()
+
         }
 
     }
@@ -76,6 +77,8 @@ class FragmentTodoList : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         num = requireArguments().getInt(ARG_NO, 0)
         viewmodel.todoList.observe(viewLifecycleOwner){
+            Log.d(TAG, "onCreate: get todo $it")
+
             myAdapter!!.data=it
             myAdapter!!.notifyDataSetChanged()
         }
@@ -126,7 +129,7 @@ class FragmentTodoList : Fragment() {
                 }
                 if (isChecked) {
                     CoroutineScope(Dispatchers.IO).launch {
-                        userRepository.updateUserPoint(user.Point+10, user.UserName)
+                        viewmodel.updateUser(user.Point+10, user.UserName)
                     }
                     Toast.makeText(
                         requireContext(),
@@ -137,15 +140,16 @@ class FragmentTodoList : Fragment() {
                         sample[position].Todo,
                         sample[position].Date,
                         sample[position].GoalId,
-                        1
+                        100000000
                     )
+                    Log.d(TAG, "getView: $todo")
                     CoroutineScope(Dispatchers.IO).launch {
-                        todoRepository.updateCompleted(todo)
+                        viewmodel.updateTodo(todo)
                     }
                     sample[position].Completed = 1
                 } else {
                     CoroutineScope(Dispatchers.IO).launch {
-                        userRepository.updateUserPoint(user.Point-10, user.UserName)
+                        viewmodel.updateUser(user.Point-10, user.UserName)
                     }
                     var todo = Todo(
                         sample[position].Todo,
@@ -154,7 +158,7 @@ class FragmentTodoList : Fragment() {
                         0
                     )
                     CoroutineScope(Dispatchers.IO).launch {
-                        todoRepository.updateCompleted(todo)
+                        viewmodel.updateTodo(todo)
                     }
                     sample[position].Completed = 0
 

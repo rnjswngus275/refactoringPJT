@@ -20,34 +20,32 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import kotlin.math.log
 
 private const val TAG = "FragmentMyGoalsItem"
-class FragmentMyGoalsItem : Fragment() {
-    var id: Long? = null
+class FragmentMyGoalsItem(var id:Long) : Fragment() {
+
     private lateinit var goalsItemAdapter: FragmentGoalsItemAdapter
     private lateinit var binding: FragmentGoalsItemBinding
     var goalsublist= mutableListOf<GoalSub>()
     var maingoal: String? = null
 
     private val viewmodel:FragmentMyGoalsItemViewModel by viewModels()
-    fun getInstance(id: Long, mainGoal: String?) {
-        Log.d(TAG, "getInstance: ")
-        this.id = id
-        maingoal = mainGoal
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentGoalsItemBinding.inflate(inflater, container, false)
+        initAdapter()
+        
+        Log.d(TAG, "onCreateView: $id")
         viewmodel.getGoalSub(id!!.toLong()).observe(viewLifecycleOwner){
-            goalsublist=it
-
-            var total=goalsublist.size
+            Log.d(TAG, "onCreateView: $it")
+            goalsItemAdapter.subQuestList=it
+            var total=it.size
             var complete=0
-            for(i in goalsublist){
+            for(i in it){
                 if(i.Completed==1){     //완료
                     complete++
                 }
@@ -56,13 +54,13 @@ class FragmentMyGoalsItem : Fragment() {
             binding.percentNum.text ="${complete/total}%"
 
         }
+        Log.d(TAG, "onCreateView: 123")
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initAdapter()
 
         binding.subQuestRecyclerview.apply {
             adapter = goalsItemAdapter

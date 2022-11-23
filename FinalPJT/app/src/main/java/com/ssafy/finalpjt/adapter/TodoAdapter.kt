@@ -25,7 +25,7 @@ class TodoAdapter() :
             Log.d(TAG, "bindInfo: $info")
             todo.text=info.Todo
             if(info.Completed==0)completed.isChecked=false
-            else true
+            else completed.isChecked=true
 
             completed.setOnCheckedChangeListener { buttonView, isChecked ->
                 Log.d(TAG, "bindInfo: setoncheckedlistener")

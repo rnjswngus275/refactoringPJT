@@ -6,8 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ssafy.finalpjt.database.dto.Todo
+import com.ssafy.finalpjt.database.dto.User
 import com.ssafy.finalpjt.database.repository.GoalRepository
 import com.ssafy.finalpjt.database.repository.TodoRepository
+import com.ssafy.finalpjt.database.repository.UserRepository
 import kotlinx.coroutines.*
 import java.util.ArrayList
 
@@ -15,6 +17,8 @@ private const val TAG = "FragmentTodoListVeiwMod"
 
 class FragmentTodoListViewModel(var num:Int) : ViewModel() {
     private var todoRepository = TodoRepository.get()
+    private var userRepository = UserRepository.get()
+
     var originaltodoList : LiveData<MutableList<Todo>> = todoRepository.getTodayTodo(num.toLong())
     var mtodoList = mutableListOf<Todo>()
     private var _todoList= MutableLiveData<MutableList<Todo>>()
@@ -26,6 +30,22 @@ class FragmentTodoListViewModel(var num:Int) : ViewModel() {
         _todoList.value =mtodoList
     }
 
+    suspend fun updateUser(point:Int,name:String) {
+        val job=viewModelScope.async {
+            withContext(Dispatchers.IO){
+                userRepository.updateUserPoint(point,name)
+            }
+        }
+        job.await()
+    }
+    suspend fun updateTodo(todo:Todo){
+        var job=viewModelScope.async {
+            withContext(Dispatchers.IO){
+                todoRepository.updateTodo(todo.Completed,todo.id)
+            }
+        }
+        job.await()
+    }
 
 
 
