@@ -15,7 +15,7 @@ private const val TAG = "FragmentTodoListVeiwMod"
 
 class FragmentTodoListViewModel(var num:Int) : ViewModel() {
     private var todoRepository = TodoRepository.get()
-    var  originaltodoList : LiveData<MutableList<Todo>> = todoRepository.getTodayTodo(num.toLong())
+    var originaltodoList : LiveData<MutableList<Todo>> = todoRepository.getTodayTodo(num.toLong())
     var mtodoList = mutableListOf<Todo>()
     private var _todoList= MutableLiveData<MutableList<Todo>>()
 

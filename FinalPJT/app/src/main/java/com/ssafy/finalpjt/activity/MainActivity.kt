@@ -30,7 +30,6 @@ import java.util.*
 
 class MainActivity : AppCompatActivity(),
     NavigationView.OnNavigationItemSelectedListener {
-    private val mainViewModel : MainViewModel by viewModels()
     private val userRepository = UserRepository.get()
     private val sharedPreferencesUtil = DatabaseApplicationClass.sharedPreferencesUtil
     lateinit var user : User

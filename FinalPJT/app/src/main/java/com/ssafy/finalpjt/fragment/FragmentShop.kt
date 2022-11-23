@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ssafy.finalpjt.FragmentShopViewModel
 import com.ssafy.finalpjt.adapter.FragmentShopAdapter
+import com.ssafy.finalpjt.database.DatabaseApplicationClass
 import com.ssafy.finalpjt.database.dto.Shop
 import com.ssafy.finalpjt.database.dto.User
 import com.ssafy.finalpjt.database.repository.UserRepository
@@ -27,6 +28,7 @@ class FragmentShop() : Fragment() {
     private lateinit var binding: FragmentShopBinding
     private lateinit var shopAdapter: FragmentShopAdapter
     private val fragmentShopViewModel: FragmentShopViewModel by viewModels()
+    lateinit var user : User
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,19 +42,20 @@ class FragmentShop() : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        fragmentShopViewModel.user.observe(viewLifecycleOwner) {
+            user = it
+        }
+
         initAdapter()
 
         initView()
 
     }
 
-
     private fun initAdapter() {
-        Log.d(TAG, "initAdapter: hi")
         shopAdapter = FragmentShopAdapter().apply {
             this.itemClickListener = object : FragmentShopAdapter.ItemClickListener {
                 override fun onClick(view: View, position: Int) {
-                    var user = fragmentShopViewModel.user
                     val builder = AlertDialog.Builder(requireContext()).apply {
                         setMessage("구매하시겠습니까?")
                         setPositiveButton("예") { dialog, which ->
@@ -63,7 +66,7 @@ class FragmentShop() : Fragment() {
                                     Toast.LENGTH_SHORT
                                 ).show()
                             } else {
-                                fragmentShopViewModel.updateUser(shopAdapter.itemList[position].Price)
+                                fragmentShopViewModel.updateUser(user.Point - shopAdapter.itemList[position].Price)
                                 Toast.makeText(
                                     requireContext(),
                                     "${shopAdapter.itemList[position].Price} 포인트를 지불하여 구매하였습니다.",
@@ -82,9 +85,23 @@ class FragmentShop() : Fragment() {
                     builder.show()
                 }
             }
-            this.menuItemClickListener = object : FragmentShopAdapter.MenuItemClickListener {
-                override fun onClick(item: Shop) {
-                    fragmentShopViewModel.deleteShop(item)
+            this.longClickListener = object : FragmentShopAdapter.LongClickListener {
+                override fun onLongClick(view: View, position: Int) {
+                    val builder = AlertDialog.Builder(requireContext()).apply {
+                        setMessage("삭제하시겠습니까?")
+                        setPositiveButton("예") { dialog, which ->
+                            fragmentShopViewModel.deleteShop(shopAdapter.itemList[position])
+                            Toast.makeText(requireContext(), "삭제되었습니다.", Toast.LENGTH_SHORT).show()
+                        }
+                        setNegativeButton("아니오") { dialog, which ->
+                            Toast.makeText(
+                                requireContext(),
+                                "아니오를 선택했습니다.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                    builder.show()
                 }
             }
         }
