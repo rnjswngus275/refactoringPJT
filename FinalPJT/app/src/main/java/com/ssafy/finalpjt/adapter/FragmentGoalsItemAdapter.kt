@@ -8,10 +8,11 @@ import android.widget.CompoundButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.finalpjt.R
+import com.ssafy.finalpjt.database.dto.GoalSub
 
 class FragmentGoalsItemAdapter() :
     RecyclerView.Adapter<FragmentGoalsItemAdapter.FragmentGoalsItemViewHolder>() {
-    var subQuestList = arrayListOf<String>()
+    var subQuestList = mutableListOf<GoalSub>()
     lateinit var checkChangeListener: CheckChangeListener
 
     inner class FragmentGoalsItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -32,7 +33,7 @@ class FragmentGoalsItemAdapter() :
     }
 
     override fun onBindViewHolder(holder: FragmentGoalsItemViewHolder, position: Int) {
-        holder.bindInfo(subQuestList[position])
+        holder.bindInfo(subQuestList[position].SubTitle)
     }
 
     override fun getItemCount(): Int {

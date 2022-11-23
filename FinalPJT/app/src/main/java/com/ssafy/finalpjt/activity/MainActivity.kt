@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity(),
                 transaction.replace(R.id.main_fragment, FragmentTodo()).commit()
             }
             R.id.nav_goals -> {
-                transaction.replace(R.id.main_fragment, FragmentGoals()).commit()
+                transaction.replace(R.id.main_fragment, FragmentMyGoals()).commit()
             }
             R.id.nav_shop -> {
                 transaction.replace(R.id.main_fragment, FragmentShop()).commit()

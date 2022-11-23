@@ -1,20 +1,26 @@
 package com.ssafy.finalpjt.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.google.android.material.tabs.TabLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.ssafy.finalpjt.R
 import com.ssafy.finalpjt.adapter.FragmentGoalsPagerAdapter
 import com.ssafy.finalpjt.database.dto.Goal
-import com.ssafy.finalpjt.database.repository.GoalRepository
+import com.ssafy.finalpjt.viewmodel.FragmentMyGoalsViewModel
 
-class FragmentGoals : Fragment() {
-    private lateinit var goalRepository: GoalRepository
+private const val TAG = "FragmentMyGoals"
+class FragmentMyGoals : Fragment() {
+    private val viewmodel : FragmentMyGoalsViewModel by viewModels()
+    private lateinit var viewPagerAdapter:FragmentGoalsPagerAdapter
+    var mainQuestList= mutableListOf<Goal>()
+    val goalIdList= ArrayList<Long> ()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -22,34 +28,36 @@ class FragmentGoals : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         super.onCreate(savedInstanceState)
-        goalRepository=GoalRepository.get()
 
         return inflater.inflate(R.layout.fragment_goals, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val viewPager2: ViewPager2 = view.findViewById<View>(R.id.viewpager) as ViewPager2
 
-        var mainQuestList= mutableListOf<Goal>()
-        goalRepository.getAllGoals().observe(viewLifecycleOwner){
-            mainQuestList=it
-        }
-            val _id= ArrayList<Long> ()
-        for(i in mainQuestList){
-            _id.add(i.id)
-        }
+        viewPagerAdapter= FragmentGoalsPagerAdapter(requireActivity().supportFragmentManager, lifecycle, goalIdList, mainQuestList)
+        viewPager2.adapter=viewPagerAdapter
 
+        Log.d(TAG, "onViewCreated: viewpageradapter")
         val tabLayout: TabLayout = view.findViewById<View>(R.id.tabs) as TabLayout
         tabLayout.tabGravity = TabLayout.GRAVITY_FILL
 
-        val viewPager2: ViewPager2 = view.findViewById<View>(R.id.viewpager) as ViewPager2
-        viewPager2.apply {
-            adapter = FragmentGoalsPagerAdapter(requireActivity().supportFragmentManager, lifecycle, _id, mainQuestList)
+        viewmodel.getAllGoal().observe(viewLifecycleOwner){
+            mainQuestList=it
+            viewPagerAdapter.mainQuestList=it
+            for(i in it){
+                goalIdList.add(i.id)
+            }
+            viewPagerAdapter.id=goalIdList
+            Log.d(TAG, "onViewCreated: $it")
+            TabLayoutMediator(tabLayout, viewPager2) { tab, position ->     //tablayout과 viewpager연결하는게  Mediator
+                tab.text = it[position].GoalTitle
+            }.attach()
         }
 
-        TabLayoutMediator(tabLayout, viewPager2) { tab, position ->
-            tab.text = mainQuestList[position].GoalTitle
-        }
+        Log.d(TAG, "=---------")
+
     }
 }
 

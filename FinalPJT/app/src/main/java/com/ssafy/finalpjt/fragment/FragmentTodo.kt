@@ -11,7 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ssafy.finalpjt.FragmentTodoViewModel
+import com.ssafy.finalpjt.viewmodel.FragmentTodoViewModel
 import com.ssafy.finalpjt.R
 import com.ssafy.finalpjt.activity.MainActivity
 import com.ssafy.finalpjt.adapter.TodoAdapter

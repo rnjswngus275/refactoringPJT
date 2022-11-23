@@ -1,17 +1,14 @@
 package com.ssafy.finalpjt.activity
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ssafy.finalpjt.DetailActivityViewModel
-import com.ssafy.finalpjt.DetailUpdateActivityViewModel
+import com.ssafy.finalpjt.viewmodel.DetailUpdateActivityViewModel
 import com.ssafy.finalpjt.adapter.AddAdapter
 import com.ssafy.finalpjt.database.dto.Goal
 import com.ssafy.finalpjt.database.dto.GoalSub
 import com.ssafy.finalpjt.databinding.ActivityAddBinding
-import com.ssafy.finalpjt.databinding.ActivityDetailBinding
 
 class DetailUpdateActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddBinding

@@ -18,7 +18,7 @@ import androidx.room.PrimaryKey
 
 data class GoalSub(
     var GoalId: Long = -1L,
-    var SubTitle: String? = null,
+    var SubTitle: String = "",
     var Completed: Int = 0
 ){
     @PrimaryKey(autoGenerate = true)
