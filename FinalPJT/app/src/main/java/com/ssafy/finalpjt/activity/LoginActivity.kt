@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import com.ssafy.finalpjt.LoginViewModel
 import com.ssafy.finalpjt.R
@@ -39,16 +40,15 @@ class LoginActivity : AppCompatActivity() {
                 binding.etLoginPw.text.toString(),
                 0
             )
-            for (user in userList) {
-                if (loginUser.UserName == user.UserName && loginUser.UserPw == user.UserPw) {
-                    DatabaseApplicationClass.sharedPreferencesUtil.addUser(loginUser.UserName, loginUser.UserPw)
-                    val intent = Intent(this, MainActivity::class.java).apply {
-                        addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                        addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    }
-                    startActivity(intent)
-                    finish()
+            if (checkId(loginUser)) {
+                val intent = Intent(this, MainActivity::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 }
+                startActivity(intent)
+                finish()
+            } else {
+                Toast.makeText(this, "잘못된 로그인 정보입니다.", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -56,5 +56,15 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this, JoinActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun checkId(loginUser: User) : Boolean {
+        for (user in userList) {
+            if (loginUser.UserName == user.UserName && loginUser.UserPw == user.UserPw) {
+                DatabaseApplicationClass.sharedPreferencesUtil.addUser(loginUser.UserName, loginUser.UserPw)
+                return true
+            }
+        }
+        return false
     }
 }

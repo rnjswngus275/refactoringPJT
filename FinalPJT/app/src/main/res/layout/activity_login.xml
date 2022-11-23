@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -39,6 +40,9 @@
         android:layout_marginHorizontal="40dp"
         android:layout_marginBottom="20dp"
         android:hint="id"
+        android:windowSoftInputMode="adjustPan|adjustResize"
+        android:textColor="@android:color/black"
+        android:maxLines="1"
         app:layout_constraintBottom_toTopOf="@+id/et_login_pw"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -50,6 +54,8 @@
         android:layout_marginHorizontal="40dp"
         android:layout_marginBottom="20dp"
         android:hint="password"
+        android:textColor="@android:color/black"
+        android:maxLines="1"
         app:layout_constraintBottom_toTopOf="@+id/btn_linear_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -84,6 +90,5 @@
             android:text="Join" />
 
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

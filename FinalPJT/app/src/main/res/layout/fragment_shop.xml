@@ -23,6 +23,7 @@
             android:fontFamily="@font/dxgulim"
             android:gravity="center"
             android:hint="아이템명"
+            android:textColor="@android:color/black"
             android:inputType="textPersonName" />
 
         <EditText
@@ -33,6 +34,7 @@
             android:fontFamily="@font/dxgulim"
             android:gravity="center"
             android:hint="포인트"
+            android:textColor="@android:color/black"
             android:inputType="number" />
 
         <Button

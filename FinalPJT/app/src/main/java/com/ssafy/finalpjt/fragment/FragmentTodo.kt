@@ -66,7 +66,6 @@ class FragmentTodo : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-
         binding = FragmentTodoBinding.inflate(inflater, container, false)
         userRepository.getAllUser().observe(viewLifecycleOwner) {
             user = it[0]

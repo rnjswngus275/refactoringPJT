@@ -44,7 +44,8 @@
         android:id="@+id/job"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Job" />
+        android:hint="Job"
+        android:textColor="@android:color/black" />
 
     <Button
         android:id="@+id/addBtn"

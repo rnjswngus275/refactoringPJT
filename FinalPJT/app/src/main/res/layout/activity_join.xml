@@ -39,6 +39,7 @@
         android:layout_marginHorizontal="40dp"
         android:layout_marginBottom="20dp"
         android:hint="id"
+        android:textColor="@android:color/black"
         app:layout_constraintBottom_toTopOf="@+id/et_join_pw"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -50,6 +51,7 @@
         android:layout_marginHorizontal="40dp"
         android:layout_marginBottom="20dp"
         android:hint="password"
+        android:textColor="@android:color/black"
         app:layout_constraintBottom_toTopOf="@+id/btn_linear_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
