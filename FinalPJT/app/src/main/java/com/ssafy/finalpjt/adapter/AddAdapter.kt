@@ -41,7 +41,6 @@ class AddAdapter : RecyclerView.Adapter<AddAdapter.AddViewHolder>() {
                         after: Int
                     ) {
                     }
-
                 })
             }
         }
