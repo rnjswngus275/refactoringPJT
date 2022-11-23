@@ -23,13 +23,6 @@ class FragmentMain : Fragment() {
     private lateinit var binding: FragmentMainBinding
     private lateinit var fragmentMainAdapter: FragmentMainAdapter
     private val fragmentMainViewModel: FragmentMainViewModel by viewModels()
-    private val launcher: ActivityResultLauncher<Intent> = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result: ActivityResult ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            //수정 화면에서 수정완료 버튼을 누를시. 해당 화면은 finish 처리한다.
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,7 +48,7 @@ class FragmentMain : Fragment() {
                 override fun onClick(view: View, position: Int) {
                     val intent = Intent(requireContext(), DetailActivity::class.java)
                     intent.putExtra("goalID", goalList[position].id)
-                    launcher.launch(intent)
+                    startActivity(intent)
                 }
             }
             this.menuItemClickListener = object : FragmentMainAdapter.MenuItemClickListener {
@@ -80,7 +73,7 @@ class FragmentMain : Fragment() {
             val intent = Intent(activity, AddActivity::class.java).apply {
                 putExtra("goalID", -1)
             }
-            launcher.launch(intent)
+            startActivity(intent)
         })
     }
 }

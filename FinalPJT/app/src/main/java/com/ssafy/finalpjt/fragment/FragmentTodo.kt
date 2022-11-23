@@ -45,8 +45,6 @@ class FragmentTodo : Fragment() {
     private var monthList: Array<String?> =
         arrayOf("1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월")
 
-    //    var tabLayout: LinearLayout? = null
-//    var btnLayout: LinearLayout? = null
     private lateinit var mAdapter: ArrayAdapter<Any?>
     private lateinit var binding: FragmentTodoBinding
     private var mNumber: Int = 0
@@ -66,12 +64,12 @@ class FragmentTodo : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
 
         binding = FragmentTodoBinding.inflate(inflater, container, false)
-        userRepository.getUser().observe(viewLifecycleOwner) {
-            user = it
+        userRepository.getAllUser().observe(viewLifecycleOwner) {
+            user = it[0]
         }
         initTodoAdapter()
         initAdapter()
@@ -204,7 +202,7 @@ class FragmentTodo : Fragment() {
 
     }
 
-    fun initTodoAdapter() {
+    private fun initTodoAdapter() {
         todoAdapter = TodoAdapter().apply {
             this.checkChangeListener = object : TodoAdapter.CheckChangeListener {
                 override fun onCheckChanged(
@@ -214,9 +212,8 @@ class FragmentTodo : Fragment() {
                     isChecked: Boolean
                 ) {
                     if (isChecked) {
-                        var updateuser = User(user.UserName, user.Point + 10)
                         CoroutineScope(Dispatchers.IO).launch {
-                            userRepository.updateUser(updateuser)
+                            userRepository.updateUserPoint(user.Point+10, user.UserName)
                         }
                         Toast.makeText(
                             requireContext(),
@@ -234,9 +231,8 @@ class FragmentTodo : Fragment() {
                         }
                         todoAdapter.list[position].Completed = 1
                     } else {
-                        var updateuser = User(user.UserName, user.Point - 10)
                         CoroutineScope(Dispatchers.IO).launch {
-                            userRepository.updateUser(updateuser)
+                            userRepository.updateUserPoint(user.Point-10, user.UserName)
                         }
                         var todo = Todo(
                             todoAdapter.list[position].Todo,

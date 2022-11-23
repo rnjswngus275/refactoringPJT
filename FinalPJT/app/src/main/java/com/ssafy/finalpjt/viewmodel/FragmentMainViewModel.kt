@@ -11,7 +11,6 @@ import kotlinx.coroutines.launch
 class FragmentMainViewModel : ViewModel() {
 
     private var goalRepository = GoalRepository.get()
-    private var goalSubRepository = GoalSubRepository.get()
 
     val goalList: LiveData<MutableList<Goal>> = goalRepository.getAllGoals()
 

@@ -1,5 +1,6 @@
 package com.ssafy.finalpjt.adapter
 
+import android.util.Log
 import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
@@ -10,13 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.finalpjt.R
 import com.ssafy.finalpjt.database.dto.Shop
 
+private const val TAG = "FragmentShopAdapter_싸피ㅑ"
 class FragmentShopAdapter : RecyclerView.Adapter<FragmentShopAdapter.FragmentShopViewHolder>() {
     var itemList = mutableListOf<Shop>()
     lateinit var itemClickListener: ItemClickListener
-    lateinit var menuItemClickListener: MenuItemClickListener
+    lateinit var longClickListener: LongClickListener
 
-    inner class FragmentShopViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
-        View.OnCreateContextMenuListener
+    inner class FragmentShopViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     {
         var itemImage: ImageView = itemView.findViewById(R.id.store_item_iv)
         var itemName: TextView = itemView.findViewById(R.id.store_item_tv)
@@ -27,16 +28,12 @@ class FragmentShopAdapter : RecyclerView.Adapter<FragmentShopAdapter.FragmentSho
             itemImage.setImageResource(resId)
             itemName.text = item.Item
             itemPrice.text = item.Price.toString()
-        }
 
-        override fun onCreateContextMenu(
-            menu: ContextMenu?,
-            v: View?,
-            menuInfo: ContextMenu.ContextMenuInfo?
-        ) {
-            val menuItem = menu?.add(0, 0, 0, "삭제")
-            menuItem?.setOnMenuItemClickListener {
-                menuItemClickListener.onClick(itemList[layoutPosition])
+            itemView.setOnClickListener {
+                itemClickListener.onClick(it, layoutPosition)
+            }
+            itemView.setOnLongClickListener {
+                longClickListener.onLongClick(it, layoutPosition)
                 true
             }
         }
@@ -60,7 +57,7 @@ class FragmentShopAdapter : RecyclerView.Adapter<FragmentShopAdapter.FragmentSho
         fun onClick(view: View, position: Int)
     }
 
-    interface MenuItemClickListener {
-        fun onClick(item: Shop)
+    interface LongClickListener {
+        fun onLongClick(view: View, position: Int)
     }
 }

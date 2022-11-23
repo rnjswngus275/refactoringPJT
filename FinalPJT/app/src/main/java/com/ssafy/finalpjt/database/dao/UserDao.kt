@@ -9,10 +9,10 @@ import com.ssafy.finalpjt.database.dto.User
 
 interface UserDao {
     @Query("SELECT * FROM User WHERE id=(:id)")
-    fun getUser(id:Long): User
+    fun getUser(id:Long): LiveData<User>
 
-    @Query("SELECT * FROM User ")
-    fun getUser():LiveData<User>
+    @Query("SELECT * FROM User")
+    fun getAllUser(): LiveData<MutableList<User>>
 
     @Insert
     suspend fun insertUser(user: User)
@@ -20,8 +20,11 @@ interface UserDao {
     @Update
     suspend fun updateUser(user: User)
 
+    @Query ("UPDATE User SET Point=(:point) WHERE UserName=(:userName)")
+    suspend fun updateUserPoint(point: Int, userName: String)
+
     @Query("SELECT * FROM User WHERE UserName=(:name)")
-    suspend fun getUserById(name:String): User
+    fun getUserByName(name:String): LiveData<User>
 
 
 }
