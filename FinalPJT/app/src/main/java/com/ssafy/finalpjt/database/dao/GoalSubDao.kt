@@ -12,8 +12,8 @@ interface GoalSubDao {
     @Insert
     suspend fun insertGoalSub(goalSub: GoalSub)
 
-    @Update
-    suspend fun updateGoalSub(goalSub: GoalSub)
+    @Query("UPDATE GoalSub SET Completed=(:Complted) WHERE id=(:id)")
+    suspend fun updateGoalSub(Complted:Int,id:Long)
 
     @Delete
     suspend fun deleteGoalSub(goalSub: GoalSub)

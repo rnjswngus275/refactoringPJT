@@ -9,23 +9,18 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ssafy.finalpjt.adapter.FragmentGoalsItemAdapter
+import com.ssafy.finalpjt.adapter.FragmentMyGoalsItemAdapter
 import com.ssafy.finalpjt.database.dto.GoalSub
-import com.ssafy.finalpjt.database.dto.Todo
-import com.ssafy.finalpjt.database.dto.User
-import com.ssafy.finalpjt.database.repository.GoalSubRepository
 import com.ssafy.finalpjt.databinding.FragmentGoalsItemBinding
 import com.ssafy.finalpjt.viewmodel.FragmentMyGoalsItemViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import kotlin.math.log
 
 private const val TAG = "FragmentMyGoalsItem"
 class FragmentMyGoalsItem(var id:Long) : Fragment() {
 
-    private lateinit var goalsItemAdapter: FragmentGoalsItemAdapter
+    private lateinit var goalsItemAdapter: FragmentMyGoalsItemAdapter
     private lateinit var binding: FragmentGoalsItemBinding
     var goalsublist= mutableListOf<GoalSub>()
     var maingoal: String? = null
@@ -43,15 +38,23 @@ class FragmentMyGoalsItem(var id:Long) : Fragment() {
         viewmodel.getGoalSub(id!!.toLong()).observe(viewLifecycleOwner){
             Log.d(TAG, "onCreateView: $it")
             goalsItemAdapter.subQuestList=it
-            var total=it.size
-            var complete=0
+            goalsublist=it
+            var total=it.size.toDouble()
+            var complete=0.toDouble()
             for(i in it){
                 if(i.Completed==1){     //완료
                     complete++
                 }
             }
-            binding.progressBar.progress=complete/total
-            binding.percentNum.text ="${complete/total}%"
+            binding.subQuestRecyclerview.apply {
+                adapter = goalsItemAdapter
+                layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            }
+            Log.d(TAG, "onCreateView: ${complete}, $total")
+            Log.d(TAG, "onCreateView: goalsublist $goalsublist")
+            Log.d(TAG, "onCreateView: complete/total ${complete/total}")
+            binding.progressBar.progress=((complete/total)*100).toInt()
+            binding.percentNum.text ="${(complete/total*100).toInt()}%"
 
         }
         Log.d(TAG, "onCreateView: 123")
@@ -61,17 +64,12 @@ class FragmentMyGoalsItem(var id:Long) : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        binding.subQuestRecyclerview.apply {
-            adapter = goalsItemAdapter
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        }
     }
 
     private fun initAdapter() {
-        goalsItemAdapter = FragmentGoalsItemAdapter().apply {
+        goalsItemAdapter = FragmentMyGoalsItemAdapter().apply {
             this.subQuestList = this@FragmentMyGoalsItem.goalsublist
-            this.checkChangeListener = object : FragmentGoalsItemAdapter.CheckChangeListener {
+            this.checkChangeListener = object : FragmentMyGoalsItemAdapter.CheckChangeListener {
                 override fun onCheckChanged(
                     view: View,
                     position: Int,
@@ -81,32 +79,22 @@ class FragmentMyGoalsItem(var id:Long) : Fragment() {
                     viewmodel.getGoalSub(id!!.toLong()).observe(viewLifecycleOwner){
                         goalsublist=it
                         goalsItemAdapter.subQuestList=it
-                        var total=goalsublist.size
-                        var complete=0
-                        for(i in goalsublist){
-                            if(i.Completed==1){     //완료
-                                complete++
-                            }
-                        }
-                        binding.progressBar.progress=complete/total
-                        binding.percentNum.text ="${complete/total}%"
+
 
                     }
 
                     if (isChecked) {
                         //update completed
-                        var sub= GoalSub(id!!,goalsublist[position].SubTitle,0)
+                        Log.d(TAG, "onCheckChanged: $goalsublist , $id")
+                        var sub= GoalSub(goalsublist[position].id,id!!,goalsublist[position].SubTitle,1)
                         CoroutineScope(Dispatchers.IO).launch {
                             viewmodel.updateGoalSub(sub)
                         }
-                        goalsublist[position].Completed=0
-
                     } else {
-                        var sub= GoalSub(id!!,goalsublist[position].SubTitle,0)
+                        var sub= GoalSub(goalsublist[position].id,id!!,goalsublist[position].SubTitle,0)
                         CoroutineScope(Dispatchers.IO).launch {
                             viewmodel.updateGoalSub(sub)
                         }
-                        goalsublist[position].Completed=0
                     }
                 }
             }
