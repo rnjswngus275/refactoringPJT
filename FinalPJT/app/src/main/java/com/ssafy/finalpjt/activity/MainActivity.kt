@@ -5,6 +5,7 @@ import android.app.*
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
@@ -17,6 +18,10 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.ktx.Firebase
 import com.ssafy.finalpjt.*
 import com.ssafy.finalpjt.database.DatabaseApplicationClass
 import com.ssafy.finalpjt.database.dto.User
@@ -28,11 +33,20 @@ class MainActivity : AppCompatActivity(),
     private val userRepository = UserRepository.get()
     private val sharedPreferencesUtil = DatabaseApplicationClass.sharedPreferencesUtil
     lateinit var user : User
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        firebaseAnalytics = Firebase.analytics
+
+
+        val bundle = Bundle()
+        bundle.putString(FirebaseAnalytics.Param.METHOD,"test")
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, bundle)
+
         title = "당근과 채찍"
+
 
         userRepository.getUserByName(sharedPreferencesUtil.getUserName()).observe(this) {
             user = it

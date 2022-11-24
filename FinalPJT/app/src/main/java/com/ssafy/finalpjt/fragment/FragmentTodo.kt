@@ -226,7 +226,7 @@ class FragmentTodo : Fragment() {
                             todoAdapter.list[position].GoalId,
                             0
                         )
-                        viewModel.updateAll(user.Point-10,user.UserName,todo)
+                        if(user.Point>=10) viewModel.updateAll(user.Point-10,user.UserName,todo)
                     }
                 }
             }

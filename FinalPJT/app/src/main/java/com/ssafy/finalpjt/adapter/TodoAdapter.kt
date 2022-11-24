@@ -37,6 +37,7 @@ class TodoAdapter() :
             shape.setColor(color[layoutPosition%10])
 
             completed.setOnCheckedChangeListener { buttonView, isChecked ->
+                Log.d(TAG, "bindInfo: complted")
                 checkChangeListener.onCheckChanged(this.itemView, adapterPosition, buttonView, isChecked)
             }
         }
