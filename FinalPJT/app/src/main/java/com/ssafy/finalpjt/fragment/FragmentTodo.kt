@@ -186,7 +186,7 @@ class FragmentTodo : Fragment() {
                         Toast.makeText(
                             requireContext(),
                             "10포인트가 적립되었습니다.",
-                            Toast.LENGTH_LONG
+                            Toast.LENGTH_SHORT
                         ).show()
                     } else {
 

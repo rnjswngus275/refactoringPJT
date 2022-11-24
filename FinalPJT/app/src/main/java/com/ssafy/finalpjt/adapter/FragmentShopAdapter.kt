@@ -26,7 +26,7 @@ class FragmentShopAdapter : RecyclerView.Adapter<FragmentShopAdapter.FragmentSho
             val resId = itemView.context.resources.getIdentifier("index" + (layoutPosition % 11), "drawable", itemView.context.packageName)
             itemImage.setImageResource(resId)
             itemName.text = item.Item
-            itemPrice.text = item.Price.toString()
+            itemPrice.text = "${item.Price} pt"
 
             itemView.setOnClickListener {
                 itemClickListener.onClick(it, layoutPosition)

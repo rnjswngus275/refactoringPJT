@@ -55,6 +55,8 @@ class LoginActivity : AppCompatActivity() {
         binding.btnJoin.setOnClickListener {
             val intent = Intent(this, JoinActivity::class.java)
             startActivity(intent)
+            binding.etLoginId.text.clear()
+            binding.etLoginPw.text.clear()
         }
     }
 
