@@ -2,7 +2,6 @@ package com.ssafy.finalpjt.fragment
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,11 +18,9 @@ import com.ssafy.finalpjt.database.dto.Todo
 import com.ssafy.finalpjt.database.dto.User
 import com.ssafy.finalpjt.databinding.FragmentTodoBinding
 import java.util.*
-
-/*todo 보여주는 페이지*/
-private const val TAG = "FragmentTodo"
-
+const val btn_width=231
 class FragmentTodo : Fragment() {
+
     var cal: Calendar = Calendar.getInstance()
     var thisYear: Int = cal.get(Calendar.YEAR)
     var thisDay: Int = cal.get(Calendar.DAY_OF_MONTH)
@@ -44,7 +41,6 @@ class FragmentTodo : Fragment() {
         cal.set(cal.get(Calendar.YEAR), thisMonth, thisDay)
         date = cal.timeInMillis
         dateForDB = ((date / 1000 / 60 / 60 / 24) - 1)
-        Log.d(TAG, "thisyear: $thisYear vs ${cal.get(Calendar.YEAR)}")
         super.onCreate(savedInstanceState)
     }
 
@@ -64,7 +60,6 @@ class FragmentTodo : Fragment() {
         initAdapter()
 
         viewModel.getTodoList(dateForDB.toInt()).observe(viewLifecycleOwner) {
-            Log.d(TAG, "onCreateView: $it")
             todoAdapter.list = it
             todoAdapter.notifyDataSetChanged()
         }
@@ -74,7 +69,6 @@ class FragmentTodo : Fragment() {
 
 
         binding.addListBtn.setOnClickListener {
-            Log.d("onclick", "clicked")
             val mainActivity = activity as MainActivity
             mainActivity.changeFragment(2)
         }
@@ -84,18 +78,6 @@ class FragmentTodo : Fragment() {
         binding.recyclerview.adapter = todoAdapter
 
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
-    override fun onDestroy() { //종료시 백스택리스너 삭제
-        super.onDestroy()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) { //홈버튼 누를때 상태 저장
-        super.onSaveInstanceState(outState)
     }
 
     private fun createBtn(tabWidgetLayout: LinearLayout) {
@@ -111,25 +93,21 @@ class FragmentTodo : Fragment() {
 
             btn.setOnClickListener {
                 btn.isFocusableInTouchMode = true
-                Log.d(TAG, "onclickListener: ${it.id}")
                 viewModel.getTodoList(btn.id).observe(viewLifecycleOwner) {
                     todoAdapter.list = it
                     todoAdapter.notifyDataSetChanged()
 
                 }
                 btn.requestFocus()
-                Log.e("test", "focus" + btn.isFocused)
             }
             btn.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
                 if (hasFocus) {
-                    Log.d(TAG, "createBtn: view id로  callfragment ${view.id}")
                     viewModel.getTodoList(view.id).observe(viewLifecycleOwner) {
                         todoAdapter.list = it
                         todoAdapter.notifyDataSetChanged()
 
                     }
-//                    Log.d(TAG, "position" + btn.left)
-                    binding.btnScroll.scrollTo(btn.left - 231, 0)
+                    binding.btnScroll.scrollTo(btn.left - btn_width, 0)
                     view.background = ContextCompat.getDrawable(
                         requireContext(),
                         R.drawable.selecte_day_btn
@@ -146,20 +124,17 @@ class FragmentTodo : Fragment() {
             tabWidgetLayout.addView(btn)
         }
 
-        Log.d(TAG, "createBtn: ${(date / 1000 / 60 / 60 / 24) - 1}")
         cal.set(thisYear, thisMonth, thisDay)
         date = cal.timeInMillis
         val todayBtn: Button =
             tabWidgetLayout.findViewById(((date / 1000 / 60 / 60 / 24) - 1).toInt())
-        Log.d(TAG, "createBtn: $thisDay")
-        todayBtn.left = (231 * thisDay) - 231
+        todayBtn.left = (btn_width * thisDay) - btn_width
         todayBtn.isFocusableInTouchMode = true
         todayBtn.requestFocus()
     }
 
     private fun initAdapter() {
-        Log.d(TAG, "initAdapter: ")
-        mAdapter = ArrayAdapter<Any?>(requireContext(), R.layout.spin, monthList)
+        mAdapter = ArrayAdapter<Any?>(requireContext(), R.layout.goal_list_spinner, monthList)
         mAdapter.setDropDownViewResource(R.layout.spin_dropdown)
 
         binding.monthSpinner.apply {
@@ -178,7 +153,6 @@ class FragmentTodo : Fragment() {
                     cal.set(Calendar.YEAR, thisMonth - 1, thisDay)
                     binding.tabWidget.removeAllViews()
                     createBtn(binding.tabWidget)
-                    Log.d(TAG, "onItemSelected: item selected에서 callfragment")
 
                     viewModel.getTodoList(dateForDB.toInt()).observe(viewLifecycleOwner) {
                         todoAdapter.list = it
@@ -214,9 +188,6 @@ class FragmentTodo : Fragment() {
                             "10포인트가 적립되었습니다.",
                             Toast.LENGTH_LONG
                         ).show()
-
-                        Log.d(TAG, "onCheckChanged: 후")
-                        
                     } else {
 
                         var todo = Todo(
@@ -231,11 +202,5 @@ class FragmentTodo : Fragment() {
                 }
             }
         }
-    }
-
-
-    companion object {
-        private val FRAGMENT_TAG: String = "FRAGMENT_TAG"
-        private val KEY_NUMBER: String = "KEY_NUMBER"
     }
 }

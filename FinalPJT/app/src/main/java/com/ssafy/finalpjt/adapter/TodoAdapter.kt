@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.finalpjt.R
 import com.ssafy.finalpjt.database.dto.Todo
 
-private const val TAG = "TodoAdapter"
 class TodoAdapter() :
     RecyclerView.Adapter<TodoAdapter.FragmentTodoItemViewHolder>() {
     var list= mutableListOf<Todo>()
@@ -37,7 +36,6 @@ class TodoAdapter() :
             shape.setColor(color[layoutPosition%10])
 
             completed.setOnCheckedChangeListener { buttonView, isChecked ->
-                Log.d(TAG, "bindInfo: complted")
                 checkChangeListener.onCheckChanged(this.itemView, adapterPosition, buttonView, isChecked)
             }
         }

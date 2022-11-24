@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.finalpjt.R
 import com.ssafy.finalpjt.database.dto.Shop
 
-private const val TAG = "FragmentShopAdapter_싸피ㅑ"
 class FragmentShopAdapter : RecyclerView.Adapter<FragmentShopAdapter.FragmentShopViewHolder>() {
     var itemList = mutableListOf<Shop>()
     lateinit var itemClickListener: ItemClickListener

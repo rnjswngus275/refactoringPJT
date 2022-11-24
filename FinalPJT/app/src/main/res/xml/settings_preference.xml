@@ -20,7 +20,7 @@
             android:title="메일 보내기">
             <intent
                 android:action="android.intent.action.SENDTO"
-                android:data="mailto:sos13313@naver.com" />
+                android:data="mailto:5905kjh@naver.com" />
         </Preference>
     </PreferenceCategory>
 

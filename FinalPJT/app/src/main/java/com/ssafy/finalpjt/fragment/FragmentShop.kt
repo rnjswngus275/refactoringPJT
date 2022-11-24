@@ -23,7 +23,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-private const val TAG = "FragmentShop_싸피"
 class FragmentShop() : Fragment() {
     private lateinit var binding: FragmentShopBinding
     private lateinit var shopAdapter: FragmentShopAdapter

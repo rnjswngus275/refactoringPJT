@@ -52,8 +52,6 @@ class MainActivity : AppCompatActivity(),
             user = it
         }
 
-        initNotification()
-
         val toolbar: Toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
 
@@ -75,14 +73,6 @@ class MainActivity : AppCompatActivity(),
         } else {
             super.onBackPressed()
         }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id: Int = item.itemId
-        if (id == R.id.action_settings) {
-            return true
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -110,24 +100,6 @@ class MainActivity : AppCompatActivity(),
         val drawer: DrawerLayout = findViewById<View>(R.id.drawer_layout) as DrawerLayout
         drawer.closeDrawer(GravityCompat.START)
         return true
-    }
-
-    private fun initNotification() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) { //OREO이상 버전 부터는 알림채널을 만들어주어야한다.
-            val notificationManager: NotificationManager =
-                getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            val notificationChannel =
-                NotificationChannel("당근_채찍", "퀘스트앱", NotificationManager.IMPORTANCE_DEFAULT)
-            notificationChannel.description = "channel description"
-            //불빛,색상,진동패턴 등 해당 채널의 알림동작 설정
-            notificationChannel.enableLights(true)
-            notificationChannel.lightColor = Color.GREEN
-            notificationChannel.enableVibration(true)
-            notificationChannel.vibrationPattern = longArrayOf(100, 200, 100, 200)
-            notificationChannel.lockscreenVisibility = Notification.VISIBILITY_PRIVATE
-            notificationManager.createNotificationChannel(notificationChannel)
-        }
-//        AlarmHATT(applicationContext).alarm()
     }
 
     private fun initDrawer() {
@@ -168,30 +140,4 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-
-//
-//    inner class AlarmHATT constructor(private val context: Context) {
-//        fun alarm() {
-//            todoRepository.getTodayTodo(System.currentTimeMillis()).observe(viewlifecycle)
-//            val am: AlarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-//            val intent: Intent = Intent(this@MainActivity, BroadcastD::class.java)
-//            val sender: PendingIntent = PendingIntent.getBroadcast(this@MainActivity, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-//            val calendar: Calendar = Calendar.getInstance()
-//            calendar.set(
-//                calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(
-//                    Calendar.DATE
-//                ) + 1, 0, 0, 0
-//            )
-//            am.setRepeating(
-//                AlarmManager.RTC_WAKEUP,
-//                calendar.timeInMillis,
-//                AlarmManager.INTERVAL_DAY,
-//                sender
-//            )
-//        }
-//    }
-
-    companion object {
-        private val ONE_MINUTE: Int = 5626
-    }
 }

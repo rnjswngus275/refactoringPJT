@@ -20,7 +20,6 @@ class DetailActivityViewModel(id: Long) : ViewModel() {
 
     val goal: LiveData<Goal> = goalRepository.getGoal(id)
 
-    private var mSubGoalList = mutableListOf<GoalSub>()
     val subGoalList: LiveData<MutableList<GoalSub>> = goalSubRepository.getGoalSub(id)
 
     fun deleteSubGoal(goalSub: GoalSub) {

@@ -15,7 +15,6 @@ import com.ssafy.finalpjt.adapter.FragmentGoalsPagerAdapter
 import com.ssafy.finalpjt.database.dto.Goal
 import com.ssafy.finalpjt.viewmodel.FragmentMyGoalsViewModel
 
-private const val TAG = "FragmentMyGoals"
 class FragmentMyGoals : Fragment() {
     private val viewmodel : FragmentMyGoalsViewModel by viewModels()
     private lateinit var viewPagerAdapter:FragmentGoalsPagerAdapter
@@ -38,8 +37,6 @@ class FragmentMyGoals : Fragment() {
 
         viewPagerAdapter= FragmentGoalsPagerAdapter(requireActivity().supportFragmentManager, lifecycle)
 
-
-        Log.d(TAG, "onViewCreated: viewpageradapter")
         val tabLayout: TabLayout = view.findViewById<View>(R.id.tabs) as TabLayout
         tabLayout.tabGravity = TabLayout.GRAVITY_FILL
 
@@ -54,39 +51,6 @@ class FragmentMyGoals : Fragment() {
             TabLayoutMediator(tabLayout, viewPager2) { tab, position ->     //tablayout과 viewpager연결하는게  Mediator
                 tab.text = it[position].GoalTitle
             }.attach()
-
-
         }
-
-//        tabLayout.addOnTabSelectedListener(object :TabLayout.OnTabSelectedListener{
-//            override fun onTabSelected(tab: TabLayout.Tab?) {
-//                tab?.let {
-//                    viewPager2.isUserInputEnabled=tab.position!=1
-//                }
-//            }
-//
-//            override fun onTabUnselected(tab: TabLayout.Tab?) {
-//            }
-//
-//            override fun onTabReselected(tab: TabLayout.Tab?) {
-//            }
-//
-//        })
-
-        Log.d(TAG, "=---------")
-
     }
 }
-
-//        val myPagerAdapter: FragmentGoalsPagerAdapter =
-//            FragmentGoalsPagerAdapter(getChildFragmentManager(), str.size, _id, str)
-//        viewPager.setAdapter(myPagerAdapter)
-//
-//        //탭메뉴를 클릭하면 해당 프래그먼트로 변경-싱크화
-//        tabs.addOnTabSelectedListener(ViewPagerOnTabSelectedListener(viewPager))
-//        viewPager.addOnPageChangeListener(TabLayoutOnPageChangeListener(tabs))
-//        if (dbHelper.MainQuest() === "") {
-//            return contentView
-//        } else {
-//            return view
-//        }

@@ -14,7 +14,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-private const val TAG = "AddActivityViewModel_싸피"
 class AddActivityViewModel : ViewModel() {
     private var goalRepository = GoalRepository.get()
     private var goalSubRepository = GoalSubRepository.get()
@@ -32,7 +31,6 @@ class AddActivityViewModel : ViewModel() {
     fun insertGoalAndSubGoal(goal: Goal, subGoalList: List<GoalSub>) {
         viewModelScope.launch {
             val goalId = insertGoal(goal)
-            Log.d(TAG, "insertGoalAndSubGoal: $goalId")
             if (goalId != -1L) {
                 insertSubGoalList(goalId, subGoalList)
             }
@@ -51,7 +49,6 @@ class AddActivityViewModel : ViewModel() {
     private fun insertSubGoalList(goalId: Long, subGoalList: List<GoalSub>) {
         viewModelScope.launch {
             for (subGoal in subGoalList) {
-                Log.d(TAG, "insertSubGoalList: $subGoal")
                 if (!subGoal.SubTitle.isNullOrBlank()) {
                     goalSubRepository.insertGoalSub(GoalSub(goalId, subGoal.SubTitle, 0))
                 }

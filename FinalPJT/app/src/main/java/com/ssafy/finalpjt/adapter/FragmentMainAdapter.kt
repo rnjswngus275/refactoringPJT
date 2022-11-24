@@ -18,7 +18,6 @@ class FragmentMainAdapter : RecyclerView.Adapter<FragmentMainAdapter.FragmentMai
     var subGoalList : List<GoalSub> = emptyList()
     lateinit var itemClickListener: ItemClickListener
     lateinit var menuItemClickListener: MenuItemClickListener
-    private var goalSubRepository = GoalSubRepository.get()
 
 
     //10번 인덱스까지 색상을 변경할 배경을 만들도록한다.

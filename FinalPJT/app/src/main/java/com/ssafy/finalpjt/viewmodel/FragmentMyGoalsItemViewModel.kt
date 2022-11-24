@@ -11,7 +11,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-private const val TAG = "FragmentMyGoalsItemView"
 class FragmentMyGoalsItemViewModel :ViewModel() {
     private var goalSubRepository = GoalSubRepository.get()
 
