@@ -1,6 +1,7 @@
 package com.ssafy.finalpjt.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -117,9 +118,14 @@ class FragmentShop() : Fragment() {
         }
 
         binding.addBtn.setOnClickListener {
-            val name = binding.nameEt.text.toString().trim { it <= ' ' }
-            val price = binding.pointEt.text.toString().trim { it <= ' ' }.toInt()
-            fragmentShopViewModel.insertShop(Shop(name, price))
+            if (
+                !binding.nameEt.text.toString().isNullOrBlank()
+                && !binding.pointEt.text.toString().isNullOrBlank()
+            ) {
+                val name = binding.nameEt.text.toString().trim { it <= ' ' }
+                val price = binding.pointEt.text.toString().trim { it <= ' ' }.toInt()
+                fragmentShopViewModel.insertShop(Shop(name, price))
+            }
         }
     }
 

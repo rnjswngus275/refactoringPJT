@@ -1,8 +1,8 @@
-package com.ssafy.finalpjt
+package com.ssafy.finalpjt.fragment
 
 import android.os.Bundle
-import android.preference.PreferenceFragment
 import androidx.preference.PreferenceFragmentCompat
+import com.ssafy.finalpjt.R
 
 class SettingPreferenceFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {

@@ -15,7 +15,9 @@ import androidx.appcompat.widget.Toolbar
 import com.google.android.material.navigation.NavigationView
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.core.view.GravityCompat
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.fragment.app.commit
 import com.ssafy.finalpjt.*
 import com.ssafy.finalpjt.database.DatabaseApplicationClass
 import com.ssafy.finalpjt.database.dto.User
@@ -155,9 +157,18 @@ class MainActivity : AppCompatActivity(),
             }
             2->{
                 transaction.replace(R.id.main_fragment, AddTodoListFragment()).commit()
+
+//                supportFragmentManager.commit {
+//                    supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+//                    supportFragmentManager.findFragmentById(R.id.main_fragment)?.let { hide(it) }
+//                    addToBackStack(null)
+//                    replace(R.id.main_fragment, AddTodoListFragment())
+//                }
             }
         }
     }
+
+
 //
 //    inner class AlarmHATT constructor(private val context: Context) {
 //        fun alarm() {

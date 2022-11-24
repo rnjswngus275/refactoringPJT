@@ -3,38 +3,50 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">유저 닉네임 가져올 부분</string>
-    <string name="nav_header_subtitle">포인트 표시</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-    <string name="blank" />
 
-    <string name="tab_round_corner_progress_bar">수영하기</string>
-    <string name="tab_centered_round_corner_progress_bar">책읽기</string>
-    <string name="tab_icon_round_corner_progress_bar">공부</string>
-    <string name="tab_text_round_corner_progress_bar">물마시기</string>
-    <string name="tab_indeterminate_round_corner_progress_bar">영화보기</string>
+    <string name="goal">최종 목표</string>
+    <string name="goal_progress">최종 목표 달성량</string>
 
-    <string name="title_round_corner_progress_bar">Round Corner Progress Bar</string>
-    <string name="title_centered_round_corner_progress_bar">Centered Round Corner Progress Bar</string>
-    <string name="title_icon_round_corner_progress_bar">Icon Round Corner Progress Bar</string>
-    <string name="title_text_round_corner_progress_bar">최종 목표 달성량</string>
-    <string name="title_indeterminate_round_corner_progress_bar">Indeterminate Round Corner Progress Bar</string>
-    <string name="title_indeterminate_centered_round_corner_progress_bar">Indeterminate Centered Round Corner Progress Bar</string>
+    <string name="insert_goal">목표를 입력하세요</string>
+    <string name="insert_sub_goal">세부 목표를 추가하세요</string>
+    <string name="sub_goal">세부 목표</string>
+    <string name="cancel">취소</string>
+    <string name="done">완료</string>
+    <string name="modify">수정</string>
 
-    <string name="decrease_2">-2</string>
-    <string name="decrease_20">-20</string>
-    <string name="increase_2">+2</string>
-    <string name="increase_20">+20</string>
-    <string name="enable_animation">Enable Animation</string>
-    <string name="apply_gradient_progress_color">Gradient Progress Color</string>
-    <string name="gravity_start">Start</string>
-    <string name="gravity_end">End</string>
-    <string name="inside_gravity">Inside Text Gravity</string>
-    <string name="outside_gravity">Outside Text Gravity</string>
-    <string name="text_position_priority">Text Position Priority</string>
-    <string name="priority_inside">Inside</string>
-    <string name="priority_outside">Outside</string>
-    <string name="loading" tools:ignore="TypographyEllipsis">Loading...</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="join">JOIN</string>
+    <string name="login">LOGIN</string>
+    <string name="id">id</string>
+    <string name="password">password</string>
+    <string name="join_kr">회원가입</string>
+
+    <string name="date_kr">날짜</string>
+    <string name="todo_kr">할 일</string>
+    <string name="insert_todo">할 일을 입력하세요</string>
+    <string name="insert">추가하기</string>
+
+    <string name="zero_percent">0%</string>
+
+    <string name="image_carrot_copyright">당근 이미지 저작권자 : https://www.flaticon.com/kr/authors/freepik</string>
+    <string name="image_whip_copyright">채찍 이미지 저작권자 : https://www.flaticon.com/kr/authors/eucalyp</string>
+    <string name="image_house_copyright">집 이미지 저작권자 : https://www.flaticon.com/kr/authors/freepik</string>
+    <string name="image_todo_copyright">할 일 이미지 저작권자 : https://www.flaticon.com/kr/authors/kiranshastry</string>
+    <string name="image_goal_copyright">목표 이미지 저작권자 : https://www.flaticon.com/kr/authors/phatplus</string>
+    <string name="image_shop_copyright">상점 이미지 저작권자 : https://www.flaticon.com/kr/authors/freepik</string>
+    <string name="image_setting_copyright">설정 이미지 저작권자 : https://www.flaticon.com/kr/authors/freepik</string>
+
+    <string name="item_name">아이템 명</string>
+    <string name="point">포인트</string>
+    <string name="plus">+</string>
+
+    <string name="today_todo">오늘의 할 일</string>
+
+    <string name="drawer_main">메인으로</string>
+    <string name="drawer_today_todo">오늘 할 일</string>
+    <string name="drawer_goal">내 목표</string>
+    <string name="drawer_shop">상점</string>
+    <string name="drawer_setting">설정</string>
+
 </resources>

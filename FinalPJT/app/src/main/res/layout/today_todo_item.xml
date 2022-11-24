@@ -8,13 +8,13 @@
         android:id="@+id/todo_list_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
         android:background="@drawable/round_layout_shape"
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
@@ -27,7 +27,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="할일 ~~~~~~~~" />
+                android:text="@string/today_todo" />
 
             <CheckBox
                 android:id="@+id/isDone"
