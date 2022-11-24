@@ -21,7 +21,7 @@ class AddTodoListFragment : Fragment() {
     private lateinit var binding: AddlistLayoutBinding
     private lateinit var mAdapter: ArrayAdapter<String>
     private var questdata = mutableListOf<String>()
-    private var GoalList = mutableListOf<Goal>()
+    private var goalList = mutableListOf<Goal>()
     private val viewmodel : FragmentAddTodoViewModel by viewModels()
 
     override fun onCreateView(
@@ -32,7 +32,7 @@ class AddTodoListFragment : Fragment() {
         binding = AddlistLayoutBinding.inflate(inflater, container, false)
 
         viewmodel.goalList.observe(viewLifecycleOwner){
-            GoalList.addAll(it)
+            goalList.addAll(it)
 
             for(i in it){
                 questdata.add(i.GoalTitle)
@@ -50,7 +50,7 @@ class AddTodoListFragment : Fragment() {
             val dateId=(date/1000/60/60/24)-1
             val todo = binding.job.text.toString()
             var id=0
-            for(i in GoalList){
+            for(i in goalList){
                 if(i.GoalTitle==goaltitle) id= i.id.toInt()
             }
             val tempTodo = Todo(todo,dateId,id,0)
