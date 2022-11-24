@@ -50,9 +50,9 @@ class FragmentMyGoalsItem(var id:Long) : Fragment() {
                 adapter = goalsItemAdapter
                 layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             }
-            Log.d(TAG, "onCreateView: ${complete}, $total")
-            Log.d(TAG, "onCreateView: goalsublist $goalsublist")
-            Log.d(TAG, "onCreateView: complete/total ${complete/total}")
+//            Log.d(TAG, "onCreateView: ${complete}, $total")
+//            Log.d(TAG, "onCreateView: goalsublist $goalsublist")
+//            Log.d(TAG, "onCreateView: complete/total ${complete/total}")
             binding.progressBar.progress=((complete/total)*100).toInt()
             binding.percentNum.text ="${(complete/total*100).toInt()}%"
 

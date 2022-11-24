@@ -27,10 +27,8 @@ class FragmentGoalsPagerAdapter(
 
     override fun createFragment(position: Int): Fragment {
 
-        for(i in 1..id.size){
-            if(i==position+1) {
-                return FragmentMyGoalsItem(i.toLong())
-            }
+        for(i in id){
+                return FragmentMyGoalsItem(id[position])
         }
 
         return FragmentMyGoalsItem(1)

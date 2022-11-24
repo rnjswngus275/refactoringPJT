@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "164637782617",
+    "project_id": "finalpjt-6e684",
+    "storage_bucket": "finalpjt-6e684.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:164637782617:android:38872103ef9f0d263bb748",
+        "android_client_info": {
+          "package_name": "com.ssafy.finalpjt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "164637782617-17vi8heek2penjp3rtn45bihfgdkp8pb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbH8XwGnplcgxj_sWhSZmiGx2KC8spR5c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "164637782617-17vi8heek2penjp3rtn45bihfgdkp8pb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

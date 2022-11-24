@@ -118,6 +118,8 @@ class FragmentTodoList : Fragment() {
             val shape = questcolor.background as GradientDrawable
             val todoThing = view.findViewById<View>(R.id.todo_thing) as TextView
             val isDone = view.findViewById<View>(R.id.isDone) as CheckBox
+
+            Log.d(TAG, "getView: $sample")
             shape.setColor(sample[position].GoalId)
             todoThing.text = sample[position].Todo
             isDone.isChecked = if (sample[position].Completed == 1) true else false
