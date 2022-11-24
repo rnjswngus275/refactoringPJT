@@ -13,9 +13,6 @@ import com.ssafy.finalpjt.database.repository.TodoRepository
 import com.ssafy.finalpjt.database.repository.UserRepository
 import kotlinx.coroutines.*
 import java.util.ArrayList
-
-private const val TAG = "FragmentTodoListVeiwMod"
-
 class FragmentTodoViewModel() : ViewModel() {
 
     private val sharedPreferencesUtil = DatabaseApplicationClass.sharedPreferencesUtil
@@ -42,7 +39,6 @@ class FragmentTodoViewModel() : ViewModel() {
             withContext(Dispatchers.IO){
                 todoRepository.updateTodo(todo.Completed,todo.id)
                 userRepository.updateUserPoint(point,name)
-                Log.d(TAG, "updateTodo: ")
             }
         }
         job.await()

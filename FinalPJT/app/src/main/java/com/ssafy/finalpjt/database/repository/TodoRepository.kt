@@ -10,7 +10,6 @@ import com.ssafy.finalpjt.database.dao.GoalDao
 import com.ssafy.finalpjt.database.dto.Goal
 import com.ssafy.finalpjt.database.dto.Todo
 
-private const val TAG = "TodoRepository"
 class TodoRepository (private val db: CarrotDatabase){
 
 

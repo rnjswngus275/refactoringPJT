@@ -9,7 +9,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.ssafy.finalpjt.database.dto.Goal
 import com.ssafy.finalpjt.fragment.FragmentMyGoalsItem
 
-private const val TAG = "FragmentGoalsPagerAdapt"
 class FragmentGoalsPagerAdapter(
      fm: FragmentManager, //tab의 갯수
      lifecycle: Lifecycle,
@@ -17,9 +16,6 @@ class FragmentGoalsPagerAdapter(
 
     var id= arrayListOf<Long>()
     var mainQuestList= mutableListOf<Goal>()
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
-    }
     
     override fun getItemCount(): Int {
         return id.size

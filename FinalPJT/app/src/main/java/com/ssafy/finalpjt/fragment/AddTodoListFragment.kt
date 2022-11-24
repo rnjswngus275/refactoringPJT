@@ -16,7 +16,6 @@ import com.ssafy.finalpjt.databinding.AddlistLayoutBinding
 import kotlinx.coroutines.*
 import java.util.*
 
-private const val TAG = "AddTodoListFragment"
 /*todo 추가 페이지*/
 class AddTodoListFragment : Fragment() {
     private lateinit var binding: AddlistLayoutBinding
@@ -24,14 +23,6 @@ class AddTodoListFragment : Fragment() {
     private var questdata = mutableListOf<String>()
     private var GoalList = mutableListOf<Goal>()
     private val viewmodel : FragmentAddTodoViewModel by viewModels()
-    var prevPage: Int = 0
-    var t: LinearLayout? = null
-    var b: LinearLayout? = null
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,7 +42,7 @@ class AddTodoListFragment : Fragment() {
 
         binding.addBtn.setOnClickListener {
             val cal:Calendar=Calendar.getInstance()
-            val goaltitle = binding.spinner1.selectedItem.toString()
+            val goaltitle = binding.goalspinner.selectedItem.toString()
             cal.set(binding.datePicker.year,binding.datePicker.month ,binding.datePicker.dayOfMonth)
 
             val date=cal.timeInMillis
@@ -71,15 +62,13 @@ class AddTodoListFragment : Fragment() {
                 var mainActivity = activity as MainActivity
                 mainActivity.changeFragment(1)
             }
-
         }
-
         return binding.root
     }
 
     private fun initAdaper() {
-        mAdapter = ArrayAdapter(requireContext(), R.layout.spin, questdata)
+        mAdapter = ArrayAdapter(requireContext(), R.layout.goal_list_spinner, questdata)
         mAdapter.setDropDownViewResource(R.layout.spin_dropdown)
-        binding.spinner1.adapter = mAdapter
+        binding.goalspinner.adapter = mAdapter
     }
 }

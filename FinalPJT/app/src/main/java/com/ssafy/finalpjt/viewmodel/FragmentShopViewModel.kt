@@ -15,7 +15,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-private const val TAG = "FragmentShopViewModel_싸피"
 class FragmentShopViewModel() : ViewModel() {
 
     private val userRepository = UserRepository.get()

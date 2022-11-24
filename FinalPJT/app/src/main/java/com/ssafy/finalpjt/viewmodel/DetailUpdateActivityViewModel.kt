@@ -49,7 +49,6 @@ class DetailUpdateActivityViewModel(var goalId: Long) : ViewModel() {
     private fun updateGoalSub() {
         viewModelScope.launch {
             for (subGoal in mSubGoalList) {
-                Log.d("싸피", "updateGoalSub: $subGoal")
                 if (subGoal.SubTitle.isNullOrBlank()) {
                     if (subGoal.GoalId != -1L) {
                         goalSubRepository.deleteGoalSub(subGoal)

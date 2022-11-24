@@ -36,6 +36,8 @@
     <string name="image_goal_copyright">목표 이미지 저작권자 : https://www.flaticon.com/kr/authors/phatplus</string>
     <string name="image_shop_copyright">상점 이미지 저작권자 : https://www.flaticon.com/kr/authors/freepik</string>
     <string name="image_setting_copyright">설정 이미지 저작권자 : https://www.flaticon.com/kr/authors/freepik</string>
+    <string name="font_copyright">폰트 저작권자 : DX korea (비상업적 어플리케이션 입니다)</string>
+
 
     <string name="item_name">아이템 명</string>
     <string name="point">포인트</string>
