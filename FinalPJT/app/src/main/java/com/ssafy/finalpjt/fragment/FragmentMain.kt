@@ -61,6 +61,10 @@ class FragmentMain : Fragment() {
             fragmentMainAdapter.goalList = it
             fragmentMainAdapter.notifyDataSetChanged()
         }
+        fragmentMainViewModel.subGoalList.observe(viewLifecycleOwner) {
+            fragmentMainAdapter.subGoalList = it
+            fragmentMainAdapter.notifyDataSetChanged()
+        }
     }
 
     private fun initView() {

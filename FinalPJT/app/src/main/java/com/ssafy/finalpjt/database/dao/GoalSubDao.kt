@@ -6,6 +6,10 @@ import com.ssafy.finalpjt.database.dto.GoalSub
 
 @Dao
 interface GoalSubDao {
+
+    @Query("SELECT * FROM GoalSub")
+    fun getAllGoalSub() : LiveData<MutableList<GoalSub>>
+
     @Query("SELECT * FROM GoalSub WHERE GoalId=(:goalId)")
     fun getGoalSub(goalId:Long): LiveData<MutableList<GoalSub>>
 

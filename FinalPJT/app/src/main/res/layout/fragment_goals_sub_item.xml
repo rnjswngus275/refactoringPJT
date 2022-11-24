@@ -7,11 +7,16 @@
 
     <LinearLayout
         android:id="@+id/goal_sub_item_linearlayout"
-        style="@style/SampleCard"
         android:layout_width="@dimen/sub_item_content_width"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@drawable/shape_sample_card_background"
+        android:paddingStart="@dimen/padding"
+        android:paddingEnd="@dimen/padding"
+        android:paddingTop="@dimen/padding_large"
+        android:paddingBottom="@dimen/padding_large"
+        android:layout_margin="@dimen/margin" >
 
         <TextView
             android:id="@+id/holder_text"

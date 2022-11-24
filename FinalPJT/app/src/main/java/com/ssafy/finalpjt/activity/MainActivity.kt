@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
-import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -21,14 +20,8 @@ import androidx.fragment.app.commit
 import com.ssafy.finalpjt.*
 import com.ssafy.finalpjt.database.DatabaseApplicationClass
 import com.ssafy.finalpjt.database.dto.User
-import com.ssafy.finalpjt.database.repository.TodoRepository
 import com.ssafy.finalpjt.database.repository.UserRepository
 import com.ssafy.finalpjt.fragment.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.util.*
 
 class MainActivity : AppCompatActivity(),
     NavigationView.OnNavigationItemSelectedListener {
@@ -52,7 +45,7 @@ class MainActivity : AppCompatActivity(),
 
         // 초기화면 설정
         supportFragmentManager.beginTransaction()
-            .replace(R.id.main_fragment, FragmentMain())
+            .replace(R.id.main_fragment_containter, FragmentMain())
             .commit()
 
         initDrawer()
@@ -84,19 +77,19 @@ class MainActivity : AppCompatActivity(),
 
         when(id) {
             R.id.nav_main -> {
-                transaction.replace(R.id.main_fragment, FragmentMain()).commit()
+                transaction.replace(R.id.main_fragment_containter, FragmentMain()).commit()
             }
             R.id.nav_todo -> {
-                transaction.replace(R.id.main_fragment, FragmentTodo()).commit()
+                transaction.replace(R.id.main_fragment_containter, FragmentTodo()).commit()
             }
             R.id.nav_goals -> {
-                transaction.replace(R.id.main_fragment, FragmentMyGoals()).commit()
+                transaction.replace(R.id.main_fragment_containter, FragmentMyGoals()).commit()
             }
             R.id.nav_shop -> {
-                transaction.replace(R.id.main_fragment, FragmentShop()).commit()
+                transaction.replace(R.id.main_fragment_containter, FragmentShop()).commit()
             }
             R.id.nav_setting -> {
-                transaction.replace(R.id.main_fragment, FragmentSetting()).commit()
+                transaction.replace(R.id.main_fragment_containter, FragmentSetting()).commit()
             }
         }
 
@@ -153,17 +146,10 @@ class MainActivity : AppCompatActivity(),
         val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
         when(index){
             1->{
-                transaction.replace(R.id.main_fragment, FragmentTodo()).commit()
+                transaction.replace(R.id.main_fragment_containter, FragmentTodo()).commit()
             }
             2->{
-                transaction.replace(R.id.main_fragment, AddTodoListFragment()).commit()
-
-//                supportFragmentManager.commit {
-//                    supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-//                    supportFragmentManager.findFragmentById(R.id.main_fragment)?.let { hide(it) }
-//                    addToBackStack(null)
-//                    replace(R.id.main_fragment, AddTodoListFragment())
-//                }
+                transaction.replace(R.id.main_fragment_containter, AddTodoListFragment()).commit()
             }
         }
     }

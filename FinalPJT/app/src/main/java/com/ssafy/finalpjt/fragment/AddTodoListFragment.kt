@@ -1,7 +1,6 @@
 package com.ssafy.finalpjt.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,35 +46,30 @@ class AddTodoListFragment : Fragment() {
             for(i in it){
                 questdata.add(i.GoalTitle)
             }
-            Log.d(TAG, "onCreateView: 나와라...$it")
             initAdaper()
         }
 
         binding.addBtn.setOnClickListener {
-            var cal:Calendar=Calendar.getInstance()
+            val cal:Calendar=Calendar.getInstance()
             val goaltitle = binding.spinner1.selectedItem.toString()
-            Log.d(TAG, "onCreateView: $goaltitle")
-//            binding.spinner1.setSelection(binding.spinner1.id)
             cal.set(binding.datePicker.year,binding.datePicker.month ,binding.datePicker.dayOfMonth)
 
-            var date=cal.timeInMillis
+            val date=cal.timeInMillis
 
-            var dateId=(date/1000/60/60/24)-1
-            var todo = binding.job.text.toString()
+            val dateId=(date/1000/60/60/24)-1
+            val todo = binding.job.text.toString()
             var id=0
             for(i in GoalList){
                 if(i.GoalTitle==goaltitle) id= i.id.toInt()
             }
-            Log.d(TAG, "onCreateView: $id")
-            var Todo_insert = Todo(todo,dateId,id,0)
+            val tempTodo = Todo(todo,dateId,id,0)
 
             CoroutineScope(Dispatchers.IO).launch {
                 withContext(Dispatchers.IO){
-                    viewmodel.insertTodo(Todo_insert)
+                    viewmodel.insertTodo(tempTodo)
                 }
-                Log.d(TAG, "onCreateView: 통과중......")
-                var main= activity as MainActivity
-                main.changeFragment(1)
+                var mainActivity = activity as MainActivity
+                mainActivity.changeFragment(1)
             }
 
         }

@@ -7,11 +7,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
-import com.ssafy.finalpjt.LoginViewModel
 import com.ssafy.finalpjt.R
 import com.ssafy.finalpjt.database.DatabaseApplicationClass
 import com.ssafy.finalpjt.database.dto.User
 import com.ssafy.finalpjt.databinding.ActivityLoginBinding
+import com.ssafy.finalpjt.viewmodel.LoginViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,7 +20,7 @@ import kotlin.math.log
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding : ActivityLoginBinding
     private val loginViewModel : LoginViewModel by viewModels()
-    var userList = mutableListOf<User>()
+    private var userList = mutableListOf<User>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +35,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.btnLogin.setOnClickListener {
-            var loginUser = User(
+            val loginUser = User(
                 binding.etLoginId.text.toString(),
                 binding.etLoginPw.text.toString(),
                 0

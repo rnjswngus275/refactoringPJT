@@ -20,7 +20,7 @@
         android:id="@+id/btnAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         android:layout_margin="12dp"
         android:background="@drawable/btn_round"
         android:padding="16dp"

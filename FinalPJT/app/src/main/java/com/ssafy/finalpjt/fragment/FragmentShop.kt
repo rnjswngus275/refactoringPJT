@@ -62,7 +62,7 @@ class FragmentShop() : Fragment() {
                             if (user.Point < shopAdapter.itemList[position].Price) {
                                 Toast.makeText(
                                     requireContext(),
-                                     "${(shopAdapter.itemList[position].Price - user.Point)} 포인트가 부족하여 구매할 수 없습니다.",
+                                    "${(shopAdapter.itemList[position].Price - user.Point)} 포인트가 부족하여 구매할 수 없습니다.",
                                     Toast.LENGTH_SHORT
                                 ).show()
                             } else {

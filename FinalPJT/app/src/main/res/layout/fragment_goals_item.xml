@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:padding="@dimen/padding">
@@ -21,10 +21,15 @@
             android:text="@string/goal_progress" />
 
         <LinearLayout
-            style="@style/SampleCard2"
             android:layout_width="350dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@drawable/shape_sample_card_background_2"
+            android:paddingStart="@dimen/padding"
+            android:paddingEnd="@dimen/padding"
+            android:paddingTop="@dimen/padding_large"
+            android:paddingBottom="@dimen/padding_large"
+            android:layout_margin="@dimen/margin_large">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -35,9 +40,8 @@
                     style="@android:style/Widget.ProgressBar.Horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:progress="0"
-                    android:max="100"
-                    android:progressBackgroundTint="#ffffff"
+                    android:progress="25"
+                    android:progressBackgroundTint="@android:color/white"
                     android:progressTint="#ff0000" />
 
                 <TextView
@@ -53,8 +57,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/sub_quest_recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical" />
-
     </LinearLayout>
 </LinearLayout>

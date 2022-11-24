@@ -16,10 +16,7 @@ class FragmentMyGoalsItemAdapter() :
     RecyclerView.Adapter<FragmentMyGoalsItemAdapter.FragmentGoalsItemViewHolder>() {
     var subQuestList = mutableListOf<GoalSub>()
     lateinit var checkChangeListener: CheckChangeListener
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        Log.d(TAG, "onAttachedToRecyclerView: $subQuestList")
-        super.onAttachedToRecyclerView(recyclerView)
-    }
+
     inner class FragmentGoalsItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val holderText: TextView = itemView.findViewById(R.id.holder_text)
         val checkBox: CheckBox = itemView.findViewById(R.id.checkBox)

@@ -14,7 +14,6 @@ class DetailUpdateActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddBinding
     private lateinit var detailUpdateActivityViewModel: DetailUpdateActivityViewModel
     private lateinit var detailUpdateAdapter: AddAdapter
-    private var mSubGoalList : MutableList<GoalSub> = arrayListOf()
     private var mCurrentGoalId: Long = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {

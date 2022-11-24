@@ -33,7 +33,6 @@ class UserRepository (private val db: CarrotDatabase){
 
     suspend fun updateUserPoint(point: Int, userName: String)=db.withTransaction {
         userDao.updateUserPoint(point, userName)
-        Log.d(TAG, "updateUserPoint: ")
     }
 
 

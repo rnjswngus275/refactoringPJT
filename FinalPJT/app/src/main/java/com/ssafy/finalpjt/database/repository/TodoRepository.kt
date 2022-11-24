@@ -17,16 +17,13 @@ class TodoRepository (private val db: CarrotDatabase){
     private val todoDao=db.todoDao()
 
     fun getTodayTodo(date:Long):LiveData<MutableList<Todo>>{
-        Log.d(TAG, "getTodayTodo: dao에서 찰칵 ^^ $date")
         return todoDao.getTodayTodo(date)
     }
     suspend fun insertTodo(todo: Todo)=db.withTransaction{
         todoDao.insertTodo(todo)
-        Log.d(TAG, "insertTodo: dao에서 찰칵 ^^")
     }
     suspend fun updateTodo(completed:Int,id:Long)=db.withTransaction{
         todoDao.updateTodo(completed,id)
-        Log.d(TAG, "updateTodo: $id")
     }
 
 

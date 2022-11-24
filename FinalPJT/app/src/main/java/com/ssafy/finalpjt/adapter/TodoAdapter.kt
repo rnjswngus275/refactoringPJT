@@ -22,13 +22,10 @@ class TodoAdapter() :
         var completed = itemView.findViewById<CheckBox>(R.id.isDone)
 
         fun bindInfo(info: Todo) {
-            Log.d(TAG, "bindInfo: $info")
             todo.text=info.Todo
-            if(info.Completed==0)completed.isChecked=false
-            else completed.isChecked=true
+            completed.isChecked = info.Completed != 0
 
             completed.setOnCheckedChangeListener { buttonView, isChecked ->
-                Log.d(TAG, "bindInfo: setoncheckedlistener")
                 checkChangeListener.onCheckChanged(this.itemView, adapterPosition, buttonView, isChecked)
             }
         }

@@ -25,7 +25,6 @@ class DetailActivity : AppCompatActivity() {
 
         val intent: Intent = intent
         mCurrentGoalId = intent.getLongExtra("goalID", 0)
-        Log.d("싸피", "onCreate: $mCurrentGoalId")
 
         detailActivityViewModel = DetailActivityViewModel(mCurrentGoalId)
 
@@ -53,7 +52,12 @@ class DetailActivity : AppCompatActivity() {
         binding.detailRecyclerView.apply {
             adapter = detailAdapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            addItemDecoration(DividerItemDecoration(this@DetailActivity, LinearLayoutManager.VERTICAL))
+            addItemDecoration(
+                DividerItemDecoration(
+                    this@DetailActivity,
+                    LinearLayoutManager.VERTICAL
+                )
+            )
         }
 
         binding.btnUpdate.setOnClickListener {

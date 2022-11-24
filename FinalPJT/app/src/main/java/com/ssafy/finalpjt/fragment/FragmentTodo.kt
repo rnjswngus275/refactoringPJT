@@ -17,12 +17,7 @@ import com.ssafy.finalpjt.activity.MainActivity
 import com.ssafy.finalpjt.adapter.TodoAdapter
 import com.ssafy.finalpjt.database.dto.Todo
 import com.ssafy.finalpjt.database.dto.User
-import com.ssafy.finalpjt.database.repository.TodoRepository
-import com.ssafy.finalpjt.database.repository.UserRepository
 import com.ssafy.finalpjt.databinding.FragmentTodoBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.util.*
 
 /*todo 보여주는 페이지*/
@@ -34,12 +29,9 @@ class FragmentTodo : Fragment() {
     var thisDay: Int = cal.get(Calendar.DAY_OF_MONTH)
     var thisMonth: Int = cal.get(Calendar.MONTH)
     var date: Long = 0L
-    var fragmentPageNow: Int = 0
     var dateForDB = 0L
     private lateinit var todoAdapter: TodoAdapter
-    private val viewmodel: FragmentTodoViewModel by viewModels()
-    private lateinit var userRepository: UserRepository
-    private lateinit var todoRepository: TodoRepository
+    private val viewModel: FragmentTodoViewModel by viewModels()
     lateinit var user: User
 
     private var monthList: Array<String?> =
@@ -47,12 +39,8 @@ class FragmentTodo : Fragment() {
 
     private lateinit var mAdapter: ArrayAdapter<Any?>
     private lateinit var binding: FragmentTodoBinding
-    private var mNumber: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        userRepository = UserRepository.get()
-        todoRepository = TodoRepository.get()
-
         cal.set(cal.get(Calendar.YEAR), thisMonth, thisDay)
         date = cal.timeInMillis
         dateForDB = ((date / 1000 / 60 / 60 / 24) - 1)
@@ -67,13 +55,15 @@ class FragmentTodo : Fragment() {
     ): View {
 
         binding = FragmentTodoBinding.inflate(inflater, container, false)
-        userRepository.getAllUser().observe(viewLifecycleOwner) {
-            user = it[0]
+
+        viewModel.user.observe(viewLifecycleOwner) {
+            user = it
         }
+
         initTodoAdapter()
         initAdapter()
 
-        viewmodel.getTodoList(dateForDB.toInt()).observe(viewLifecycleOwner) {
+        viewModel.getTodoList(dateForDB.toInt()).observe(viewLifecycleOwner) {
             Log.d(TAG, "onCreateView: $it")
             todoAdapter.list = it
             todoAdapter.notifyDataSetChanged()
@@ -85,8 +75,8 @@ class FragmentTodo : Fragment() {
 
         binding.addListBtn.setOnClickListener {
             Log.d("onclick", "clicked")
-            var main = activity as MainActivity
-            main.changeFragment(2)
+            val mainActivity = activity as MainActivity
+            mainActivity.changeFragment(2)
         }
 
         binding.recyclerview.layoutManager =
@@ -122,7 +112,7 @@ class FragmentTodo : Fragment() {
             btn.setOnClickListener {
                 btn.isFocusableInTouchMode = true
                 Log.d(TAG, "onclickListener: ${it.id}")
-                viewmodel.getTodoList(btn.id).observe(viewLifecycleOwner) {
+                viewModel.getTodoList(btn.id).observe(viewLifecycleOwner) {
                     todoAdapter.list = it
                     todoAdapter.notifyDataSetChanged()
 
@@ -133,7 +123,7 @@ class FragmentTodo : Fragment() {
             btn.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
                 if (hasFocus) {
                     Log.d(TAG, "createBtn: view id로  callfragment ${view.id}")
-                    viewmodel.getTodoList(view.id).observe(viewLifecycleOwner) {
+                    viewModel.getTodoList(view.id).observe(viewLifecycleOwner) {
                         todoAdapter.list = it
                         todoAdapter.notifyDataSetChanged()
 
@@ -190,7 +180,7 @@ class FragmentTodo : Fragment() {
                     createBtn(binding.tabWidget)
                     Log.d(TAG, "onItemSelected: item selected에서 callfragment")
 
-                    viewmodel.getTodoList(dateForDB.toInt()).observe(viewLifecycleOwner) {
+                    viewModel.getTodoList(dateForDB.toInt()).observe(viewLifecycleOwner) {
                         todoAdapter.list = it
                         todoAdapter.notifyDataSetChanged()
                     }
@@ -218,7 +208,7 @@ class FragmentTodo : Fragment() {
                             todoAdapter.list[position].GoalId,
                             1
                         )
-                        viewmodel.updateAll(user.Point+10,user.UserName,todo)
+                        viewModel.updateAll(user.Point+10,user.UserName,todo)
                         Toast.makeText(
                             requireContext(),
                             "10포인트가 적립되었습니다.",
@@ -236,7 +226,7 @@ class FragmentTodo : Fragment() {
                             todoAdapter.list[position].GoalId,
                             0
                         )
-                        viewmodel.updateAll(user.Point-10,user.UserName,todo)
+                        viewModel.updateAll(user.Point-10,user.UserName,todo)
                     }
                 }
             }

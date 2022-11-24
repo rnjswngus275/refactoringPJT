@@ -22,7 +22,6 @@ class FragmentMyGoalsItemViewModel :ViewModel() {
         val job=viewModelScope.async {
             withContext(Dispatchers.IO){
                 goalSubRepository.updateGoalSub(sub)
-                Log.d(TAG, "updateGoalSub: ")
             }
         }
         job.await()

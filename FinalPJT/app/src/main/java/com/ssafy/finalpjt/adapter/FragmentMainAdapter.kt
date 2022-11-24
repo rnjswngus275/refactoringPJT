@@ -2,6 +2,7 @@ package com.ssafy.finalpjt.adapter
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.util.Log
 import android.view.*
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -9,10 +10,12 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.finalpjt.R
 import com.ssafy.finalpjt.database.dto.Goal
+import com.ssafy.finalpjt.database.dto.GoalSub
 import com.ssafy.finalpjt.database.repository.GoalSubRepository
 
 class FragmentMainAdapter : RecyclerView.Adapter<FragmentMainAdapter.FragmentMainViewHolder>() {
     var goalList : List<Goal> = emptyList()
+    var subGoalList : List<GoalSub> = emptyList()
     lateinit var itemClickListener: ItemClickListener
     lateinit var menuItemClickListener: MenuItemClickListener
     private var goalSubRepository = GoalSubRepository.get()
@@ -41,17 +44,7 @@ class FragmentMainAdapter : RecyclerView.Adapter<FragmentMainAdapter.FragmentMai
         fun bindInfo(goal: Goal) {
             mainText.text = goal.GoalTitle
 
-            val subGoalList = goalSubRepository.getGoalSub(goal.id).value
-            var isCompleted = 0
-            var percent = 0
-            if (subGoalList != null) {
-                for (subGoal in subGoalList) {
-                    if (subGoal.Completed == 1) {
-                        isCompleted += 1
-                    }
-                }
-                percent = (isCompleted / subGoalList.size)
-            }
+            val percent = getPercentage(goal)
 
             progressNum.text = "$percent%"
             progressBar.progress = percent
@@ -96,5 +89,24 @@ class FragmentMainAdapter : RecyclerView.Adapter<FragmentMainAdapter.FragmentMai
 
     interface MenuItemClickListener {
         fun onClick(goal: Goal)
+    }
+
+    private fun getPercentage(goal: Goal) : Int {
+        var isCompleted: Double = 0.0
+        var total: Double = 0.0
+        for (subGoal in subGoalList) {
+            if (goal.id == subGoal.GoalId) {
+                total += 1
+                if (subGoal.Completed == 1) {
+                    isCompleted += 1
+                }
+            }
+        }
+
+        return if (total == 0.0) {
+            0
+        } else {
+            ((isCompleted / total) * 100).toInt()
+        }
     }
 }

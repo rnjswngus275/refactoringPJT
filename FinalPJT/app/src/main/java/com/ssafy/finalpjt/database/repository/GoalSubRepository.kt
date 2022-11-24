@@ -14,6 +14,10 @@ class GoalSubRepository (private val db: CarrotDatabase){
 
     private val goalsubDao=db.goalSubDao()
 
+    fun getAllGoalSub() : LiveData<MutableList<GoalSub>> {
+        return goalsubDao.getAllGoalSub()
+    }
+
     fun getGoalSub(goalId:Long):LiveData<MutableList<GoalSub>>{
         return goalsubDao.getGoalSub(goalId)
     }

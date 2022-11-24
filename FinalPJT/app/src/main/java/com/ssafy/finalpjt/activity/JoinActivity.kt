@@ -1,17 +1,12 @@
 package com.ssafy.finalpjt.activity
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
-import com.ssafy.finalpjt.LoginViewModel
-import com.ssafy.finalpjt.R
+import com.ssafy.finalpjt.viewmodel.LoginViewModel
 import com.ssafy.finalpjt.database.dto.User
 import com.ssafy.finalpjt.databinding.ActivityJoinBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class JoinActivity : AppCompatActivity() {
     private lateinit var binding: ActivityJoinBinding
@@ -42,6 +37,7 @@ class JoinActivity : AppCompatActivity() {
             )
             if (checkId(joinUser)) {
                 loginViewModel.insertUser(joinUser)
+                Toast.makeText(this, "가입되었습니다.", Toast.LENGTH_SHORT).show()
                 finish()
             }
         }

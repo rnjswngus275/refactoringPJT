@@ -43,6 +43,7 @@
         android:windowSoftInputMode="adjustPan|adjustResize"
         android:textColor="@android:color/black"
         android:maxLines="1"
+        android:inputType="text"
         app:layout_constraintBottom_toTopOf="@+id/et_login_pw"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -56,6 +57,7 @@
         android:hint="@string/password"
         android:textColor="@android:color/black"
         android:maxLines="1"
+        android:inputType="text"
         app:layout_constraintBottom_toTopOf="@+id/btn_linear_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
