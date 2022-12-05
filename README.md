@@ -4,7 +4,7 @@
 
 ## 시연 영상
 
-[![시연 영상](https://img.youtube.com/vi/H2sYWCKNdD0/0.jpg)](https://youtu.be/H2sYWCKNdD0)
+[![시연영상](https://img.youtube.com/vi/H2sYWCKNdD0/0.jpg)](https://youtu.be/H2sYWCKNdD0)
 
 ## PPT
 
